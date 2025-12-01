@@ -4,17 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React-based spike solution for exploring deck.gl, a WebGL-powered framework for visual exploratory data analysis of large datasets.
+This is a React + TypeScript spike project for experimenting with deck.gl visualization library. It uses Vite (via rolldown-vite) as the build tool.
 
-## Development Environment
+## Commands
 
-- **Node.js**: Use LTS/Krypton (v22.x) as specified in `.nvmrc`
-- Run `nvm use` to switch to the correct Node version
+- `npm run dev` - Start development server with HMR
+- `npm run build` - Type-check with TypeScript then build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build locally
 
-## Project Status
+## Tech Stack
 
-This project is in early development. As the codebase grows, this file should be updated with:
-- Build and development commands
-- Testing instructions
-- Architecture overview
-- Key dependencies and their purposes
+- React 19 with TypeScript
+- Vite (using rolldown-vite for bundling)
+- ESLint with TypeScript and React hooks plugins
+- Strict TypeScript configuration (strict mode, no unused locals/parameters)
+
+## Architecture
+
+- `src/main.tsx` - Application entry point, renders App in StrictMode
+- `src/App.tsx` - Root component
+- `vite.config.ts` - Vite configuration with React plugin
+- `eslint.config.js` - Flat ESLint config targeting TypeScript/React
