@@ -27,3 +27,4 @@ dist-ssr
 
 # Test reports
 reports/
+coverage/
