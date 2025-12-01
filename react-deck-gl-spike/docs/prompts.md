@@ -35,3 +35,13 @@ Add React Router support to the project.
 - Commit the changes with a descriptive message.
 - Open a pull request for review.
 ```
+
+### Add Cucumber and Playwright Support
+
+```
+Add Cucumber and Playwright support to the project for acceptance testing.
+- Create acceptance tests for the existing routes of the React app.
+- Create a feature branch from main.
+- Commit the changes with a descriptive message.
+- Open a pull request for review.
+```
