@@ -45,3 +45,13 @@ Add Cucumber and Playwright support to the project for acceptance testing.
 - Commit the changes with a descriptive message.
 - Open a pull request for review.
 ```
+
+### Add Vitest Support
+
+```
+Add vitest support to the project for unit and component testing.
+- Create unit tests for the existing code of the React app.
+- Create a feature branch from main.
+- Commit the changes with a descriptive message.
+- Open a pull request for review.
+```
