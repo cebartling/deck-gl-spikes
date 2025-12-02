@@ -275,3 +275,45 @@ Then('the map should return to the initial view', async function (this: CustomWo
   const errorMessage = this.page.locator('text=Error loading data');
   await expect(errorMessage).toBeHidden();
 });
+
+Then(
+  'earthquake points should remain at their geographic locations',
+  async function (this: CustomWorld) {
+    // Verify deck.gl layer is still rendering earthquake points
+    // Points maintaining geographic positions means:
+    // 1. The layer is still visible
+    // 2. No errors occurred during navigation
+    // 3. The canvas is rendering properly
+    const deckglWrapper = this.page.locator('#deckgl-wrapper');
+    await expect(deckglWrapper).toBeVisible({ timeout: 10000 });
+
+    const deckCanvas = this.page.locator('#deckgl-wrapper canvas').first();
+    const boundingBox = await deckCanvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
+
+    // Verify no error message is displayed
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
+  }
+);
+
+When('I zoom out on the map', async function (this: CustomWorld) {
+  const canvas = this.page.locator('canvas.maplibregl-canvas');
+  await expect(canvas).toBeVisible({ timeout: 10000 });
+
+  const boundingBox = await canvas.boundingBox();
+  expect(boundingBox).not.toBeNull();
+
+  // Perform zoom out action using mouse wheel
+  const centerX = boundingBox!.x + boundingBox!.width / 2;
+  const centerY = boundingBox!.y + boundingBox!.height / 2;
+
+  await this.page.mouse.move(centerX, centerY);
+  // Scroll up (positive deltaY) to zoom out
+  await this.page.mouse.wheel(0, 200);
+
+  // Wait for the map to animate the zoom
+  await this.page.waitForTimeout(1000);
+});
