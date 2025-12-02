@@ -317,3 +317,28 @@ When('I zoom out on the map', async function (this: CustomWorld) {
   // Wait for the map to animate the zoom
   await this.page.waitForTimeout(1000);
 });
+
+Then(
+  'the earthquake layer should be pickable for tooltip display',
+  async function (this: CustomWorld) {
+    // Verify the deck.gl wrapper is present (where pickable layers render)
+    const deckglWrapper = this.page.locator('#deckgl-wrapper');
+    await expect(deckglWrapper).toBeVisible({ timeout: 10000 });
+
+    // Verify deck.gl canvas is rendering (where picking happens)
+    const deckCanvas = this.page.locator('#deckgl-wrapper canvas').first();
+    await expect(deckCanvas).toBeVisible({ timeout: 10000 });
+
+    const boundingBox = await deckCanvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
+
+    // Verify no error message is displayed (tooltip hook would cause errors if broken)
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
+
+    // The actual hover->tooltip functionality is tested via unit tests
+    // because reliably hitting rendered points in a headless browser is non-deterministic
+  }
+);

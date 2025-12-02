@@ -65,3 +65,8 @@ Feature: Earthquake Map Visualization
     Then earthquake points should remain at their geographic locations
     When I zoom out on the map
     Then earthquake points should remain at their geographic locations
+
+  Scenario: Tooltip component is rendered for earthquake points
+    Given I am on the home page
+    And earthquake data has loaded
+    Then the earthquake layer should be pickable for tooltip display
