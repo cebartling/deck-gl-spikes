@@ -66,6 +66,16 @@ Add Zod to the project.
 - Open a pull request for review.
 ```
 
+### Add zustand dependency
+
+```
+Add zustand to the project.
+- Create a feature branch from main.
+- Install zustand as a dependency.
+- Commit the changes with a descriptive message.
+- Open a pull request for review.
+```
+
 
 ### Create a feature file with acceptance criteria
 
