@@ -17,7 +17,7 @@ export function ZoomControls({
     >
       <button
         onClick={onZoomIn}
-        className="w-8 h-8 bg-white rounded shadow hover:bg-gray-100 flex items-center justify-center text-lg font-bold touch-manipulation"
+        className="w-8 h-8 bg-gray-900/80 backdrop-blur-md rounded-lg shadow-lg border border-white/10 hover:bg-gray-800/90 flex items-center justify-center text-lg font-bold text-gray-100 touch-manipulation"
         aria-label="Zoom in"
         type="button"
       >
@@ -25,7 +25,7 @@ export function ZoomControls({
       </button>
       <button
         onClick={onZoomOut}
-        className="w-8 h-8 bg-white rounded shadow hover:bg-gray-100 flex items-center justify-center text-lg font-bold touch-manipulation"
+        className="w-8 h-8 bg-gray-900/80 backdrop-blur-md rounded-lg shadow-lg border border-white/10 hover:bg-gray-800/90 flex items-center justify-center text-lg font-bold text-gray-100 touch-manipulation"
         aria-label="Zoom out"
         type="button"
       >
@@ -33,7 +33,7 @@ export function ZoomControls({
       </button>
       <button
         onClick={onResetView}
-        className="w-8 h-8 bg-white rounded shadow hover:bg-gray-100 flex items-center justify-center text-sm touch-manipulation"
+        className="w-8 h-8 bg-gray-900/80 backdrop-blur-md rounded-lg shadow-lg border border-white/10 hover:bg-gray-800/90 flex items-center justify-center text-sm text-gray-100 touch-manipulation"
         aria-label="Reset view"
         type="button"
       >

@@ -29,7 +29,7 @@ export function EarthquakeStats({
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      className="bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow text-sm"
+      className="bg-gray-900/80 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg border border-white/10 text-sm"
       data-testid="earthquake-stats"
     >
       <span className="sr-only">
@@ -39,12 +39,12 @@ export function EarthquakeStats({
 
       <div className="flex items-center gap-2">
         <span
-          className="font-semibold text-gray-900"
+          className="font-semibold text-gray-100"
           data-testid="filtered-count"
         >
           {filteredCount.toLocaleString()}
         </span>
-        <span className="text-gray-600">
+        <span className="text-gray-300">
           earthquake{filteredCount !== 1 ? 's' : ''}
         </span>
 
@@ -57,7 +57,7 @@ export function EarthquakeStats({
 
       {isFiltered && (
         <div
-          className="flex items-center gap-1 mt-1 text-xs text-blue-600"
+          className="flex items-center gap-1 mt-1 text-xs text-blue-400"
           data-testid="filter-indicator"
         >
           <FilterIcon className="w-3 h-3" />

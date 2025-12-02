@@ -8,13 +8,13 @@ const DEPTH_LABELS = {
 export function ColorLegend() {
   return (
     <div
-      className="absolute bottom-4 right-4 bg-white/90 p-3 rounded-lg shadow-md z-10"
+      className="absolute bottom-4 right-4 bg-gray-900/80 backdrop-blur-md p-3 rounded-lg shadow-lg border border-white/10 z-10"
       role="region"
       aria-labelledby="color-legend-title"
     >
       <h4
         id="color-legend-title"
-        className="text-sm font-semibold mb-2 text-gray-700"
+        className="text-sm font-semibold mb-2 text-gray-100"
       >
         Depth
       </h4>
@@ -30,12 +30,12 @@ export function ColorLegend() {
           aria-label="Color gradient from yellow (shallow) to dark red (deep)"
         />
         {/* Labels */}
-        <div className="flex justify-between text-xs text-gray-700">
+        <div className="flex justify-between text-xs text-gray-200">
           <span>{DEPTH_LABELS.shallow}</span>
           <span>{DEPTH_LABELS.deep}</span>
         </div>
         {/* Depth markers */}
-        <div className="flex justify-between text-xs text-gray-600">
+        <div className="flex justify-between text-xs text-gray-400">
           <span>{DEPTH_LABELS.min}</span>
           <span>{DEPTH_LABELS.max}</span>
         </div>

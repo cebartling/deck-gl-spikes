@@ -61,7 +61,7 @@ export function EarthquakeTooltip({
       aria-hidden={!isVisible}
       className={`
         absolute pointer-events-none z-50
-        bg-white/95 backdrop-blur-sm px-4 py-3 rounded-lg shadow-lg border border-gray-200
+        bg-gray-900/90 backdrop-blur-md px-4 py-3 rounded-lg shadow-lg border border-white/10
         min-w-[200px] max-w-[300px]
         transition-opacity duration-150
         ${isVisible ? 'opacity-100' : 'opacity-0'}
