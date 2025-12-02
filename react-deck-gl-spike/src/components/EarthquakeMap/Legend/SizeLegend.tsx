@@ -17,7 +17,7 @@ function getDisplaySize(magnitude: number): number {
 export function SizeLegend() {
   return (
     <div
-      className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-lg shadow-md z-10"
+      className="absolute bottom-24 left-4 bg-white/90 p-3 rounded-lg shadow-md z-10"
       role="region"
       aria-labelledby="legend-title"
     >

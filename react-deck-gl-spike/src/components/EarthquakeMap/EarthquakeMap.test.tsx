@@ -92,6 +92,20 @@ vi.mock('./hooks/useFilterState', () => ({
   })),
 }));
 
+// Mock EarthquakeStats
+vi.mock('./Stats', () => ({
+  EarthquakeStats: vi.fn(({ totalCount, filteredCount, isFiltered }) => (
+    <div
+      data-testid="earthquake-stats"
+      data-total={totalCount}
+      data-filtered={filteredCount}
+      data-is-filtered={isFiltered}
+    >
+      {filteredCount} earthquakes
+    </div>
+  )),
+}));
+
 import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {

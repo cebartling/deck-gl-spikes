@@ -50,7 +50,7 @@ describe('SizeLegend', () => {
   it('applies correct styling classes', () => {
     const { container } = render(<SizeLegend />);
 
-    const legendContainer = container.querySelector('.absolute.bottom-4.left-4');
+    const legendContainer = container.querySelector('.absolute.bottom-24.left-4');
     expect(legendContainer).toBeInTheDocument();
     expect(legendContainer).toHaveClass('bg-white/90', 'rounded-lg', 'shadow-md');
   });
