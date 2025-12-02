@@ -5,8 +5,12 @@ import type { MapViewState } from '@deck.gl/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createEarthquakeLayer } from './layers/earthquakeLayer';
 import { SizeLegend, ColorLegend } from './Legend';
+import { ZoomControls } from './ZoomControls';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
-import { constrainViewState } from '../../utils/constrainViewState';
+import {
+  constrainViewState,
+  ZOOM_BOUNDS,
+} from '../../utils/constrainViewState';
 
 // Free OpenStreetMap-based style
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
@@ -25,6 +29,7 @@ export function EarthquakeMap() {
   // Map view store
   const viewState = useMapViewStore((state) => state.viewState);
   const setViewState = useMapViewStore((state) => state.setViewState);
+  const resetView = useMapViewStore((state) => state.reset);
 
   // Fetch earthquake data on mount
   useEffect(() => {
@@ -42,6 +47,24 @@ export function EarthquakeMap() {
     },
     [setViewState]
   );
+
+  const handleZoomIn = useCallback(() => {
+    setViewState(
+      constrainViewState({
+        ...viewState,
+        zoom: Math.min(viewState.zoom + 1, ZOOM_BOUNDS.maxZoom),
+      })
+    );
+  }, [viewState, setViewState]);
+
+  const handleZoomOut = useCallback(() => {
+    setViewState(
+      constrainViewState({
+        ...viewState,
+        zoom: Math.max(viewState.zoom - 1, ZOOM_BOUNDS.minZoom),
+      })
+    );
+  }, [viewState, setViewState]);
 
   return (
     <div className="w-full h-full relative">
@@ -63,6 +86,11 @@ export function EarthquakeMap() {
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
+      <ZoomControls
+        onZoomIn={handleZoomIn}
+        onZoomOut={handleZoomOut}
+        onResetView={resetView}
+      />
       {!loading && !error && earthquakes.length > 0 && (
         <>
           <SizeLegend />
