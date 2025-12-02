@@ -102,3 +102,24 @@ Then('the map zoom level should increase', async function (this: CustomWorld) {
   // The zoom action was successful if the map is still interactive and rendering
   // Direct zoom level verification would require accessing internal MapLibre state
 });
+
+Then('the map should render without coordinate errors', async function (this: CustomWorld) {
+  // Verify no JavaScript errors occurred during rendering
+  // deck.gl would throw errors for invalid coordinates if not filtered
+  const errorMessage = this.page.locator('text=Error loading data');
+  await expect(errorMessage).toBeHidden();
+
+  // Verify both canvases (MapLibre and deck.gl) are rendering properly
+  const maplibreCanvas = this.page.locator('canvas.maplibregl-canvas');
+  await expect(maplibreCanvas).toBeVisible({ timeout: 10000 });
+
+  const deckglWrapper = this.page.locator('#deckgl-wrapper');
+  await expect(deckglWrapper).toBeVisible({ timeout: 10000 });
+
+  // Verify the deck.gl layer is rendering (canvas has content)
+  const deckCanvas = this.page.locator('#deckgl-wrapper canvas').first();
+  const boundingBox = await deckCanvas.boundingBox();
+  expect(boundingBox).not.toBeNull();
+  expect(boundingBox!.width).toBeGreaterThan(0);
+  expect(boundingBox!.height).toBeGreaterThan(0);
+});

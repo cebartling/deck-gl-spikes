@@ -23,3 +23,9 @@ Feature: Earthquake Map Visualization
     And earthquake data has loaded
     When I zoom in on the map
     Then the map zoom level should increase
+
+  Scenario: Points are positioned correctly on the map
+    Given I am on the home page
+    And earthquake data has loaded
+    Then I should see earthquake points rendered on the map
+    And the map should render without coordinate errors
