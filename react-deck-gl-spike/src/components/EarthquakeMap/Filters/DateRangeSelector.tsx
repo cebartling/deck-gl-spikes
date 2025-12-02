@@ -94,11 +94,11 @@ export function DateRangeSelector({
             onClick={() => handlePresetClick(days)}
             aria-pressed={isPresetActive(value, days)}
             className={`
-              px-2 py-1 text-xs rounded transition-colors
+              px-2 py-1 text-xs rounded-lg transition-colors backdrop-blur-md border
               ${
                 isPresetActive(value, days)
-                  ? 'bg-blue-500/80 text-white font-semibold'
-                  : 'bg-gray-700/60 hover:bg-gray-600/80 text-gray-200'
+                  ? 'bg-blue-500/80 text-white font-semibold border-blue-400/30'
+                  : 'bg-gray-800/60 hover:bg-gray-700/80 text-gray-200 border-white/10'
               }
             `}
             data-testid={`preset-${label.toLowerCase()}`}
