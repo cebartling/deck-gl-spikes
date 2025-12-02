@@ -25,7 +25,7 @@ export function SizeLegend() {
             <div key={mag} className="flex flex-col items-center">
               <div
                 className="rounded-full bg-orange-500/60 border border-orange-600"
-                style={{ width: size, height: size }}
+                style={{ width: `${size}px`, height: `${size}px` }}
               />
               <span className="text-xs mt-1 text-gray-600">{mag}</span>
             </div>
