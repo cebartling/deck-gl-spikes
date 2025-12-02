@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
 
 // Mock react-map-gl/maplibre
 vi.mock('react-map-gl/maplibre', () => ({
@@ -29,9 +29,28 @@ vi.mock('@deck.gl/react', () => ({
 // Mock maplibre-gl CSS import
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}));
 
+// Mock useEarthquakeData hook
+const mockUseEarthquakeData = vi.fn();
+vi.mock('../../hooks/useEarthquakeData', () => ({
+  useEarthquakeData: () => mockUseEarthquakeData(),
+}));
+
+// Mock createEarthquakeLayer
+vi.mock('./layers/earthquakeLayer', () => ({
+  createEarthquakeLayer: vi.fn(() => ({ id: 'earthquake-layer' })),
+}));
+
 import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {
+  beforeEach(() => {
+    mockUseEarthquakeData.mockReturnValue({
+      data: [],
+      loading: false,
+      error: null,
+    });
+  });
+
   it('renders the map container', () => {
     render(<EarthquakeMap />);
 
@@ -67,11 +86,17 @@ describe('EarthquakeMap', () => {
     expect(deckgl).toHaveAttribute('data-controller', 'true');
   });
 
-  it('initializes with empty layers array', () => {
+  it('renders with earthquake layer', () => {
+    mockUseEarthquakeData.mockReturnValue({
+      data: [{ id: '1', longitude: 0, latitude: 0, depth: 10, magnitude: 5.0 }],
+      loading: false,
+      error: null,
+    });
+
     render(<EarthquakeMap />);
 
     const deckgl = screen.getByTestId('deckgl-container');
-    expect(deckgl).toHaveAttribute('data-layers-count', '0');
+    expect(deckgl).toHaveAttribute('data-layers-count', '1');
   });
 
   it('uses CARTO Positron map style', () => {
@@ -82,5 +107,45 @@ describe('EarthquakeMap', () => {
       'data-map-style',
       'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
     );
+  });
+
+  it('shows loading indicator while fetching data', () => {
+    mockUseEarthquakeData.mockReturnValue({
+      data: [],
+      loading: true,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.getByText('Loading earthquake data...')).toBeInTheDocument();
+  });
+
+  it('hides loading indicator after data loads', async () => {
+    mockUseEarthquakeData.mockReturnValue({
+      data: [],
+      loading: false,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText('Loading earthquake data...')
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it('displays error message when fetch fails', () => {
+    mockUseEarthquakeData.mockReturnValue({
+      data: [],
+      loading: false,
+      error: new Error('Network error'),
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.getByText('Error loading data: Network error')).toBeInTheDocument();
   });
 });
