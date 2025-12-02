@@ -79,10 +79,10 @@ export function DateRangeSelector({
     <div
       role="group"
       aria-labelledby="date-range-label"
-      className="flex flex-col gap-2 p-3 bg-white/90 backdrop-blur-sm rounded-lg shadow"
+      className="flex flex-col gap-2 p-3 bg-gray-900/80 backdrop-blur-md rounded-lg shadow-lg border border-white/10"
       data-testid="date-range-selector"
     >
-      <span id="date-range-label" className="text-sm font-semibold text-gray-700">
+      <span id="date-range-label" className="text-sm font-semibold text-gray-100">
         Time Period
       </span>
 
@@ -97,8 +97,8 @@ export function DateRangeSelector({
               px-2 py-1 text-xs rounded transition-colors
               ${
                 isPresetActive(value, days)
-                  ? 'bg-blue-200 text-blue-900 font-semibold'
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  ? 'bg-blue-500/80 text-white font-semibold'
+                  : 'bg-gray-700/60 hover:bg-gray-600/80 text-gray-200'
               }
             `}
             data-testid={`preset-${label.toLowerCase()}`}
@@ -110,7 +110,7 @@ export function DateRangeSelector({
 
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1">
-          <label className="text-xs text-gray-500" htmlFor="start-date">
+          <label className="text-xs text-gray-400" htmlFor="start-date">
             From
           </label>
           <input
@@ -120,14 +120,14 @@ export function DateRangeSelector({
             onChange={handleStartChange}
             min={minDate ? formatDateForInput(minDate) : undefined}
             max={formatDateForInput(value.endDate || maxDate || new Date())}
-            className="w-full px-2 py-1 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full px-2 py-1 bg-gray-800/60 border border-gray-600 rounded text-sm text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-blue-500"
             aria-describedby="date-range-help"
             data-testid="start-date-input"
           />
         </div>
 
         <div className="flex-1">
-          <label className="text-xs text-gray-500" htmlFor="end-date">
+          <label className="text-xs text-gray-400" htmlFor="end-date">
             To
           </label>
           <input
@@ -137,7 +137,7 @@ export function DateRangeSelector({
             onChange={handleEndChange}
             min={formatDateForInput(value.startDate || minDate)}
             max={maxDate ? formatDateForInput(maxDate) : formatDateForInput(new Date())}
-            className="w-full px-2 py-1 border rounded text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full px-2 py-1 bg-gray-800/60 border border-gray-600 rounded text-sm text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-blue-500"
             data-testid="end-date-input"
           />
         </div>

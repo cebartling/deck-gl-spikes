@@ -110,11 +110,13 @@ describe('EarthquakeTooltip', () => {
     expect(tooltip).toHaveClass('max-w-[300px]');
   });
 
-  it('has backdrop blur effect', () => {
+  it('has dark glassmorphism styling', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
     const tooltip = screen.getByRole('tooltip');
-    expect(tooltip).toHaveClass('backdrop-blur-sm');
+    expect(tooltip).toHaveClass('bg-gray-900/90');
+    expect(tooltip).toHaveClass('backdrop-blur-md');
+    expect(tooltip).toHaveClass('border-white/10');
   });
 
   describe('transitions', () => {

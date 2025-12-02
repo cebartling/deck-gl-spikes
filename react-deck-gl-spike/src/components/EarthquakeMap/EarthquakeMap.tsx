@@ -110,12 +110,12 @@ export function EarthquakeMap() {
   return (
     <div className="w-full h-full relative">
       {loading && (
-        <div className="absolute top-4 left-4 z-10 bg-white px-3 py-2 rounded shadow">
+        <div className="absolute top-4 left-4 z-10 bg-gray-900/80 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg border border-white/10 text-gray-100">
           Loading earthquake data...
         </div>
       )}
       {error && (
-        <div className="absolute top-4 left-4 z-10 bg-red-100 text-red-700 px-3 py-2 rounded shadow">
+        <div className="absolute top-4 left-4 z-10 bg-red-900/80 backdrop-blur-md text-red-200 px-3 py-2 rounded-lg shadow-lg border border-red-500/30">
           Error loading data: {error.message}
         </div>
       )}

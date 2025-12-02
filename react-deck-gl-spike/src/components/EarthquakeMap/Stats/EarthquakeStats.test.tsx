@@ -117,21 +117,16 @@ describe('EarthquakeStats', () => {
     expect(screen.getByTestId('total-count').textContent).toContain('10,000');
   });
 
-  it('has backdrop blur styling', () => {
-    render(
-      <EarthquakeStats totalCount={100} filteredCount={50} isFiltered={false} />
-    );
-
-    expect(screen.getByTestId('earthquake-stats')).toHaveClass('backdrop-blur-sm');
-  });
-
-  it('has rounded shadow styling', () => {
+  it('has dark glassmorphism styling', () => {
     render(
       <EarthquakeStats totalCount={100} filteredCount={50} isFiltered={false} />
     );
 
     const stats = screen.getByTestId('earthquake-stats');
+    expect(stats).toHaveClass('bg-gray-900/80');
+    expect(stats).toHaveClass('backdrop-blur-md');
     expect(stats).toHaveClass('rounded-lg');
-    expect(stats).toHaveClass('shadow');
+    expect(stats).toHaveClass('shadow-lg');
+    expect(stats).toHaveClass('border-white/10');
   });
 });
