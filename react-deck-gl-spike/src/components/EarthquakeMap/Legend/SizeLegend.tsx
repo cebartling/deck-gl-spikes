@@ -16,22 +16,31 @@ function getDisplaySize(magnitude: number): number {
 
 export function SizeLegend() {
   return (
-    <div className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-lg shadow-md z-10">
-      <h4 className="text-sm font-semibold mb-2 text-gray-700">Magnitude</h4>
-      <div className="flex items-end gap-3">
+    <div
+      className="absolute bottom-4 left-4 bg-white/90 p-3 rounded-lg shadow-md z-10"
+      role="region"
+      aria-labelledby="legend-title"
+    >
+      <h4 id="legend-title" className="text-sm font-semibold mb-2 text-gray-700">Magnitude</h4>
+      <ul className="flex items-end gap-3" aria-labelledby="legend-title">
         {MAGNITUDE_SAMPLES.map((mag) => {
           const size = getDisplaySize(mag);
           return (
-            <div key={mag} className="flex flex-col items-center">
+            <li
+              key={mag}
+              className="flex flex-col items-center"
+              aria-label={`Magnitude ${mag}`}
+            >
               <div
                 className="rounded-full bg-orange-500/60 border border-orange-600"
-                style={{ width: `${size}px`, height: `${size}px` }}
+                style={{ width: size, height: size }}
+                aria-label={`Circle representing magnitude ${mag}`}
               />
               <span className="text-xs mt-1 text-gray-600">{mag}</span>
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 }
