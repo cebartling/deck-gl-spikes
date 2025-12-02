@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { COORDINATE_SYSTEM } from '@deck.gl/core';
 import { createEarthquakeLayer, getDepthColor } from './earthquakeLayer';
+import { magnitudeToRadius } from './magnitudeScale';
 import type { Earthquake } from '../../../types/earthquake';
 
 describe('earthquakeLayer', () => {
@@ -57,14 +58,19 @@ describe('earthquakeLayer', () => {
       expect(layer.props.filled).toBe(true);
     });
 
-    it('sets radiusMinPixels to 2', () => {
+    it('sets radiusMinPixels to 3 for touch target visibility', () => {
       const layer = createEarthquakeLayer(mockEarthquakes);
-      expect(layer.props.radiusMinPixels).toBe(2);
+      expect(layer.props.radiusMinPixels).toBe(3);
     });
 
-    it('sets radiusMaxPixels to 100', () => {
+    it('sets radiusMaxPixels to 50 to prevent visual clutter', () => {
       const layer = createEarthquakeLayer(mockEarthquakes);
-      expect(layer.props.radiusMaxPixels).toBe(100);
+      expect(layer.props.radiusMaxPixels).toBe(50);
+    });
+
+    it('sets radiusUnits to meters', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      expect(layer.props.radiusUnits).toBe('meters');
     });
 
     it('getPosition accessor returns [longitude, latitude]', () => {
@@ -74,7 +80,7 @@ describe('earthquakeLayer', () => {
       expect(getPosition(mockEarthquakes[1])).toEqual([139.7, 35.7]);
     });
 
-    it('getRadius accessor scales with magnitude', () => {
+    it('getRadius accessor uses magnitudeToRadius scale', () => {
       const layer = createEarthquakeLayer(mockEarthquakes);
       const getRadius = layer.props.getRadius as (d: Earthquake) => number;
 
@@ -84,9 +90,9 @@ describe('earthquakeLayer', () => {
       // Higher magnitude should have larger radius
       expect(radius2).toBeGreaterThan(radius1);
 
-      // Verify the formula: Math.pow(2, magnitude) * 1000
-      expect(radius1).toBeCloseTo(Math.pow(2, 4.5) * 1000);
-      expect(radius2).toBeCloseTo(Math.pow(2, 6.0) * 1000);
+      // Verify uses magnitudeToRadius function
+      expect(radius1).toBeCloseTo(magnitudeToRadius(4.5));
+      expect(radius2).toBeCloseTo(magnitudeToRadius(6.0));
     });
 
     it('passes filtered data to the layer', () => {

@@ -123,3 +123,20 @@ Then('the map should render without coordinate errors', async function (this: Cu
   expect(boundingBox!.width).toBeGreaterThan(0);
   expect(boundingBox!.height).toBeGreaterThan(0);
 });
+
+Then('the size legend should be visible', async function (this: CustomWorld) {
+  // Verify the size legend is displayed
+  const sizeLegend = this.page.locator('text=Magnitude');
+  await expect(sizeLegend).toBeVisible({ timeout: 10000 });
+
+  // Verify magnitude sample labels are shown
+  const magnitude3 = this.page.locator('text=3');
+  const magnitude5 = this.page.locator('text=5');
+  const magnitude7 = this.page.locator('text=7');
+  const magnitude9 = this.page.locator('text=9');
+
+  await expect(magnitude3).toBeVisible();
+  await expect(magnitude5).toBeVisible();
+  await expect(magnitude7).toBeVisible();
+  await expect(magnitude9).toBeVisible();
+});
