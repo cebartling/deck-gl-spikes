@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import type { Earthquake, GeoJSONResponse, GeoJSONFeature } from '../types/earthquake';
+import {
+  GeoJSONResponseSchema,
+  type Earthquake,
+  type GeoJSONFeature,
+} from '../types/earthquake';
 
 export function transformGeoJSONFeature(feature: GeoJSONFeature): Earthquake {
   return {
@@ -7,9 +11,9 @@ export function transformGeoJSONFeature(feature: GeoJSONFeature): Earthquake {
     longitude: feature.geometry.coordinates[0],
     latitude: feature.geometry.coordinates[1],
     depth: feature.geometry.coordinates[2],
-    magnitude: feature.properties.mag,
+    magnitude: feature.properties.mag ?? 0,
     timestamp: feature.properties.time,
-    location: feature.properties.place,
+    location: feature.properties.place ?? 'Unknown location',
   };
 }
 
@@ -31,8 +35,11 @@ export function useEarthquakeData(url: string) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const json: GeoJSONResponse = await response.json();
-        const earthquakes = json.features.map(transformGeoJSONFeature);
+        const json = await response.json();
+
+        // Validate the API response with Zod
+        const validatedResponse = GeoJSONResponseSchema.parse(json);
+        const earthquakes = validatedResponse.features.map(transformGeoJSONFeature);
 
         if (!cancelled) {
           setData(earthquakes);
