@@ -1,5 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import { useEarthquakeStore } from '../../stores/earthquakeStore';
+import { useMapViewStore } from '../../stores/mapViewStore';
+
+declare const global: typeof globalThis;
 
 // Mock react-map-gl/maplibre
 vi.mock('react-map-gl/maplibre', () => ({
@@ -12,14 +16,14 @@ vi.mock('react-map-gl/maplibre', () => ({
 
 // Mock @deck.gl/react
 vi.mock('@deck.gl/react', () => ({
-  default: vi.fn(({ children, initialViewState, controller, layers }) => (
+  default: vi.fn(({ children, viewState, controller, layers }) => (
     <div
       data-testid="deckgl-container"
       data-controller={controller?.toString()}
       data-layers-count={layers?.length?.toString()}
-      data-initial-longitude={initialViewState?.longitude?.toString()}
-      data-initial-latitude={initialViewState?.latitude?.toString()}
-      data-initial-zoom={initialViewState?.zoom?.toString()}
+      data-longitude={viewState?.longitude?.toString()}
+      data-latitude={viewState?.latitude?.toString()}
+      data-zoom={viewState?.zoom?.toString()}
     >
       {children}
     </div>
@@ -28,12 +32,6 @@ vi.mock('@deck.gl/react', () => ({
 
 // Mock maplibre-gl CSS import
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}));
-
-// Mock useEarthquakeData hook
-const mockUseEarthquakeData = vi.fn();
-vi.mock('../../hooks/useEarthquakeData', () => ({
-  useEarthquakeData: () => mockUseEarthquakeData(),
-}));
 
 // Mock createEarthquakeLayer
 vi.mock('./layers/earthquakeLayer', () => ({
@@ -44,11 +42,15 @@ import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {
   beforeEach(() => {
-    mockUseEarthquakeData.mockReturnValue({
-      data: [],
-      loading: false,
-      error: null,
-    });
+    // Reset stores before each test
+    useEarthquakeStore.getState().reset();
+    useMapViewStore.getState().reset();
+    // Mock fetch to prevent actual network calls
+    vi.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => {}));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('renders the map container', () => {
@@ -70,13 +72,13 @@ describe('EarthquakeMap', () => {
     expect(screen.getByTestId('maplibre-map')).toBeInTheDocument();
   });
 
-  it('initializes with correct view state', () => {
+  it('initializes with correct view state from store', () => {
     render(<EarthquakeMap />);
 
     const deckgl = screen.getByTestId('deckgl-container');
-    expect(deckgl).toHaveAttribute('data-initial-longitude', '0');
-    expect(deckgl).toHaveAttribute('data-initial-latitude', '20');
-    expect(deckgl).toHaveAttribute('data-initial-zoom', '1.5');
+    expect(deckgl).toHaveAttribute('data-longitude', '0');
+    expect(deckgl).toHaveAttribute('data-latitude', '20');
+    expect(deckgl).toHaveAttribute('data-zoom', '1.5');
   });
 
   it('enables controller for user interaction', () => {
@@ -87,8 +89,8 @@ describe('EarthquakeMap', () => {
   });
 
   it('renders with earthquake layer', () => {
-    mockUseEarthquakeData.mockReturnValue({
-      data: [{ id: '1', longitude: 0, latitude: 0, depth: 10, magnitude: 5.0 }],
+    useEarthquakeStore.setState({
+      earthquakes: [{ id: '1', longitude: 0, latitude: 0, depth: 10, magnitude: 5.0, timestamp: '', location: '' }],
       loading: false,
       error: null,
     });
@@ -110,11 +112,7 @@ describe('EarthquakeMap', () => {
   });
 
   it('shows loading indicator while fetching data', () => {
-    mockUseEarthquakeData.mockReturnValue({
-      data: [],
-      loading: true,
-      error: null,
-    });
+    useEarthquakeStore.setState({ loading: true });
 
     render(<EarthquakeMap />);
 
@@ -122,11 +120,11 @@ describe('EarthquakeMap', () => {
   });
 
   it('hides loading indicator after data loads', async () => {
-    mockUseEarthquakeData.mockReturnValue({
-      data: [],
-      loading: false,
-      error: null,
-    });
+    // Mock fetch to resolve immediately with empty data
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ type: 'FeatureCollection', features: [] }),
+    } as Response);
 
     render(<EarthquakeMap />);
 
@@ -137,15 +135,33 @@ describe('EarthquakeMap', () => {
     });
   });
 
-  it('displays error message when fetch fails', () => {
-    mockUseEarthquakeData.mockReturnValue({
-      data: [],
-      loading: false,
-      error: new Error('Network error'),
+  it('displays error message when fetch fails', async () => {
+    // Mock fetch to reject
+    vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Network error'));
+
+    render(<EarthquakeMap />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Error loading data: Network error')).toBeInTheDocument();
+    });
+  });
+
+  it('reflects updated view state from store', () => {
+    useMapViewStore.setState({
+      viewState: {
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 10,
+        pitch: 0,
+        bearing: 0,
+      },
     });
 
     render(<EarthquakeMap />);
 
-    expect(screen.getByText('Error loading data: Network error')).toBeInTheDocument();
+    const deckgl = screen.getByTestId('deckgl-container');
+    expect(deckgl).toHaveAttribute('data-longitude', '-122.4');
+    expect(deckgl).toHaveAttribute('data-latitude', '37.8');
+    expect(deckgl).toHaveAttribute('data-zoom', '10');
   });
 });
