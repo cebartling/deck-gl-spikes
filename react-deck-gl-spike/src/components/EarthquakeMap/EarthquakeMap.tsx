@@ -34,7 +34,7 @@ export function EarthquakeMap() {
   const resetView = useMapViewStore((state) => state.reset);
 
   // Tooltip state
-  const { tooltip, onHover } = useTooltip();
+  const { tooltip, onHover, clearTooltip } = useTooltip();
 
   // Fetch earthquake data on mount
   useEffect(() => {
@@ -47,10 +47,21 @@ export function EarthquakeMap() {
   );
 
   const handleViewStateChange = useCallback(
-    (params: { viewState: MapViewState }) => {
+    (params: {
+      viewState: MapViewState;
+      interactionState?: { isDragging?: boolean; isZooming?: boolean };
+    }) => {
       setViewState(constrainViewState(params.viewState));
+
+      // Dismiss tooltip during pan/zoom interactions
+      if (
+        params.interactionState?.isDragging ||
+        params.interactionState?.isZooming
+      ) {
+        clearTooltip();
+      }
     },
-    [setViewState]
+    [setViewState, clearTooltip]
   );
 
   const handleZoomIn = useCallback(() => {
@@ -93,13 +104,12 @@ export function EarthquakeMap() {
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
-      {tooltip && (
-        <EarthquakeTooltip
-          earthquake={tooltip.object}
-          x={tooltip.x}
-          y={tooltip.y}
-        />
-      )}
+      <EarthquakeTooltip
+        earthquake={tooltip?.object ?? null}
+        x={tooltip?.x ?? 0}
+        y={tooltip?.y ?? 0}
+        visible={tooltip !== null}
+      />
       <ZoomControls
         onZoomIn={handleZoomIn}
         onZoomOut={handleZoomOut}

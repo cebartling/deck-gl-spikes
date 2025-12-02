@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { EarthquakeTooltip } from './EarthquakeTooltip';
 import type { Earthquake } from '../../../types/earthquake';
 
@@ -115,5 +115,91 @@ describe('EarthquakeTooltip', () => {
 
     const tooltip = screen.getByRole('tooltip');
     expect(tooltip).toHaveClass('backdrop-blur-sm');
+  });
+
+  describe('transitions', () => {
+    it('has opacity-100 when visible', () => {
+      render(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+      );
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).toHaveClass('opacity-100');
+    });
+
+    it('has opacity-0 when not visible', () => {
+      const { rerender } = render(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+      );
+
+      // Start hide transition
+      rerender(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={false} />
+      );
+
+      // Tooltip should still be in DOM during fade-out but with opacity-0
+      const tooltip = screen.getByRole('tooltip', { hidden: true });
+      expect(tooltip).toHaveClass('opacity-0');
+    });
+
+    it('has transition-opacity class for smooth animation', () => {
+      render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).toHaveClass('transition-opacity');
+    });
+
+    it('has duration-150 for transition timing', () => {
+      render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
+
+      const tooltip = screen.getByRole('tooltip');
+      expect(tooltip).toHaveClass('duration-150');
+    });
+
+    it('data persists during fade-out animation', () => {
+      const { rerender } = render(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+      );
+
+      // Start hide transition
+      rerender(
+        <EarthquakeTooltip earthquake={null} x={100} y={200} visible={false} />
+      );
+
+      // Data should still be visible during fade-out
+      expect(screen.getByText('M4.5')).toBeInTheDocument();
+      expect(screen.getByText('San Francisco, CA')).toBeInTheDocument();
+
+      // After transition duration, data should be cleared
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('does not render when earthquake is null and never was visible', () => {
+      render(<EarthquakeTooltip earthquake={null} x={100} y={200} visible={false} />);
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+
+    it('has aria-hidden when not visible', () => {
+      const { rerender } = render(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+      );
+
+      let tooltip = screen.getByRole('tooltip');
+      expect(tooltip).toHaveAttribute('aria-hidden', 'false');
+
+      // Hide tooltip - keep earthquake data to allow fade-out animation
+      rerender(
+        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={false} />
+      );
+
+      // Tooltip should still be in DOM during fade-out with aria-hidden="true"
+      tooltip = screen.getByRole('tooltip', { hidden: true });
+      expect(tooltip).toHaveAttribute('aria-hidden', 'true');
+    });
   });
 });
