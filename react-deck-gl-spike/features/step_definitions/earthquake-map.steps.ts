@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/world';
 
 Then('I should see the map container', async function (this: CustomWorld) {
-  const mapContainer = this.page.locator('#deckgl-overlay');
+  const mapContainer = this.page.locator('.deckgl');
   await expect(mapContainer).toBeVisible({ timeout: 10000 });
 });
 
