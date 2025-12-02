@@ -38,6 +38,6 @@ Then('I should be on the About page', async function (this: CustomWorld) {
 Then('I should be on the Home page', async function (this: CustomWorld) {
   await expect(this.page).toHaveURL(`${this.baseUrl}/`);
   // Home page now shows the earthquake map
-  const mapContainer = this.page.locator('#deckgl-overlay');
+  const mapContainer = this.page.locator('canvas');
   await expect(mapContainer).toBeVisible({ timeout: 10000 });
 });
