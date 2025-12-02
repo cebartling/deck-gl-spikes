@@ -10,6 +10,7 @@ import { EarthquakeTooltip } from './Tooltip';
 import { DateRangeSelector } from './Filters';
 import { useTooltip } from './hooks/useTooltip';
 import { useFilterState } from './hooks/useFilterState';
+import { useFilteredEarthquakes } from './hooks/useFilteredEarthquakes';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
 import {
   constrainViewState,
@@ -41,6 +42,9 @@ export function EarthquakeMap() {
   // Filter state
   const { filters, setDateRange } = useFilterState();
 
+  // Apply filters to get displayed earthquakes
+  const filteredEarthquakes = useFilteredEarthquakes(earthquakes, filters);
+
   // Fetch earthquake data on mount
   useEffect(() => {
     fetchEarthquakes(EARTHQUAKE_DATA_URL);
@@ -56,19 +60,6 @@ export function EarthquakeMap() {
       max: new Date(Math.max(...timestamps)),
     };
   }, [earthquakes]);
-
-  // Filter earthquakes by date range
-  const filteredEarthquakes = useMemo(() => {
-    const { startDate, endDate } = filters.dateRange;
-    if (!startDate && !endDate) return earthquakes;
-
-    return earthquakes.filter((eq) => {
-      const eqDate = new Date(eq.timestamp);
-      if (startDate && eqDate < startDate) return false;
-      if (endDate && eqDate > endDate) return false;
-      return true;
-    });
-  }, [earthquakes, filters.dateRange]);
 
   const layers = useMemo(
     () => [createEarthquakeLayer(filteredEarthquakes)],
