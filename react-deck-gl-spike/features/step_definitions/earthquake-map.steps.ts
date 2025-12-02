@@ -200,3 +200,78 @@ Then(
     await expect(errorMessage).toBeHidden();
   }
 );
+
+Then('I should see the zoom controls', async function (this: CustomWorld) {
+  // Verify zoom controls are visible
+  const zoomInButton = this.page.getByRole('button', { name: /zoom in/i });
+  const zoomOutButton = this.page.getByRole('button', { name: /zoom out/i });
+  const resetButton = this.page.getByRole('button', { name: /reset view/i });
+
+  await expect(zoomInButton).toBeVisible({ timeout: 10000 });
+  await expect(zoomOutButton).toBeVisible();
+  await expect(resetButton).toBeVisible();
+});
+
+When('I click the zoom in button', async function (this: CustomWorld) {
+  const zoomInButton = this.page.getByRole('button', { name: /zoom in/i });
+  await expect(zoomInButton).toBeVisible({ timeout: 10000 });
+  await zoomInButton.click();
+
+  // Wait for zoom animation
+  await this.page.waitForTimeout(500);
+});
+
+Then('the map should zoom in', async function (this: CustomWorld) {
+  // Verify the map canvas is still visible and rendering
+  const canvas = this.page.locator('canvas.maplibregl-canvas');
+  await expect(canvas).toBeVisible({ timeout: 10000 });
+
+  const boundingBox = await canvas.boundingBox();
+  expect(boundingBox).not.toBeNull();
+  expect(boundingBox!.width).toBeGreaterThan(0);
+  expect(boundingBox!.height).toBeGreaterThan(0);
+});
+
+When('I click the zoom out button', async function (this: CustomWorld) {
+  const zoomOutButton = this.page.getByRole('button', { name: /zoom out/i });
+  await expect(zoomOutButton).toBeVisible({ timeout: 10000 });
+  await zoomOutButton.click();
+
+  // Wait for zoom animation
+  await this.page.waitForTimeout(500);
+});
+
+Then('the map should zoom out', async function (this: CustomWorld) {
+  // Verify the map canvas is still visible and rendering
+  const canvas = this.page.locator('canvas.maplibregl-canvas');
+  await expect(canvas).toBeVisible({ timeout: 10000 });
+
+  const boundingBox = await canvas.boundingBox();
+  expect(boundingBox).not.toBeNull();
+  expect(boundingBox!.width).toBeGreaterThan(0);
+  expect(boundingBox!.height).toBeGreaterThan(0);
+});
+
+When('I click the reset view button', async function (this: CustomWorld) {
+  const resetButton = this.page.getByRole('button', { name: /reset view/i });
+  await expect(resetButton).toBeVisible({ timeout: 10000 });
+  await resetButton.click();
+
+  // Wait for view transition
+  await this.page.waitForTimeout(500);
+});
+
+Then('the map should return to the initial view', async function (this: CustomWorld) {
+  // Verify the map canvas is still visible and rendering
+  const canvas = this.page.locator('canvas.maplibregl-canvas');
+  await expect(canvas).toBeVisible({ timeout: 10000 });
+
+  const boundingBox = await canvas.boundingBox();
+  expect(boundingBox).not.toBeNull();
+  expect(boundingBox!.width).toBeGreaterThan(0);
+  expect(boundingBox!.height).toBeGreaterThan(0);
+
+  // Verify no error occurred
+  const errorMessage = this.page.locator('text=Error loading data');
+  await expect(errorMessage).toBeHidden();
+});

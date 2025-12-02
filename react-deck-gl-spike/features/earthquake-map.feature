@@ -41,3 +41,19 @@ Feature: Earthquake Map Visualization
     When I click and drag on the map
     Then the map should pan in the direction of the drag
     And earthquake points should maintain their geographic positions
+
+  Scenario: Zoom the map with controls
+    Given I am on the home page
+    And earthquake data has loaded
+    Then I should see the zoom controls
+    When I click the zoom in button
+    Then the map should zoom in
+    When I click the zoom out button
+    Then the map should zoom out
+
+  Scenario: Reset map view
+    Given I am on the home page
+    And earthquake data has loaded
+    When I zoom in on the map
+    And I click the reset view button
+    Then the map should return to the initial view

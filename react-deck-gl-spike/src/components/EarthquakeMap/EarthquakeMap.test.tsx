@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { useEarthquakeStore } from '../../stores/earthquakeStore';
 import { useMapViewStore } from '../../stores/mapViewStore';
 
@@ -42,6 +42,17 @@ vi.mock('./layers/earthquakeLayer', () => ({
 vi.mock('./Legend', () => ({
   SizeLegend: vi.fn(() => <div data-testid="size-legend">Magnitude Legend</div>),
   ColorLegend: vi.fn(() => <div data-testid="color-legend">Depth Legend</div>),
+}));
+
+// Mock ZoomControls
+vi.mock('./ZoomControls', () => ({
+  ZoomControls: vi.fn(({ onZoomIn, onZoomOut, onResetView }) => (
+    <div data-testid="zoom-controls">
+      <button data-testid="zoom-in" onClick={onZoomIn}>+</button>
+      <button data-testid="zoom-out" onClick={onZoomOut}>-</button>
+      <button data-testid="reset-view" onClick={onResetView}>Reset</button>
+    </div>
+  )),
 }));
 
 import { EarthquakeMap } from './EarthquakeMap';
@@ -285,5 +296,62 @@ describe('EarthquakeMap', () => {
     render(<EarthquakeMap />);
 
     expect(screen.queryByTestId('color-legend')).not.toBeInTheDocument();
+  });
+
+  it('renders zoom controls', () => {
+    render(<EarthquakeMap />);
+
+    expect(screen.getByTestId('zoom-controls')).toBeInTheDocument();
+  });
+
+  it('zoom in button increases zoom level', () => {
+    render(<EarthquakeMap />);
+
+    const initialZoom = useMapViewStore.getState().viewState.zoom;
+    const zoomInButton = screen.getByTestId('zoom-in');
+    fireEvent.click(zoomInButton);
+
+    expect(useMapViewStore.getState().viewState.zoom).toBe(initialZoom + 1);
+  });
+
+  it('zoom out button decreases zoom level', () => {
+    useMapViewStore.setState({
+      viewState: {
+        longitude: 0,
+        latitude: 20,
+        zoom: 5,
+        pitch: 0,
+        bearing: 0,
+      },
+    });
+
+    render(<EarthquakeMap />);
+
+    const zoomOutButton = screen.getByTestId('zoom-out');
+    fireEvent.click(zoomOutButton);
+
+    expect(useMapViewStore.getState().viewState.zoom).toBe(4);
+  });
+
+  it('reset view button resets to initial view state', () => {
+    useMapViewStore.setState({
+      viewState: {
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 10,
+        pitch: 0,
+        bearing: 0,
+      },
+    });
+
+    render(<EarthquakeMap />);
+
+    const resetButton = screen.getByTestId('reset-view');
+    fireEvent.click(resetButton);
+
+    const viewState = useMapViewStore.getState().viewState;
+    expect(viewState.longitude).toBe(0);
+    expect(viewState.latitude).toBe(20);
+    expect(viewState.zoom).toBe(1.5);
   });
 });
