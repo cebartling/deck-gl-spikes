@@ -156,4 +156,59 @@ describe('earthquakeLayer', () => {
       expect(color2).toEqual(depthToColorMultiStop(350));
     });
   });
+
+  describe('position stability', () => {
+    it('uses geographic coordinates for position (LNGLAT)', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      // LNGLAT coordinate system ensures deck.gl handles projection
+      // and maintains position stability during navigation
+      expect(layer.props.coordinateSystem).toBe(COORDINATE_SYSTEM.LNGLAT);
+    });
+
+    it('getPosition returns raw geographic coordinates without transformation', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      const getPosition = layer.props.getPosition as unknown as (
+        d: Earthquake
+      ) => number[];
+
+      // Position should be [longitude, latitude] - raw geographic coords
+      const position = getPosition(mockEarthquakes[0]);
+      expect(position[0]).toBe(mockEarthquakes[0].longitude);
+      expect(position[1]).toBe(mockEarthquakes[0].latitude);
+    });
+
+    it('maintains consistent layer ID for deck.gl diffing', () => {
+      // Same ID means deck.gl won't recreate the layer during navigation
+      const layer1 = createEarthquakeLayer(mockEarthquakes);
+      const layer2 = createEarthquakeLayer(mockEarthquakes);
+
+      expect(layer1.id).toBe('earthquake-layer');
+      expect(layer2.id).toBe('earthquake-layer');
+      expect(layer1.id).toBe(layer2.id);
+    });
+
+    it('updateTriggers only depend on data length, not view state', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      const updateTriggers = layer.props.updateTriggers;
+
+      // Update triggers should only contain data-dependent values
+      // This ensures layer attributes aren't recalculated on view changes
+      expect(updateTriggers).toBeDefined();
+      expect(updateTriggers.getRadius).toBe(mockEarthquakes.length);
+      expect(updateTriggers.getFillColor).toBe(mockEarthquakes.length);
+
+      // Verify no view-state related triggers
+      expect(updateTriggers.zoom).toBeUndefined();
+      expect(updateTriggers.longitude).toBeUndefined();
+      expect(updateTriggers.latitude).toBeUndefined();
+    });
+
+    it('updateTriggers change when data length changes', () => {
+      const layer1 = createEarthquakeLayer(mockEarthquakes);
+      const layer2 = createEarthquakeLayer([mockEarthquakes[0]]);
+
+      expect(layer1.props.updateTriggers.getRadius).toBe(2);
+      expect(layer2.props.updateTriggers.getRadius).toBe(1);
+    });
+  });
 });

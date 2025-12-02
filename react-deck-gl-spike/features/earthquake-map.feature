@@ -57,3 +57,11 @@ Feature: Earthquake Map Visualization
     When I zoom in on the map
     And I click the reset view button
     Then the map should return to the initial view
+
+  Scenario: Points maintain positions during zoom
+    Given I am on the home page
+    And earthquake data has loaded
+    When I zoom in on the map
+    Then earthquake points should remain at their geographic locations
+    When I zoom out on the map
+    Then earthquake points should remain at their geographic locations
