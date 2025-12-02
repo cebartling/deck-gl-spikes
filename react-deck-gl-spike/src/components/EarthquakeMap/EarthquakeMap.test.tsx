@@ -76,6 +76,22 @@ vi.mock('./hooks/useTooltip', () => ({
   })),
 }));
 
+// Mock DateRangeSelector
+vi.mock('./Filters', () => ({
+  DateRangeSelector: vi.fn(() => (
+    <div data-testid="date-range-selector">Date Range Selector</div>
+  )),
+}));
+
+// Mock useFilterState hook
+vi.mock('./hooks/useFilterState', () => ({
+  useFilterState: vi.fn(() => ({
+    filters: { dateRange: { startDate: null, endDate: null } },
+    setDateRange: vi.fn(),
+    resetFilters: vi.fn(),
+  })),
+}));
+
 import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {

@@ -7,7 +7,9 @@ import { createEarthquakeLayer } from './layers/earthquakeLayer';
 import { SizeLegend, ColorLegend } from './Legend';
 import { ZoomControls } from './ZoomControls';
 import { EarthquakeTooltip } from './Tooltip';
+import { DateRangeSelector } from './Filters';
 import { useTooltip } from './hooks/useTooltip';
+import { useFilterState } from './hooks/useFilterState';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
 import {
   constrainViewState,
@@ -36,14 +38,41 @@ export function EarthquakeMap() {
   // Tooltip state
   const { tooltip, onHover, clearTooltip } = useTooltip();
 
+  // Filter state
+  const { filters, setDateRange } = useFilterState();
+
   // Fetch earthquake data on mount
   useEffect(() => {
     fetchEarthquakes(EARTHQUAKE_DATA_URL);
   }, [fetchEarthquakes]);
 
+  // Compute date bounds from data
+  const dateBounds = useMemo(() => {
+    if (earthquakes.length === 0) return { min: undefined, max: undefined };
+
+    const timestamps = earthquakes.map((eq) => new Date(eq.timestamp).getTime());
+    return {
+      min: new Date(Math.min(...timestamps)),
+      max: new Date(Math.max(...timestamps)),
+    };
+  }, [earthquakes]);
+
+  // Filter earthquakes by date range
+  const filteredEarthquakes = useMemo(() => {
+    const { startDate, endDate } = filters.dateRange;
+    if (!startDate && !endDate) return earthquakes;
+
+    return earthquakes.filter((eq) => {
+      const eqDate = new Date(eq.timestamp);
+      if (startDate && eqDate < startDate) return false;
+      if (endDate && eqDate > endDate) return false;
+      return true;
+    });
+  }, [earthquakes, filters.dateRange]);
+
   const layers = useMemo(
-    () => [createEarthquakeLayer(earthquakes)],
-    [earthquakes]
+    () => [createEarthquakeLayer(filteredEarthquakes)],
+    [filteredEarthquakes]
   );
 
   const handleViewStateChange = useCallback(
@@ -117,6 +146,14 @@ export function EarthquakeMap() {
       />
       {!loading && !error && earthquakes.length > 0 && (
         <>
+          <div className="absolute top-4 left-4 z-10">
+            <DateRangeSelector
+              value={filters.dateRange}
+              onChange={setDateRange}
+              minDate={dateBounds.min}
+              maxDate={dateBounds.max}
+            />
+          </div>
           <SizeLegend />
           <ColorLegend />
         </>
