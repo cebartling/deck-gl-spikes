@@ -1,0 +1,1 @@
+export { EarthquakeTooltip } from './EarthquakeTooltip';

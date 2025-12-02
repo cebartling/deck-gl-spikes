@@ -55,6 +55,24 @@ vi.mock('./ZoomControls', () => ({
   )),
 }));
 
+// Mock EarthquakeTooltip
+vi.mock('./Tooltip', () => ({
+  EarthquakeTooltip: vi.fn(({ earthquake }) => (
+    <div data-testid="earthquake-tooltip">
+      <div className="font-semibold">M{earthquake.magnitude.toFixed(1)}</div>
+      <div>{earthquake.location}</div>
+    </div>
+  )),
+}));
+
+// Mock useTooltip hook
+vi.mock('./hooks/useTooltip', () => ({
+  useTooltip: vi.fn(() => ({
+    tooltip: null,
+    onHover: vi.fn(),
+  })),
+}));
+
 import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {

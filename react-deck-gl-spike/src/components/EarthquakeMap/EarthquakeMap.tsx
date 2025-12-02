@@ -6,6 +6,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { createEarthquakeLayer } from './layers/earthquakeLayer';
 import { SizeLegend, ColorLegend } from './Legend';
 import { ZoomControls } from './ZoomControls';
+import { EarthquakeTooltip } from './Tooltip';
+import { useTooltip } from './hooks/useTooltip';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
 import {
   constrainViewState,
@@ -30,6 +32,9 @@ export function EarthquakeMap() {
   const viewState = useMapViewStore((state) => state.viewState);
   const setViewState = useMapViewStore((state) => state.setViewState);
   const resetView = useMapViewStore((state) => state.reset);
+
+  // Tooltip state
+  const { tooltip, onHover } = useTooltip();
 
   // Fetch earthquake data on mount
   useEffect(() => {
@@ -83,9 +88,18 @@ export function EarthquakeMap() {
         onViewStateChange={handleViewStateChange as never}
         controller={true}
         layers={layers}
+        onHover={onHover}
+        getTooltip={null}
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
+      {tooltip && (
+        <EarthquakeTooltip
+          earthquake={tooltip.object}
+          x={tooltip.x}
+          y={tooltip.y}
+        />
+      )}
       <ZoomControls
         onZoomIn={handleZoomIn}
         onZoomOut={handleZoomOut}
