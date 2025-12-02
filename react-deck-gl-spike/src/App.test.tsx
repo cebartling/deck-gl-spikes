@@ -1,20 +1,37 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { render } from './test/test-utils';
 import App from './App';
 
+// Mock react-map-gl/maplibre
+vi.mock('react-map-gl/maplibre', () => ({
+  default: vi.fn(({ children }) => (
+    <div data-testid="maplibre-map">{children}</div>
+  )),
+}));
+
+// Mock @deck.gl/react
+vi.mock('@deck.gl/react', () => ({
+  default: vi.fn(({ children }) => (
+    <div data-testid="deckgl-container">{children}</div>
+  )),
+}));
+
+// Mock maplibre-gl CSS import
+vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}));
+
 describe('App', () => {
-  it('renders the home page by default', () => {
+  it('renders the earthquake map on home page', () => {
     render(<App />);
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Vite + React'
-    );
+    expect(screen.getByTestId('deckgl-container')).toBeInTheDocument();
+    expect(screen.getByTestId('maplibre-map')).toBeInTheDocument();
   });
 
-  it('contains routes for home and about pages', () => {
+  it('renders the map within a responsive container', () => {
     render(<App />);
 
-    expect(screen.getByText('Go to About')).toBeInTheDocument();
+    const container = screen.getByTestId('deckgl-container').closest('.h-screen');
+    expect(container).toBeInTheDocument();
   });
 });
