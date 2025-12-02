@@ -177,3 +177,36 @@ export function useEarthquakeData(url: string) {
 - `radiusMinPixels` ensures visibility on small screens
 - `radiusMaxPixels` prevents oversized points on large displays
 - Opacity at 0.6 allows overlapping points to remain visible
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code. Mock deck.gl layers in tests.
+
+```tsx
+// src/types/earthquake.test.ts
+- Test Earthquake interface type correctness (compile-time)
+
+// src/components/EarthquakeMap/layers/earthquakeLayer.test.ts
+- Test createEarthquakeLayer returns a ScatterplotLayer
+- Test layer configuration (pickable, opacity, stroked, filled)
+- Test getPosition accessor returns [longitude, latitude]
+- Test getRadius accessor scales with magnitude
+- Test getFillColor returns valid RGBA array
+
+// src/hooks/useEarthquakeData.test.ts
+- Test loading state is true initially
+- Test data is transformed correctly from GeoJSON
+- Test loading state is false after fetch completes
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Display earthquake points on map
+  Given I am on the home page
+  And earthquake data has loaded
+  Then I should see earthquake points rendered on the map
+```

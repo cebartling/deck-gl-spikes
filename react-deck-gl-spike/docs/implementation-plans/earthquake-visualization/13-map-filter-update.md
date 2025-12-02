@@ -327,4 +327,29 @@ describe('filterByDateRange', () => {
     expect(result[0].id).toBe('2');
   });
 });
+
+// src/components/EarthquakeMap/hooks/useFilteredEarthquakes.test.ts
+describe('useFilteredEarthquakes', () => {
+  - Test returns all earthquakes when no filters applied
+  - Test applies date range filter correctly
+  - Test memoizes result when inputs unchanged
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Map updates when filter changes
+  Given I am on the home page
+  And earthquake data has loaded showing multiple points
+  When I filter to show only the last 7 days
+  Then the map should update to show only matching earthquakes
+  And the point count should reflect the filtered results
+
+Scenario: Map shows all earthquakes when filter cleared
+  Given I am on the home page
+  And a date filter is active
+  When I click "All" to clear the filter
+  Then the map should show all earthquakes
 ```

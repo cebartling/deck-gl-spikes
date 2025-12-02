@@ -126,10 +126,14 @@ deck.gl automatically culls points outside the visible viewport, improving perfo
 | CSV formats | Varies | Check header for order |
 | ISO 6709 | lat, lng | Convert to [lng, lat] |
 
-## Testing Coordinates
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
 
 ```typescript
-// src/utils/__tests__/validateCoordinates.test.ts
+// src/utils/validateCoordinates.test.ts
 describe('isValidCoordinate', () => {
   it('accepts valid coordinates', () => {
     expect(isValidCoordinate(-122.4194, 37.7749)).toBe(true); // San Francisco
@@ -142,4 +146,32 @@ describe('isValidCoordinate', () => {
     expect(isValidCoordinate(NaN, 0)).toBe(false);
   });
 });
+
+describe('filterValidEarthquakes', () => {
+  - Test filters out earthquakes with invalid coordinates
+  - Test keeps earthquakes with valid coordinates
+  - Test handles empty array
+});
+
+describe('normalizeCoordinates', () => {
+  - Test normalizes longitude values to [-180, 180]
+  - Test handles antimeridian crossing
+  - Test preserves other earthquake properties
+});
+
+describe('createPositionBuffer', () => {
+  - Test returns Float32Array with correct length
+  - Test positions are correctly interleaved [lng, lat, lng, lat, ...]
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Points positioned at correct coordinates
+  Given I am on the home page
+  And earthquake data has loaded
+  When I hover over an earthquake point
+  Then the tooltip should show coordinates matching the point position
 ```

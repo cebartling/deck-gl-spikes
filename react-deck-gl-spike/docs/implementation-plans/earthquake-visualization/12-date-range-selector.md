@@ -327,3 +327,59 @@ const debouncedSetDateRange = useDebouncedCallback(setDateRange, 300);
   </span>
 </div>
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/Filters/DateRangeSelector.test.tsx
+describe('DateRangeSelector', () => {
+  - Test renders start and end date inputs
+  - Test calls onChange when start date changes
+  - Test calls onChange when end date changes
+  - Test formats dates correctly for input values
+  - Test respects minDate and maxDate constraints
+  - Test start date max is constrained by end date
+  - Test end date min is constrained by start date
+});
+
+describe('DateRangeSelector presets', () => {
+  - Test renders all preset buttons (24h, 7d, 30d, 1y, All)
+  - Test clicking preset updates date range correctly
+  - Test active preset is highlighted
+  - Test "All" preset clears both dates
+});
+
+// src/components/EarthquakeMap/hooks/useFilterState.test.ts
+describe('useFilterState', () => {
+  - Test initial filter state
+  - Test setDateRange updates date range
+  - Test resetFilters returns to initial state
+});
+
+describe('isPresetActive', () => {
+  - Test returns true when dates match preset range
+  - Test returns false when dates don't match
+  - Test handles null dates for "All" preset
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Filter by date range
+  Given I am on the home page
+  And the date range selector is visible
+  When I select a start date of "2024-01-01"
+  And I select an end date of "2024-12-31"
+  Then only earthquakes within that date range should be displayed
+
+Scenario: Use date range preset
+  Given I am on the home page
+  When I click the "7d" preset button
+  Then the date range should be set to the last 7 days
+```
