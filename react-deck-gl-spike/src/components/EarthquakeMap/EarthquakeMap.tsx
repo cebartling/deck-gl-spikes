@@ -8,6 +8,7 @@ import { SizeLegend, ColorLegend } from './Legend';
 import { ZoomControls } from './ZoomControls';
 import { EarthquakeTooltip } from './Tooltip';
 import { DateRangeSelector } from './Filters';
+import { EarthquakeStats } from './Stats';
 import { useTooltip } from './hooks/useTooltip';
 import { useFilterState } from './hooks/useFilterState';
 import { useFilteredEarthquakes } from './hooks/useFilteredEarthquakes';
@@ -44,6 +45,10 @@ export function EarthquakeMap() {
 
   // Apply filters to get displayed earthquakes
   const filteredEarthquakes = useFilteredEarthquakes(earthquakes, filters);
+
+  // Check if any filter is active
+  const isFiltered =
+    filters.dateRange.startDate !== null || filters.dateRange.endDate !== null;
 
   // Fetch earthquake data on mount
   useEffect(() => {
@@ -143,6 +148,13 @@ export function EarthquakeMap() {
               onChange={setDateRange}
               minDate={dateBounds.min}
               maxDate={dateBounds.max}
+            />
+          </div>
+          <div className="absolute bottom-4 left-4 z-10">
+            <EarthquakeStats
+              totalCount={earthquakes.length}
+              filteredCount={filteredEarthquakes.length}
+              isFiltered={isFiltered}
             />
           </div>
           <SizeLegend />
