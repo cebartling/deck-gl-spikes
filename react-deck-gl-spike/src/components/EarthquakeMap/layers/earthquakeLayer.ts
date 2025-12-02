@@ -31,5 +31,11 @@ export function createEarthquakeLayer(data: Earthquake[]) {
       getRadius: data.length,
       getFillColor: data.length,
     },
+    // Enable transitions for smooth filter updates
+    transitions: {
+      getPosition: 300,
+      getRadius: 300,
+      getFillColor: 300,
+    },
   });
 }
