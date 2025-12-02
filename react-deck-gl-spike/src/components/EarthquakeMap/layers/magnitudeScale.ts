@@ -4,8 +4,8 @@ import type { Earthquake } from '../../../types/earthquake';
  * Convert magnitude to radius using exponential scale.
  * Base formula: radius = baseSize * 2^(magnitude - minMagnitude)
  *
- * This reflects the logarithmic nature of the Richter scale
- * where each unit increase = 10x amplitude increase.
+ * Uses a base-2 exponential scale (each unit increase doubles the radius)
+ * to visually represent the logarithmic nature of earthquake magnitudes.
  *
  * @param magnitude - Earthquake magnitude (typically 0-10)
  * @returns Radius in meters
