@@ -325,3 +325,65 @@ const throttledCount = useThrottle(filteredCount, 100);
   {/* Visual content */}
 </div>
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/Stats/EarthquakeStats.test.tsx
+describe('EarthquakeStats', () => {
+  - Test renders filtered count
+  - Test renders "earthquake" singular when count is 1
+  - Test renders "earthquakes" plural when count is not 1
+  - Test shows total count when filtered
+  - Test hides total count when not filtered
+  - Test shows filter indicator when isFiltered is true
+  - Test hides filter indicator when isFiltered is false
+});
+
+// src/components/EarthquakeMap/Stats/AnimatedCount.test.tsx
+describe('AnimatedCount', () => {
+  - Test renders initial value immediately
+  - Test animates to new value
+  - Test formats number with locale string
+});
+
+// src/components/EarthquakeMap/Stats/EarthquakeStatsSummary.test.tsx
+describe('EarthquakeStatsSummary', () => {
+  - Test renders earthquake count
+  - Test calculates and displays max magnitude
+  - Test calculates and displays average magnitude
+  - Test calculates and displays average depth
+  - Test handles empty earthquake array
+  - Test shows filter indicator when filtered
+});
+
+describe('calculateStats', () => {
+  - Test returns correct count
+  - Test calculates max magnitude correctly
+  - Test calculates average magnitude correctly
+  - Test calculates average depth correctly
+  - Test handles single earthquake
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Point count displays total earthquakes
+  Given I am on the home page
+  And earthquake data has loaded
+  Then I should see the earthquake count displayed
+
+Scenario: Point count updates with filter
+  Given I am on the home page
+  And earthquake data has loaded showing 100 earthquakes
+  When I apply a filter that matches 25 earthquakes
+  Then the count should show "25"
+  And the count should indicate "of 100" total
+  And a filter indicator should be visible
+```

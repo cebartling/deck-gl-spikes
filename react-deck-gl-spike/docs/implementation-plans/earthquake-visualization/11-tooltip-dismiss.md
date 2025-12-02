@@ -273,3 +273,56 @@ const debouncedSetTooltip = useDebouncedCallback(setTooltip, 16);
   // ...
 />
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/hooks/useTooltip.test.ts
+describe('useTooltip dismiss behavior', () => {
+  - Test tooltip clears when onHover called with null object
+  - Test dismiss delay prevents flickering
+  - Test dismiss timer is cleared when new object hovered
+  - Test clearTooltip function clears tooltip immediately
+});
+
+describe('useTooltip keyboard dismiss', () => {
+  - Test Escape key dismisses tooltip
+  - Test other keys do not dismiss tooltip
+});
+
+describe('useTooltip touch device behavior', () => {
+  - Test tap on point shows tooltip
+  - Test tap elsewhere dismisses tooltip
+  - Test hover is ignored on touch devices
+});
+
+// src/components/EarthquakeMap/Tooltip/EarthquakeTooltip.test.tsx
+describe('EarthquakeTooltip transitions', () => {
+  - Test opacity is 1 when visible
+  - Test opacity is 0 when not visible
+  - Test transition class is applied
+  - Test data persists during fade-out animation
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Tooltip dismisses when moving away
+  Given I am on the home page
+  And earthquake data has loaded
+  And I am hovering over an earthquake point
+  When I move the cursor away from the point
+  Then the tooltip should disappear
+
+Scenario: Tooltip dismisses during map interaction
+  Given I am on the home page
+  And a tooltip is visible
+  When I start panning the map
+  Then the tooltip should disappear
+```

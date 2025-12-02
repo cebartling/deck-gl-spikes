@@ -213,3 +213,50 @@ export function depthToColorAccessible(depth: number): [number, number, number, 
   ];
 }
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/layers/depthColorScale.test.ts
+describe('depthToColor', () => {
+  - Test returns yellow for depth 0
+  - Test returns red for depth 700
+  - Test returns intermediate color for depth 350
+  - Test clamps values above MAX_DEPTH
+  - Test returns valid RGBA array with values 0-255
+});
+
+describe('depthToColorMultiStop', () => {
+  - Test interpolates between color stops correctly
+  - Test handles boundary values at each stop
+  - Test handles values beyond max depth
+});
+
+describe('createColorBuffer', () => {
+  - Test returns Uint8ClampedArray with correct length (earthquakes * 4)
+  - Test values match depthToColor output for each earthquake
+});
+
+// src/components/EarthquakeMap/Legend/ColorLegend.test.tsx
+describe('ColorLegend', () => {
+  - Test renders gradient bar
+  - Test displays "Shallow" and "Deep" labels
+  - Test displays depth range labels
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Point colors indicate depth
+  Given I am on the home page
+  And earthquake data has loaded
+  Then shallow earthquakes should appear yellow
+  And deep earthquakes should appear red
+  And the color legend should be visible
+```

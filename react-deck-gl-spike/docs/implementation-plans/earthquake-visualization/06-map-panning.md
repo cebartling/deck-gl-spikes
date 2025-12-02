@@ -201,3 +201,35 @@ const debouncedUpdate = useDebouncedCallback(
   <DeckGL ... />
 </div>
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/useMapViewState.test.ts
+describe('useMapViewState', () => {
+  - Test initial view state values
+  - Test onViewStateChange updates state correctly
+  - Test resetView returns to initial state
+});
+
+describe('constrainViewState', () => {
+  - Test constrains longitude to [-180, 180]
+  - Test constrains latitude to [-85, 85]
+  - Test preserves valid coordinates unchanged
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Pan the map
+  Given I am on the home page
+  When I click and drag on the map
+  Then the map should pan in the direction of the drag
+  And earthquake points should maintain their geographic positions
+```

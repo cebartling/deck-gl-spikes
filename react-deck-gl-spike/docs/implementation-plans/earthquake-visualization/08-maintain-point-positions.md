@@ -197,3 +197,35 @@ The key points for maintaining position stability:
 2. **Separate concerns** - Data state vs. view state
 3. **Use geographic coordinates** - Let deck.gl handle projection
 4. **Proper update triggers** - Only trigger on data changes
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code. The testing section in this file already includes a test example above.
+
+```typescript
+// src/components/EarthquakeMap/__tests__/positionStability.test.tsx
+describe('Point Position Stability', () => {
+  - Test layer memoization (layer reference doesn't change on view state change)
+  - Test point positions update correctly when data changes
+  - Test view state changes don't trigger layer recreation
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Points maintain positions during pan
+  Given I am on the home page
+  And earthquake data has loaded
+  When I pan the map
+  Then earthquake points should remain at their geographic locations
+
+Scenario: Points maintain positions during zoom
+  Given I am on the home page
+  And earthquake data has loaded
+  When I zoom the map
+  Then earthquake points should remain at their geographic locations
+```

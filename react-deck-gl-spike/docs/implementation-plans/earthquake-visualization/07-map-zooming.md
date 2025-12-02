@@ -232,3 +232,52 @@ function getLayersForZoom(zoom: number, data: Earthquake[]) {
 - Keyboard: `+`/`-` keys for zoom
 - Screen readers: Announce zoom level changes
 - Zoom controls have clear aria-labels
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/useMapNavigation.test.ts
+describe('useMapNavigation', () => {
+  - Test zoomToLocation updates view state with correct coordinates
+  - Test zoomToLocation sets transition properties
+  - Test zoomIn increases zoom level
+  - Test zoomIn respects maxZoom constraint
+  - Test zoomOut decreases zoom level
+  - Test zoomOut respects minZoom constraint
+});
+
+describe('getRadiusScale', () => {
+  - Test returns smaller scale at higher zoom levels
+  - Test returns minimum scale threshold
+});
+
+// src/components/EarthquakeMap/ZoomControls.test.tsx
+describe('ZoomControls', () => {
+  - Test renders zoom in button
+  - Test renders zoom out button
+  - Test renders reset view button
+  - Test calls onZoomIn when + clicked
+  - Test calls onZoomOut when - clicked
+  - Test calls onResetView when reset clicked
+  - Test buttons have correct aria-labels
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Zoom the map with scroll wheel
+  Given I am on the home page
+  When I scroll up on the map
+  Then the map should zoom in
+
+Scenario: Zoom the map with controls
+  Given I am on the home page
+  When I click the zoom in button
+  Then the map should zoom in
+```

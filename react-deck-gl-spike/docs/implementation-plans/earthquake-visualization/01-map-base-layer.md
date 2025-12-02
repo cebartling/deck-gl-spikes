@@ -113,3 +113,40 @@ export function MapContainer({ children }: { children: React.ReactNode }) {
 | CARTO Positron | `basemaps.cartocdn.com/gl/positron-gl-style/style.json` | Light, minimal |
 | CARTO Dark Matter | `basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json` | Dark theme |
 | OpenFreeMap | `tiles.openfreemap.org/styles/liberty/style.json` | OSM-based |
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new components. Since deck.gl and MapLibre require WebGL (not available in happy-dom/jsdom), mock these dependencies in tests.
+
+```tsx
+// src/components/EarthquakeMap/MapContainer.test.tsx
+- Test that children are rendered
+- Test responsive container classes (w-full, h-screen, min-h-[400px], md:min-h-[600px])
+
+// src/components/EarthquakeMap/EarthquakeMap.test.tsx
+- Mock react-map-gl/maplibre and @deck.gl/react
+- Test map container renders with correct classes
+- Test DeckGL and MapLibre components are rendered
+- Test initial view state configuration
+- Test controller is enabled
+- Test map style URL is correct
+```
+
+### Acceptance Tests
+
+Add Cucumber/Playwright acceptance tests to verify the map renders in a real browser:
+
+```gherkin
+# features/earthquake-map.feature
+Feature: Earthquake Map Visualization
+  Scenario: Display map with base layer
+    Given I am on the home page
+    Then I should see the map container
+    And I should see the MapLibre canvas rendering
+```
+
+Step definitions should:
+- Verify the DeckGL container is visible
+- Verify the MapLibre canvas element exists with non-zero dimensions
