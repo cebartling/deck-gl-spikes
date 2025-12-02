@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { EarthquakeTooltip } from './EarthquakeTooltip';
 import type { Earthquake } from '../../../types/earthquake';
@@ -13,6 +13,15 @@ describe('EarthquakeTooltip', () => {
     timestamp: '2024-01-01T00:00:00Z',
     location: 'San Francisco, CA',
   };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-01-02T00:00:00Z'));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it('renders earthquake magnitude', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
@@ -41,8 +50,8 @@ describe('EarthquakeTooltip', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
     const tooltip = screen.getByRole('tooltip');
-    // Offset is 10px for both x and y
-    expect(tooltip).toHaveStyle({ left: '110px', top: '210px' });
+    // Offset is 15px for x and -10px for y
+    expect(tooltip).toHaveStyle({ left: '115px', top: '190px' });
   });
 
   it('has pointer-events-none class', () => {
@@ -58,17 +67,20 @@ describe('EarthquakeTooltip', () => {
     expect(screen.getByRole('tooltip')).toBeInTheDocument();
   });
 
-  it('has aria-live polite for accessibility', () => {
+  it('has aria-label for accessibility', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
     const tooltip = screen.getByRole('tooltip');
-    expect(tooltip).toHaveAttribute('aria-live', 'polite');
+    expect(tooltip).toHaveAttribute('aria-label', 'Earthquake details: Magnitude 4.5');
   });
 
-  it('includes screen reader only text', () => {
+  it('includes screen reader only text with full details', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
-    expect(screen.getByText('Earthquake details:')).toHaveClass('sr-only');
+    const srText = screen.getByText(/Magnitude 4.5 Moderate earthquake/);
+    expect(srText).toHaveClass('sr-only');
+    expect(srText).toHaveTextContent('San Francisco, CA');
+    expect(srText).toHaveTextContent('10.0 km');
   });
 
   it('has correct z-index for overlay', () => {
@@ -82,5 +94,26 @@ describe('EarthquakeTooltip', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
     expect(screen.getByTestId('earthquake-tooltip')).toBeInTheDocument();
+  });
+
+  it('renders TooltipContent component', () => {
+    render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
+
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
+  });
+
+  it('has min-width and max-width constraints', () => {
+    render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
+
+    const tooltip = screen.getByRole('tooltip');
+    expect(tooltip).toHaveClass('min-w-[200px]');
+    expect(tooltip).toHaveClass('max-w-[300px]');
+  });
+
+  it('has backdrop blur effect', () => {
+    render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
+
+    const tooltip = screen.getByRole('tooltip');
+    expect(tooltip).toHaveClass('backdrop-blur-sm');
   });
 });
