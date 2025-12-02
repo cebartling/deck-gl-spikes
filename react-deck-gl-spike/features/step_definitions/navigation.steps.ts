@@ -14,23 +14,9 @@ When('I click the {string} link', async function (this: CustomWorld, linkText: s
   await this.page.click(`text=${linkText}`);
 });
 
-When('I click the counter button', async function (this: CustomWorld) {
-  await this.page.click('button:has-text("count is")');
-});
-
 Then('I should see the heading {string}', async function (this: CustomWorld, heading: string) {
   const h1 = this.page.locator('h1');
   await expect(h1).toHaveText(heading);
-});
-
-Then('I should see a counter button with count {string}', async function (this: CustomWorld, count: string) {
-  const button = this.page.locator('button');
-  await expect(button).toContainText(`count is ${count}`);
-});
-
-Then('I should see a link to the About page', async function (this: CustomWorld) {
-  const link = this.page.locator('a:has-text("Go to About")');
-  await expect(link).toBeVisible();
 });
 
 Then('I should see a link to the Home page', async function (this: CustomWorld) {
@@ -51,6 +37,7 @@ Then('I should be on the About page', async function (this: CustomWorld) {
 
 Then('I should be on the Home page', async function (this: CustomWorld) {
   await expect(this.page).toHaveURL(`${this.baseUrl}/`);
-  const h1 = this.page.locator('h1');
-  await expect(h1).toHaveText('Vite + React');
+  // Home page now shows the earthquake map
+  const mapContainer = this.page.locator('#deckgl-overlay');
+  await expect(mapContainer).toBeVisible({ timeout: 10000 });
 });
