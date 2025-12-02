@@ -1,18 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
 import type { MapViewState } from '@deck.gl/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createEarthquakeLayer } from './layers/earthquakeLayer';
-import { useEarthquakeData } from '../../hooks/useEarthquakeData';
-
-const INITIAL_VIEW_STATE: MapViewState = {
-  longitude: 0,
-  latitude: 20,
-  zoom: 1.5,
-  pitch: 0,
-  bearing: 0,
-};
+import { useEarthquakeStore, useMapViewStore } from '../../stores';
 
 // Free OpenStreetMap-based style
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
@@ -22,12 +14,29 @@ const EARTHQUAKE_DATA_URL =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
 
 export function EarthquakeMap() {
-  const { data: earthquakes, loading, error } = useEarthquakeData(EARTHQUAKE_DATA_URL);
+  // Earthquake store
+  const earthquakes = useEarthquakeStore((state) => state.earthquakes);
+  const loading = useEarthquakeStore((state) => state.loading);
+  const error = useEarthquakeStore((state) => state.error);
+  const fetchEarthquakes = useEarthquakeStore((state) => state.fetchEarthquakes);
+
+  // Map view store
+  const viewState = useMapViewStore((state) => state.viewState);
+  const setViewState = useMapViewStore((state) => state.setViewState);
+
+  // Fetch earthquake data on mount
+  useEffect(() => {
+    fetchEarthquakes(EARTHQUAKE_DATA_URL);
+  }, [fetchEarthquakes]);
 
   const layers = useMemo(
     () => [createEarthquakeLayer(earthquakes)],
     [earthquakes]
   );
+
+  const handleViewStateChange = (params: { viewState: MapViewState }) => {
+    setViewState(params.viewState);
+  };
 
   return (
     <div className="w-full h-full relative">
@@ -42,7 +51,8 @@ export function EarthquakeMap() {
         </div>
       )}
       <DeckGL
-        initialViewState={INITIAL_VIEW_STATE}
+        viewState={viewState}
+        onViewStateChange={handleViewStateChange as never}
         controller={true}
         layers={layers}
       >

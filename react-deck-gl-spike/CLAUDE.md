@@ -24,6 +24,7 @@ Before running acceptance tests: `npx playwright install chromium`
 
 - **Framework**: React 19, TypeScript 5.9, Vite (rolldown-vite)
 - **Mapping**: deck.gl 9.2, MapLibre GL, react-map-gl
+- **State**: Zustand 5 for global state management
 - **Validation**: Zod 4 for runtime type validation
 - **Styling**: Tailwind CSS 4
 - **Testing**: Vitest + Testing Library (unit), Cucumber + Playwright (acceptance)
@@ -38,6 +39,10 @@ src/
 │       ├── MapContainer.tsx       # Responsive container wrapper
 │       └── layers/
 │           └── earthquakeLayer.ts # ScatterplotLayer factory
+├── stores/
+│   ├── index.ts                   # Barrel exports
+│   ├── earthquakeStore.ts         # Earthquake data state
+│   └── mapViewStore.ts            # Map view state (zoom, center, etc.)
 ├── hooks/
 │   └── useEarthquakeData.ts       # Fetches USGS data with Zod validation
 ├── types/
@@ -69,10 +74,24 @@ export function createEarthquakeLayer(data: Earthquake[]) {
 }
 ```
 
-### Data Fetching
-Custom hooks fetch and transform external data:
+### Zustand Stores
+Global state is managed with Zustand stores in `src/stores/`:
 ```typescript
-const { data, loading, error } = useEarthquakeData(url);
+// Access state with selectors (avoids unnecessary re-renders)
+const earthquakes = useEarthquakeStore((state) => state.earthquakes);
+const fetchEarthquakes = useEarthquakeStore((state) => state.fetchEarthquakes);
+
+// Map view state
+const viewState = useMapViewStore((state) => state.viewState);
+const setViewState = useMapViewStore((state) => state.setViewState);
+```
+
+Stores include `reset()` methods for testing. Call in `beforeEach`:
+```typescript
+beforeEach(() => {
+  useEarthquakeStore.getState().reset();
+  useMapViewStore.getState().reset();
+});
 ```
 
 ## Testing Conventions
