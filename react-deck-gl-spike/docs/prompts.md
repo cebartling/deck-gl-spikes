@@ -56,6 +56,17 @@ Add vitest support to the project for unit and component testing.
 - Open a pull request for review.
 ```
 
+### Add Zod dependency
+
+```
+Add Zod to the project.
+- Create a feature branch from main.
+- Install zod as a dependency.
+- Commit the changes with a descriptive message.
+- Open a pull request for review.
+```
+
+
 ### Create a feature file with acceptance criteria
 
 ```
