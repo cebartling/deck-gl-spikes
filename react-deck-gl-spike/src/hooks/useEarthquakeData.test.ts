@@ -156,6 +156,66 @@ describe('useEarthquakeData', () => {
       expect(fetchSpy).toHaveBeenCalledTimes(2);
     });
   });
+
+  it('sets error state when API response fails Zod validation', async () => {
+    const invalidResponse = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          id: 'eq1',
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: ['invalid', 37.5, 10], // Invalid: string instead of number
+          },
+          properties: {
+            mag: 4.5,
+            time: '2024-01-01T00:00:00Z',
+            place: 'San Francisco, CA',
+          },
+        },
+      ],
+    };
+
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => invalidResponse,
+    } as Response);
+
+    const { result } = renderHook(() =>
+      useEarthquakeData('https://example.com/earthquakes.json')
+    );
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.data).toEqual([]);
+  });
+
+  it('sets error state when API response has wrong structure', async () => {
+    const invalidResponse = {
+      type: 'InvalidType', // Wrong type
+      features: [],
+    };
+
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => invalidResponse,
+    } as Response);
+
+    const { result } = renderHook(() =>
+      useEarthquakeData('https://example.com/earthquakes.json')
+    );
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.data).toEqual([]);
+  });
 });
 
 describe('transformGeoJSONFeature', () => {
@@ -185,5 +245,45 @@ describe('transformGeoJSONFeature', () => {
       timestamp: '2024-06-15T12:00:00Z',
       location: 'Central California',
     });
+  });
+
+  it('handles null magnitude by defaulting to 0', () => {
+    const feature: GeoJSONFeature = {
+      id: 'test-id',
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-120.5, 35.0, 25.5],
+      },
+      properties: {
+        mag: null,
+        time: '2024-06-15T12:00:00Z',
+        place: 'Central California',
+      },
+    };
+
+    const result = transformGeoJSONFeature(feature);
+
+    expect(result.magnitude).toBe(0);
+  });
+
+  it('handles null place by defaulting to Unknown location', () => {
+    const feature: GeoJSONFeature = {
+      id: 'test-id',
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-120.5, 35.0, 25.5],
+      },
+      properties: {
+        mag: 5.5,
+        time: '2024-06-15T12:00:00Z',
+        place: null,
+      },
+    };
+
+    const result = transformGeoJSONFeature(feature);
+
+    expect(result.location).toBe('Unknown location');
   });
 });
