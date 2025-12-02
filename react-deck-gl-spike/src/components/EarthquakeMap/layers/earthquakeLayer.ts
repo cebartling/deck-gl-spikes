@@ -1,5 +1,7 @@
 import { ScatterplotLayer } from '@deck.gl/layers';
+import { COORDINATE_SYSTEM } from '@deck.gl/core';
 import type { Earthquake } from '../../../types/earthquake';
+import { filterValidEarthquakes } from '../../../utils/validateCoordinates';
 
 export function getDepthColor(depth: number): [number, number, number, number] {
   // Yellow (shallow) to Red (deep)
@@ -8,9 +10,14 @@ export function getDepthColor(depth: number): [number, number, number, number] {
 }
 
 export function createEarthquakeLayer(data: Earthquake[]) {
+  // Filter out invalid coordinates before rendering
+  const validData = filterValidEarthquakes(data);
+
   return new ScatterplotLayer<Earthquake>({
     id: 'earthquake-layer',
-    data,
+    data: validData,
+    // Use Web Mercator projection (default for lng/lat coordinates)
+    coordinateSystem: COORDINATE_SYSTEM.LNGLAT,
     pickable: true,
     opacity: 0.6,
     stroked: true,

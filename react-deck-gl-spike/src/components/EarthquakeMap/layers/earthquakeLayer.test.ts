@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ScatterplotLayer } from '@deck.gl/layers';
+import { COORDINATE_SYSTEM } from '@deck.gl/core';
 import { createEarthquakeLayer, getDepthColor } from './earthquakeLayer';
 import type { Earthquake } from '../../../types/earthquake';
 
@@ -88,15 +89,48 @@ describe('earthquakeLayer', () => {
       expect(radius2).toBeCloseTo(Math.pow(2, 6.0) * 1000);
     });
 
-    it('passes data to the layer', () => {
+    it('passes filtered data to the layer', () => {
       const layer = createEarthquakeLayer(mockEarthquakes);
-      expect(layer.props.data).toBe(mockEarthquakes);
+      expect(layer.props.data).toEqual(mockEarthquakes);
     });
 
     it('handles empty data array', () => {
       const layer = createEarthquakeLayer([]);
       expect(layer).toBeInstanceOf(ScatterplotLayer);
       expect(layer.props.data).toEqual([]);
+    });
+
+    it('uses LNGLAT coordinate system', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      expect(layer.props.coordinateSystem).toBe(COORDINATE_SYSTEM.LNGLAT);
+    });
+
+    it('filters out earthquakes with invalid coordinates', () => {
+      const earthquakesWithInvalid: Earthquake[] = [
+        ...mockEarthquakes,
+        {
+          id: '3',
+          longitude: 181, // Invalid
+          latitude: 37.5,
+          depth: 10,
+          magnitude: 4.5,
+          timestamp: '2024-01-03T00:00:00Z',
+          location: 'Invalid Location',
+        },
+        {
+          id: '4',
+          longitude: -122.5,
+          latitude: 91, // Invalid
+          depth: 10,
+          magnitude: 4.5,
+          timestamp: '2024-01-04T00:00:00Z',
+          location: 'Invalid Location',
+        },
+      ];
+
+      const layer = createEarthquakeLayer(earthquakesWithInvalid);
+      expect(layer.props.data).toHaveLength(2);
+      expect(layer.props.data).toEqual(mockEarthquakes);
     });
   });
 
