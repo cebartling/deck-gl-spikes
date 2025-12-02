@@ -28,11 +28,6 @@ export function EarthquakeMap() {
       >
         <Map
           mapStyle={MAP_STYLE}
-          longitude={viewState.longitude}
-          latitude={viewState.latitude}
-          zoom={viewState.zoom}
-          pitch={viewState.pitch}
-          bearing={viewState.bearing}
         />
       </DeckGL>
     </div>
