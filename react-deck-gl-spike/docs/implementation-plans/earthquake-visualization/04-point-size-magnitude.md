@@ -178,3 +178,47 @@ function getResponsiveSizeConfig() {
 - Ensure minimum size of 3px for touch targets
 - Combine size with color for redundant encoding
 - Add legend to explain size mapping
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/layers/magnitudeScale.test.ts
+describe('magnitudeToRadius', () => {
+  - Test returns larger radius for larger magnitudes
+  - Test exponential scaling (magnitude 5 should be ~2x magnitude 4)
+  - Test handles edge cases (negative, zero, very large magnitudes)
+  - Test minimum magnitude threshold
+});
+
+describe('magnitudeToRadiusPower', () => {
+  - Test returns value within [minRadius, maxRadius] bounds
+  - Test normalized scaling across magnitude range
+});
+
+describe('createRadiusBuffer', () => {
+  - Test returns Float32Array with correct length
+  - Test values match magnitudeToRadius output
+});
+
+// src/components/EarthquakeMap/Legend/SizeLegend.test.tsx
+describe('SizeLegend', () => {
+  - Test renders all magnitude samples
+  - Test displays correct magnitude labels
+  - Test circle sizes increase with magnitude
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Point sizes reflect magnitude
+  Given I am on the home page
+  And earthquake data has loaded
+  Then larger earthquakes should have visibly larger points
+  And the size legend should be visible
+```

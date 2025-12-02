@@ -264,3 +264,39 @@ const handleInteraction = useCallback(
   {/* Tooltip content */}
 </div>
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/components/EarthquakeMap/hooks/useTooltip.test.ts
+describe('useTooltip', () => {
+  - Test initial tooltip state is null
+  - Test onHover with object sets tooltip state
+  - Test onHover without object clears tooltip state
+  - Test tooltip contains correct x, y coordinates
+});
+
+// src/components/EarthquakeMap/Tooltip/EarthquakeTooltip.test.tsx
+describe('EarthquakeTooltip', () => {
+  - Test renders earthquake magnitude
+  - Test renders earthquake location
+  - Test positions at correct x, y coordinates
+  - Test has pointer-events-none class
+  - Test has tooltip ARIA role
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Tooltip appears on hover
+  Given I am on the home page
+  And earthquake data has loaded
+  When I hover over an earthquake point
+  Then a tooltip should appear near the cursor
+```

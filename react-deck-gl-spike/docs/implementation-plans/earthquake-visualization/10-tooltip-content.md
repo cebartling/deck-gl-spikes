@@ -286,3 +286,62 @@ function getDepthColorCSS(depth: number): string {
   {/* Visual content */}
 </div>
 ```
+
+## Testing
+
+### Unit Tests
+
+Unit tests must be added for all new code.
+
+```typescript
+// src/utils/formatters.test.ts
+describe('formatMagnitude', () => {
+  - Test returns correct value with one decimal place
+  - Test returns "Minor" for magnitude < 3
+  - Test returns "Great" for magnitude >= 7
+  - Test all magnitude descriptors at boundaries
+});
+
+describe('formatDepth', () => {
+  - Test returns depth with unit (km)
+  - Test returns "Shallow" for depth < 70
+  - Test returns "Intermediate" for depth 70-300
+  - Test returns "Deep" for depth >= 300
+});
+
+describe('formatDateTime', () => {
+  - Test returns formatted date string
+  - Test returns formatted time string with timezone
+  - Test returns relative time for recent events
+});
+
+describe('formatCoordinates', () => {
+  - Test formats positive lat/lng with N/E
+  - Test formats negative lat/lng with S/W
+  - Test returns correct precision
+});
+
+// src/components/EarthquakeMap/Tooltip/TooltipContent.test.tsx
+describe('TooltipContent', () => {
+  - Test renders magnitude value and descriptor
+  - Test renders location
+  - Test renders coordinates
+  - Test renders depth with classification
+  - Test renders date and time
+  - Test renders relative time when available
+});
+```
+
+### Acceptance Tests
+
+```gherkin
+# features/earthquake-map.feature
+Scenario: Tooltip displays earthquake details
+  Given I am on the home page
+  And earthquake data has loaded
+  When I hover over an earthquake point
+  Then the tooltip should display the magnitude
+  And the tooltip should display the location
+  And the tooltip should display the depth
+  And the tooltip should display the date and time
+```
