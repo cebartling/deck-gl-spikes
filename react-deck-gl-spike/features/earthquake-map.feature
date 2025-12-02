@@ -34,3 +34,10 @@ Feature: Earthquake Map Visualization
     Given I am on the home page
     And earthquake data has loaded
     Then the size legend should be visible
+
+  Scenario: Pan the map
+    Given I am on the home page
+    And earthquake data has loaded
+    When I click and drag on the map
+    Then the map should pan in the direction of the drag
+    And earthquake points should maintain their geographic positions

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
 import type { MapViewState } from '@deck.gl/core';
@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { createEarthquakeLayer } from './layers/earthquakeLayer';
 import { SizeLegend, ColorLegend } from './Legend';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
+import { constrainViewState } from '../../utils/constrainViewState';
 
 // Free OpenStreetMap-based style
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
@@ -35,9 +36,12 @@ export function EarthquakeMap() {
     [earthquakes]
   );
 
-  const handleViewStateChange = (params: { viewState: MapViewState }) => {
-    setViewState(params.viewState);
-  };
+  const handleViewStateChange = useCallback(
+    (params: { viewState: MapViewState }) => {
+      setViewState(constrainViewState(params.viewState));
+    },
+    [setViewState]
+  );
 
   return (
     <div className="w-full h-full relative">
