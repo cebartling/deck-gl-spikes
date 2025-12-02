@@ -97,7 +97,7 @@ export function DateRangeSelector({
               px-2 py-1 text-xs rounded transition-colors
               ${
                 isPresetActive(value, days)
-                  ? 'bg-blue-500 text-white'
+                  ? 'bg-blue-200 text-blue-900 font-semibold'
                   : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
               }
             `}

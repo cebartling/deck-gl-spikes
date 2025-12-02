@@ -231,7 +231,7 @@ describe('DateRangeSelector presets', () => {
 
     const allButton = screen.getByTestId('preset-all');
     expect(allButton).toHaveAttribute('aria-pressed', 'true');
-    expect(allButton).toHaveClass('bg-blue-500');
+    expect(allButton).toHaveClass('bg-blue-200');
   });
 
   it('preset buttons have aria-pressed attribute', () => {
@@ -256,7 +256,7 @@ describe('DateRangeSelector presets', () => {
 
     const sevenDayButton = screen.getByTestId('preset-7d');
     expect(sevenDayButton).toHaveAttribute('aria-pressed', 'true');
-    expect(sevenDayButton).toHaveClass('bg-blue-500');
+    expect(sevenDayButton).toHaveClass('bg-blue-200');
   });
 
   it('preset group has accessible label', () => {
