@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { ScatterplotLayer } from '@deck.gl/layers';
 import { COORDINATE_SYSTEM } from '@deck.gl/core';
-import { createEarthquakeLayer, getDepthColor } from './earthquakeLayer';
+import { createEarthquakeLayer } from './earthquakeLayer';
 import { magnitudeToRadius } from './magnitudeScale';
+import { depthToColorMultiStop } from './depthColorScale';
 import type { Earthquake } from '../../../types/earthquake';
 
 describe('earthquakeLayer', () => {
@@ -140,35 +141,19 @@ describe('earthquakeLayer', () => {
     });
   });
 
-  describe('getDepthColor', () => {
-    it('returns valid RGBA array', () => {
-      const color = getDepthColor(100);
-      expect(color).toHaveLength(4);
-      expect(color.every((c) => c >= 0 && c <= 255)).toBe(true);
-    });
+  describe('getFillColor', () => {
+    it('uses depthToColorMultiStop for fill color', () => {
+      const layer = createEarthquakeLayer(mockEarthquakes);
+      const getFillColor = layer.props.getFillColor as (
+        d: Earthquake
+      ) => [number, number, number, number];
 
-    it('returns yellow color for shallow depth (0km)', () => {
-      const color = getDepthColor(0);
-      expect(color).toEqual([255, 255, 0, 180]);
-    });
+      const color1 = getFillColor(mockEarthquakes[0]); // depth 10
+      const color2 = getFillColor(mockEarthquakes[1]); // depth 350
 
-    it('returns red color for deep depth (700km+)', () => {
-      const color = getDepthColor(700);
-      expect(color).toEqual([255, 0, 0, 180]);
-    });
-
-    it('returns intermediate color for medium depth', () => {
-      const color = getDepthColor(350); // halfway
-      expect(color[0]).toBe(255); // red stays at 255
-      expect(color[1]).toBeCloseTo(128, 0); // green reduces
-      expect(color[2]).toBe(0); // blue stays at 0
-      expect(color[3]).toBe(180); // alpha constant
-    });
-
-    it('clamps depth at 700km maximum', () => {
-      const colorAt700 = getDepthColor(700);
-      const colorAt1000 = getDepthColor(1000);
-      expect(colorAt1000).toEqual(colorAt700);
+      // Verify uses depthToColorMultiStop function
+      expect(color1).toEqual(depthToColorMultiStop(10));
+      expect(color2).toEqual(depthToColorMultiStop(350));
     });
   });
 });

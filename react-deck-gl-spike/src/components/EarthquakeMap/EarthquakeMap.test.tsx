@@ -38,9 +38,10 @@ vi.mock('./layers/earthquakeLayer', () => ({
   createEarthquakeLayer: vi.fn(() => ({ id: 'earthquake-layer' })),
 }));
 
-// Mock SizeLegend
+// Mock Legend components
 vi.mock('./Legend', () => ({
   SizeLegend: vi.fn(() => <div data-testid="size-legend">Magnitude Legend</div>),
+  ColorLegend: vi.fn(() => <div data-testid="color-legend">Depth Legend</div>),
 }));
 
 import { EarthquakeMap } from './EarthquakeMap';
@@ -226,5 +227,63 @@ describe('EarthquakeMap', () => {
     render(<EarthquakeMap />);
 
     expect(screen.queryByTestId('size-legend')).not.toBeInTheDocument();
+  });
+
+  it('shows color legend when earthquake data is loaded', async () => {
+    // Mock fetch to resolve with earthquake data
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        type: 'FeatureCollection',
+        features: [{
+          id: '1',
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [0, 0, 10] },
+          properties: { mag: 5.0, time: '2024-01-01T00:00:00Z', place: 'Test' },
+        }],
+      }),
+    } as Response);
+
+    render(<EarthquakeMap />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('color-legend')).toBeInTheDocument();
+    });
+  });
+
+  it('hides color legend while loading', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: true,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('color-legend')).not.toBeInTheDocument();
+  });
+
+  it('hides color legend when there is an error', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: false,
+      error: new Error('Test error'),
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('color-legend')).not.toBeInTheDocument();
+  });
+
+  it('hides color legend when no earthquakes loaded', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: false,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('color-legend')).not.toBeInTheDocument();
   });
 });

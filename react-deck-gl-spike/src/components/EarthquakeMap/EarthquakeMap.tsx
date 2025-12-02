@@ -4,7 +4,7 @@ import DeckGL from '@deck.gl/react';
 import type { MapViewState } from '@deck.gl/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createEarthquakeLayer } from './layers/earthquakeLayer';
-import { SizeLegend } from './Legend';
+import { SizeLegend, ColorLegend } from './Legend';
 import { useEarthquakeStore, useMapViewStore } from '../../stores';
 
 // Free OpenStreetMap-based style
@@ -59,7 +59,12 @@ export function EarthquakeMap() {
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
-      {!loading && !error && earthquakes.length > 0 && <SizeLegend />}
+      {!loading && !error && earthquakes.length > 0 && (
+        <>
+          <SizeLegend />
+          <ColorLegend />
+        </>
+      )}
     </div>
   );
 }
