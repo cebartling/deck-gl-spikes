@@ -38,6 +38,11 @@ vi.mock('./layers/earthquakeLayer', () => ({
   createEarthquakeLayer: vi.fn(() => ({ id: 'earthquake-layer' })),
 }));
 
+// Mock SizeLegend
+vi.mock('./Legend', () => ({
+  SizeLegend: vi.fn(() => <div data-testid="size-legend">Magnitude Legend</div>),
+}));
+
 import { EarthquakeMap } from './EarthquakeMap';
 
 describe('EarthquakeMap', () => {
@@ -163,5 +168,63 @@ describe('EarthquakeMap', () => {
     expect(deckgl).toHaveAttribute('data-longitude', '-122.4');
     expect(deckgl).toHaveAttribute('data-latitude', '37.8');
     expect(deckgl).toHaveAttribute('data-zoom', '10');
+  });
+
+  it('shows size legend when earthquake data is loaded', async () => {
+    // Mock fetch to resolve with earthquake data
+    vi.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        type: 'FeatureCollection',
+        features: [{
+          id: '1',
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [0, 0, 10] },
+          properties: { mag: 5.0, time: '2024-01-01T00:00:00Z', place: 'Test' },
+        }],
+      }),
+    } as Response);
+
+    render(<EarthquakeMap />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId('size-legend')).toBeInTheDocument();
+    });
+  });
+
+  it('hides size legend while loading', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: true,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('size-legend')).not.toBeInTheDocument();
+  });
+
+  it('hides size legend when there is an error', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: false,
+      error: new Error('Test error'),
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('size-legend')).not.toBeInTheDocument();
+  });
+
+  it('hides size legend when no earthquakes loaded', () => {
+    useEarthquakeStore.setState({
+      earthquakes: [],
+      loading: false,
+      error: null,
+    });
+
+    render(<EarthquakeMap />);
+
+    expect(screen.queryByTestId('size-legend')).not.toBeInTheDocument();
   });
 });

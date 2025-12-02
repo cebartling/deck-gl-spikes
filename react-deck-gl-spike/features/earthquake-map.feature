@@ -29,3 +29,8 @@ Feature: Earthquake Map Visualization
     And earthquake data has loaded
     Then I should see earthquake points rendered on the map
     And the map should render without coordinate errors
+
+  Scenario: Point sizes reflect magnitude
+    Given I am on the home page
+    And earthquake data has loaded
+    Then the size legend should be visible

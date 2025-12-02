@@ -1,0 +1,1 @@
+export { SizeLegend } from './SizeLegend';

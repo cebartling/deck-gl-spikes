@@ -2,6 +2,7 @@ import { ScatterplotLayer } from '@deck.gl/layers';
 import { COORDINATE_SYSTEM } from '@deck.gl/core';
 import type { Earthquake } from '../../../types/earthquake';
 import { filterValidEarthquakes } from '../../../utils/validateCoordinates';
+import { magnitudeToRadius } from './magnitudeScale';
 
 export function getDepthColor(depth: number): [number, number, number, number] {
   // Yellow (shallow) to Red (deep)
@@ -23,11 +24,12 @@ export function createEarthquakeLayer(data: Earthquake[]) {
     stroked: true,
     filled: true,
     radiusScale: 1,
-    radiusMinPixels: 2,
-    radiusMaxPixels: 100,
+    radiusMinPixels: 3, // Minimum visibility for touch targets
+    radiusMaxPixels: 50, // Prevent visual clutter
+    radiusUnits: 'meters', // Radius in world coordinates
     lineWidthMinPixels: 1,
     getPosition: (d) => [d.longitude, d.latitude],
-    getRadius: (d) => Math.pow(2, d.magnitude) * 1000,
+    getRadius: (d) => magnitudeToRadius(d.magnitude),
     getFillColor: (d) => getDepthColor(d.depth),
     getLineColor: [0, 0, 0, 50],
     updateTriggers: {
