@@ -70,3 +70,38 @@ Feature: Earthquake Map Visualization
     Given I am on the home page
     And earthquake data has loaded
     Then the earthquake layer should be pickable for tooltip display
+
+  Scenario: Date range selector is visible
+    Given I am on the home page
+    And earthquake data has loaded
+    Then I should see the date range selector
+    And I should see the time period presets
+
+  Scenario: Filter earthquakes using 24 hour preset
+    Given I am on the home page
+    And earthquake data has loaded
+    When I click the "24h" preset button
+    Then the earthquake count should update
+    And the filter indicator should show active state
+
+  Scenario: Filter earthquakes using 7 day preset
+    Given I am on the home page
+    And earthquake data has loaded
+    When I click the "7d" preset button
+    Then the earthquake count should update
+    And the filter indicator should show active state
+
+  Scenario: Clear filter using All preset
+    Given I am on the home page
+    And earthquake data has loaded
+    When I click the "7d" preset button
+    And I click the "All" preset button
+    Then the earthquake count should show all earthquakes
+    And the filter indicator should not show active state
+
+  Scenario: Earthquake stats display updates with filter
+    Given I am on the home page
+    And earthquake data has loaded
+    Then I should see the earthquake stats panel
+    When I click the "7d" preset button
+    Then the stats should indicate filtering is active

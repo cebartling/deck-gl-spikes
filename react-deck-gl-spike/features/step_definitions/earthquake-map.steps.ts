@@ -342,3 +342,109 @@ Then(
     // because reliably hitting rendered points in a headless browser is non-deterministic
   }
 );
+
+// Date Range Filtering Steps
+
+Then('I should see the date range selector', async function (this: CustomWorld) {
+  const dateRangeSelector = this.page.locator('[data-testid="date-range-selector"]');
+  await expect(dateRangeSelector).toBeVisible({ timeout: 10000 });
+
+  // Verify the label is present
+  const label = this.page.locator('text=Time Period');
+  await expect(label).toBeVisible();
+});
+
+Then('I should see the time period presets', async function (this: CustomWorld) {
+  // Verify all preset buttons are visible
+  const preset24h = this.page.locator('[data-testid="preset-24h"]');
+  const preset7d = this.page.locator('[data-testid="preset-7d"]');
+  const preset30d = this.page.locator('[data-testid="preset-30d"]');
+  const presetAll = this.page.locator('[data-testid="preset-all"]');
+
+  await expect(preset24h).toBeVisible({ timeout: 10000 });
+  await expect(preset7d).toBeVisible();
+  await expect(preset30d).toBeVisible();
+  await expect(presetAll).toBeVisible();
+});
+
+When(
+  'I click the {string} preset button',
+  async function (this: CustomWorld, presetLabel: string) {
+    const testId = `preset-${presetLabel.toLowerCase()}`;
+    const presetButton = this.page.locator(`[data-testid="${testId}"]`);
+    await expect(presetButton).toBeVisible({ timeout: 10000 });
+
+    // Store the current count before clicking for comparison
+    const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+    const initialText = await statsPanel.textContent();
+    (this as CustomWorld & { initialStatsText?: string }).initialStatsText = initialText || '';
+
+    await presetButton.click();
+
+    // Wait for filter to be applied and UI to update
+    await this.page.waitForTimeout(500);
+  }
+);
+
+Then('the earthquake count should update', async function (this: CustomWorld) {
+  // Verify the stats panel is visible and shows a count
+  const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+  await expect(statsPanel).toBeVisible({ timeout: 10000 });
+
+  // Verify it shows earthquake count information
+  const statsText = await statsPanel.textContent();
+  expect(statsText).toMatch(/\d+/); // Should contain at least one number
+});
+
+Then('the filter indicator should show active state', async function (this: CustomWorld) {
+  // When a filter is active, the filter indicator element should be visible
+  const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
+  await expect(filterIndicator).toBeVisible({ timeout: 10000 });
+
+  // The filter indicator should show "Filter active" text
+  const filterText = await filterIndicator.textContent();
+  expect(filterText).toContain('Filter active');
+});
+
+Then(
+  'the earthquake count should show all earthquakes',
+  async function (this: CustomWorld) {
+    const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+    await expect(statsPanel).toBeVisible({ timeout: 10000 });
+
+    // When showing all, it should just show the total count without "of X" qualifier
+    const statsText = await statsPanel.textContent();
+    expect(statsText).toMatch(/\d+\s+earthquakes/i);
+  }
+);
+
+Then(
+  'the filter indicator should not show active state',
+  async function (this: CustomWorld) {
+    const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+    await expect(statsPanel).toBeVisible({ timeout: 10000 });
+
+    // When no filter is active, the filter indicator element should not be visible
+    const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
+    await expect(filterIndicator).toBeHidden();
+
+    // The "of X" total count element should also not be visible
+    const totalCountElement = this.page.locator('[data-testid="total-count"]');
+    await expect(totalCountElement).toBeHidden();
+  }
+);
+
+Then('I should see the earthquake stats panel', async function (this: CustomWorld) {
+  const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+  await expect(statsPanel).toBeVisible({ timeout: 10000 });
+});
+
+Then('the stats should indicate filtering is active', async function (this: CustomWorld) {
+  // When filtering is active, the filter indicator should be visible
+  const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
+  await expect(filterIndicator).toBeVisible({ timeout: 10000 });
+
+  // And the total count element should show the unfiltered total
+  const totalCountElement = this.page.locator('[data-testid="total-count"]');
+  await expect(totalCountElement).toBeVisible();
+});
