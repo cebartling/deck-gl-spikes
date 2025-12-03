@@ -18,7 +18,7 @@ describe('useEarthquakeData', () => {
         },
         properties: {
           mag: 4.5,
-          time: '2024-01-01T00:00:00Z',
+          time: 1704067200000, // 2024-01-01T00:00:00.000Z
           place: 'San Francisco, CA',
         },
       },
@@ -31,7 +31,7 @@ describe('useEarthquakeData', () => {
         },
         properties: {
           mag: 6.0,
-          time: '2024-01-02T00:00:00Z',
+          time: 1704153600000, // 2024-01-02T00:00:00.000Z
           place: 'Tokyo, Japan',
         },
       },
@@ -96,7 +96,7 @@ describe('useEarthquakeData', () => {
       latitude: 37.5,
       depth: 10,
       magnitude: 4.5,
-      timestamp: '2024-01-01T00:00:00Z',
+      timestamp: '2024-01-01T00:00:00.000Z',
       location: 'San Francisco, CA',
     });
   });
@@ -170,7 +170,7 @@ describe('useEarthquakeData', () => {
           },
           properties: {
             mag: 4.5,
-            time: '2024-01-01T00:00:00Z',
+            time: 1704067200000,
             place: 'San Francisco, CA',
           },
         },
@@ -229,7 +229,7 @@ describe('transformGeoJSONFeature', () => {
       },
       properties: {
         mag: 5.5,
-        time: '2024-06-15T12:00:00Z',
+        time: 1718452800000, // 2024-06-15T12:00:00.000Z
         place: 'Central California',
       },
     };
@@ -242,7 +242,7 @@ describe('transformGeoJSONFeature', () => {
       latitude: 35.0,
       depth: 25.5,
       magnitude: 5.5,
-      timestamp: '2024-06-15T12:00:00Z',
+      timestamp: '2024-06-15T12:00:00.000Z',
       location: 'Central California',
     });
   });
@@ -257,7 +257,7 @@ describe('transformGeoJSONFeature', () => {
       },
       properties: {
         mag: null,
-        time: '2024-06-15T12:00:00Z',
+        time: 1718452800000,
         place: 'Central California',
       },
     };
@@ -277,7 +277,7 @@ describe('transformGeoJSONFeature', () => {
       },
       properties: {
         mag: 5.5,
-        time: '2024-06-15T12:00:00Z',
+        time: 1718452800000,
         place: null,
       },
     };

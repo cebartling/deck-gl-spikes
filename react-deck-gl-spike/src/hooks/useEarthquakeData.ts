@@ -12,7 +12,7 @@ export function transformGeoJSONFeature(feature: GeoJSONFeature): Earthquake {
     latitude: feature.geometry.coordinates[1],
     depth: feature.geometry.coordinates[2],
     magnitude: feature.properties.mag ?? 0,
-    timestamp: feature.properties.time,
+    timestamp: new Date(feature.properties.time).toISOString(),
     location: feature.properties.place ?? 'Unknown location',
   };
 }

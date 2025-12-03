@@ -23,7 +23,7 @@ export const GeoJSONFeatureSchema = z.object({
   }),
   properties: z.object({
     mag: z.number().nullable(),
-    time: z.coerce.string(),
+    time: z.number(),
     place: z.string().nullable(),
   }),
 });
