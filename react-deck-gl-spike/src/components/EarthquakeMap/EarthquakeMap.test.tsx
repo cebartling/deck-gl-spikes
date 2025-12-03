@@ -243,7 +243,7 @@ describe('EarthquakeMap', () => {
           id: '1',
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [0, 0, 10] },
-          properties: { mag: 5.0, time: '2024-01-01T00:00:00Z', place: 'Test' },
+          properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
         }],
       }),
     } as Response);
@@ -301,7 +301,7 @@ describe('EarthquakeMap', () => {
           id: '1',
           type: 'Feature',
           geometry: { type: 'Point', coordinates: [0, 0, 10] },
-          properties: { mag: 5.0, time: '2024-01-01T00:00:00Z', place: 'Test' },
+          properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
         }],
       }),
     } as Response);
