@@ -80,34 +80,35 @@ Add zustand to the project.
 ### Create a feature file with acceptance criteria
 
 ```
-Create a feature to plot earthquake data on a map visualization.
+Create a feature to plot county voting data on a map visualization.
 - Define the feature file with scenarios and acceptance criteria.
 - Keep the content concise and focused on the visualization aspect. No implementation details.
 - Put the feature file in the @docs/features directory.
-- Name the feature file earthquake-visualization.md.
+- Name the feature file county-voting-visualization.md.
 - Create a feature branch from main.
 - Commit the changes with a descriptive message.
-- Open a pull request for review.   
+- Open a pull request for review.
 ```
 
-### Create implementation plans for the earthquake visualization feature acceptance criteria
+### Create implementation plans for a map visualization feature user stories
 
 ```
-Create implementation plans for the earthquake visualization feature acceptance criteria.
-- The feature file: @docs/features/earthquake-visualization.md.
-- Define an implementation plan for each acceptance criterium in the feature file.
-- Each implementation plan should be written to @docs/implementation-plans/earthquake-visualization directory.
+Create implementation plans for the county voting visualization feature user stories.
+- The feature file: @docs/features/county-voting-visualization.md.
+- Define an implementation plan for each user story in the feature file.
+- Each implementation plan should be written to @docs/implementation-plans/county-voting-visualization directory.
 - The implementation plans should include:
   - A brief description of the approach.
   - The main steps involved in the implementation.
   - Feel free to include code snippets if necessary.
   - Feel free to use Mermaid diagrams if necessary.
-  - Any libraries or tools that will be used. Use MapLibre GL and deck.gl for the map visualization and layers.
+  - Use MapLibre GL and deck.gl for the map visualization and layers.
+  - Any libraries or tools that will be used.
   - Consider performance optimizations for rendering large datasets.
   - Consider responsiveness for different screen sizes.
 - Create a feature branch from main.
 - Commit the changes with a descriptive message.
-- Open a pull request for review.   
+- Open a pull request for review.
 ```
 
 ### Implement implementation plan
