@@ -7,9 +7,9 @@ import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="h-screen flex flex-col bg-gray-900">
       <Header />
-      <main>
+      <main className="flex-1 overflow-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

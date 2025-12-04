@@ -23,11 +23,9 @@ describe('Earthquakes', () => {
   it('renders the MapContainer', () => {
     render(<Earthquakes />);
 
-    const container = screen
-      .getByTestId('deckgl-container')
-      .closest('.h-screen');
+    const container = screen.getByTestId('deckgl-container').closest('.h-full');
     expect(container).toBeInTheDocument();
-    expect(container).toHaveClass('w-full', 'h-screen');
+    expect(container).toHaveClass('w-full', 'h-full');
   });
 
   it('renders the EarthquakeMap component', () => {

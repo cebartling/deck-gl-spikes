@@ -33,7 +33,7 @@ describe('MapContainer', () => {
     );
 
     const container = screen.getByText('Content').parentElement;
-    expect(container).toHaveClass('h-screen');
+    expect(container).toHaveClass('h-full');
   });
 
   it('applies minimum height classes for responsiveness', () => {
