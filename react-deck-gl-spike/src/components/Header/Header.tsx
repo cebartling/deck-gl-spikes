@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { NavDropdown } from './NavDropdown';
 
-const SPIKES_ITEMS = [{ label: 'Earthquakes', to: '/earthquakes' }];
+const SPIKES_ITEMS = [
+  { label: 'Earthquakes', to: '/earthquakes' },
+  { label: 'County Voting', to: '/county-voting' },
+];
 
 function Header() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>

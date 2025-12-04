@@ -2,6 +2,7 @@ import { GeoJsonLayer } from '@deck.gl/layers';
 import type {
   CountyFeature,
   CountyFeatureCollection,
+  CountyVoting,
 } from '../../../types/county';
 import { getVotingColor } from './votingColorScale';
 
@@ -22,7 +23,8 @@ export function createCountyLayer({
   onHover,
   onClick,
 }: CountyLayerOptions) {
-  return new GeoJsonLayer<CountyFeature>({
+  // GeoJsonLayer<T> where T is the properties type - accessor functions receive Feature<Geometry, T>
+  return new GeoJsonLayer<CountyVoting>({
     id: 'county-voting-layer',
     data,
     pickable: true,
