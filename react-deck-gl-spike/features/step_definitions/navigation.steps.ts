@@ -10,6 +10,10 @@ Given('I am on the about page', async function (this: CustomWorld) {
   await this.page.goto(`${this.baseUrl}/about`);
 });
 
+Given('I am on the earthquakes page', async function (this: CustomWorld) {
+  await this.page.goto(`${this.baseUrl}/earthquakes`);
+});
+
 When('I click the {string} link', async function (this: CustomWorld, linkText: string) {
   await this.page.click(`text=${linkText}`);
 });
@@ -37,7 +41,12 @@ Then('I should be on the About page', async function (this: CustomWorld) {
 
 Then('I should be on the Home page', async function (this: CustomWorld) {
   await expect(this.page).toHaveURL(`${this.baseUrl}/`);
-  // Home page now shows the earthquake map
+  const h1 = this.page.locator('h1');
+  await expect(h1).toHaveText('deck.gl Spike Project');
+});
+
+Then('I should be on the earthquakes page', async function (this: CustomWorld) {
+  await expect(this.page).toHaveURL(`${this.baseUrl}/earthquakes`);
   const mapContainer = this.page.locator('canvas');
   await expect(mapContainer).toBeVisible({ timeout: 10000 });
 });
