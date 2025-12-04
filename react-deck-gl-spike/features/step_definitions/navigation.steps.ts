@@ -57,13 +57,13 @@ Then('the header should contain the site title', async function (this: CustomWor
   await expect(siteTitle).toBeVisible();
 });
 
-Then('the header should have navigation links', async function (this: CustomWorld) {
+Then('the header should have navigation elements', async function (this: CustomWorld) {
   const homeLink = this.page.locator('header >> a:has-text("Home")');
-  const earthquakesLink = this.page.locator('header >> a:has-text("Earthquakes")');
+  const spikesButton = this.page.locator('header >> button:has-text("Spikes")');
   const aboutLink = this.page.locator('header >> a:has-text("About")');
 
   await expect(homeLink).toBeVisible();
-  await expect(earthquakesLink).toBeVisible();
+  await expect(spikesButton).toBeVisible();
   await expect(aboutLink).toBeVisible();
 });
 
@@ -74,6 +74,47 @@ When(
     await link.click();
   }
 );
+
+// Dropdown steps
+When(
+  'I click the {string} dropdown button',
+  async function (this: CustomWorld, buttonText: string) {
+    const button = this.page.locator(`header >> button:has-text("${buttonText}")`);
+    await button.click();
+  }
+);
+
+When(
+  'I click the {string} dropdown item',
+  async function (this: CustomWorld, itemText: string) {
+    const item = this.page.locator(`[role="menu"] >> a:has-text("${itemText}")`);
+    await item.click();
+  }
+);
+
+Then(
+  'I should see the {string} dropdown item',
+  async function (this: CustomWorld, itemText: string) {
+    const item = this.page.locator(`[role="menu"] >> a:has-text("${itemText}")`);
+    await expect(item).toBeVisible();
+  }
+);
+
+Then('the dropdown menu should be visible', async function (this: CustomWorld) {
+  const menu = this.page.locator('[role="menu"]');
+  await expect(menu).toBeVisible();
+});
+
+Then('the dropdown menu should be hidden', async function (this: CustomWorld) {
+  const menu = this.page.locator('[role="menu"]');
+  await expect(menu).toBeHidden();
+});
+
+When('I click outside the dropdown', async function (this: CustomWorld) {
+  // Click on the header area outside the dropdown
+  const header = this.page.locator('header');
+  await header.click({ position: { x: 10, y: 10 } });
+});
 
 // Footer steps
 Then('I should see the footer', async function (this: CustomWorld) {

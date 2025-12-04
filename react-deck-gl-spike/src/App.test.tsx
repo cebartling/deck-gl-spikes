@@ -28,12 +28,12 @@ describe('App', () => {
     expect(screen.getByRole('navigation')).toBeInTheDocument();
   });
 
-  it('renders header navigation links', () => {
+  it('renders header navigation elements', () => {
     render(<App />);
 
     expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: /earthquakes/i })
+      screen.getByRole('button', { name: /spikes/i })
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
   });

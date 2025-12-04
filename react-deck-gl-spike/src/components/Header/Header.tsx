@@ -1,4 +1,7 @@
 import { NavLink } from 'react-router-dom';
+import { NavDropdown } from './NavDropdown';
+
+const SPIKES_ITEMS = [{ label: 'Earthquakes', to: '/earthquakes' }];
 
 function Header() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -15,13 +18,11 @@ function Header() {
           <div className="flex items-center">
             <span className="text-white font-bold text-lg">deck.gl Spike</span>
           </div>
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-4">
             <NavLink to="/" end className={linkClass}>
               Home
             </NavLink>
-            <NavLink to="/earthquakes" className={linkClass}>
-              Earthquakes
-            </NavLink>
+            <NavDropdown label="Spikes" items={SPIKES_ITEMS} />
             <NavLink to="/about" className={linkClass}>
               About
             </NavLink>

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '../../test/test-utils';
+import userEvent from '@testing-library/user-event';
 import Header from './Header';
 
 describe('Header', () => {
@@ -17,10 +18,22 @@ describe('Header', () => {
     expect(homeLink).toHaveAttribute('href', '/');
   });
 
-  it('renders Earthquakes navigation link', () => {
+  it('renders Spikes dropdown button', () => {
     render(<Header />);
 
-    const earthquakesLink = screen.getByRole('link', { name: /earthquakes/i });
+    const spikesButton = screen.getByRole('button', { name: /spikes/i });
+    expect(spikesButton).toBeInTheDocument();
+  });
+
+  it('renders Earthquakes link inside Spikes dropdown', async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+
+    await user.click(screen.getByRole('button', { name: /spikes/i }));
+
+    const earthquakesLink = screen.getByRole('menuitem', {
+      name: /earthquakes/i,
+    });
     expect(earthquakesLink).toBeInTheDocument();
     expect(earthquakesLink).toHaveAttribute('href', '/earthquakes');
   });
@@ -40,11 +53,11 @@ describe('Header', () => {
     expect(homeLink).toHaveClass('bg-gray-700', 'text-white');
   });
 
-  it('highlights active Earthquakes link on earthquakes route', () => {
+  it('highlights Spikes dropdown on earthquakes route', () => {
     render(<Header />, { route: '/earthquakes' });
 
-    const earthquakesLink = screen.getByRole('link', { name: /earthquakes/i });
-    expect(earthquakesLink).toHaveClass('bg-gray-700', 'text-white');
+    const spikesButton = screen.getByRole('button', { name: /spikes/i });
+    expect(spikesButton).toHaveClass('bg-gray-700', 'text-white');
   });
 
   it('highlights active About link on about route', () => {
