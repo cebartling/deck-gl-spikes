@@ -38,6 +38,13 @@ describe('App', () => {
     expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
   });
 
+  it('renders the footer on all pages', () => {
+    render(<App />);
+
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+    expect(screen.getByText(/Pintail Consulting LLC/i)).toBeInTheDocument();
+  });
+
   it('renders the home page with heading', () => {
     render(<App />);
 

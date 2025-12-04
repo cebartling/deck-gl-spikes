@@ -74,3 +74,14 @@ When(
     await link.click();
   }
 );
+
+// Footer steps
+Then('I should see the footer', async function (this: CustomWorld) {
+  const footer = this.page.locator('footer');
+  await expect(footer).toBeVisible();
+});
+
+Then('the footer should contain the copyright text', async function (this: CustomWorld) {
+  const copyright = this.page.locator('footer >> text=Pintail Consulting LLC');
+  await expect(copyright).toBeVisible();
+});
