@@ -19,21 +19,13 @@ describe('Home', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders link to earthquakes page', () => {
+  it('renders call-to-action link to earthquakes page', () => {
     render(<Home />);
 
     const earthquakesLink = screen.getByRole('link', {
-      name: /earthquake map visualization/i,
+      name: /view earthquake map/i,
     });
     expect(earthquakesLink).toBeInTheDocument();
     expect(earthquakesLink).toHaveAttribute('href', '/earthquakes');
-  });
-
-  it('renders link to about page', () => {
-    render(<Home />);
-
-    const aboutLink = screen.getByRole('link', { name: /about/i });
-    expect(aboutLink).toBeInTheDocument();
-    expect(aboutLink).toHaveAttribute('href', '/about');
   });
 });

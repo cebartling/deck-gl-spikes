@@ -2,26 +2,20 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="text-white p-8">
       <h1 className="text-4xl font-bold mb-6">deck.gl Spike Project</h1>
       <p className="text-lg text-gray-300 mb-8">
         A React + TypeScript spike project for experimenting with deck.gl
         visualization library.
       </p>
-      <nav className="space-y-4">
+      <div className="mt-8">
         <Link
           to="/earthquakes"
-          className="block text-blue-400 hover:text-blue-300 text-lg"
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
         >
-          Earthquake Map Visualization
+          View Earthquake Map
         </Link>
-        <Link
-          to="/about"
-          className="block text-blue-400 hover:text-blue-300 text-lg"
-        >
-          About
-        </Link>
-      </nav>
+      </div>
     </div>
   );
 }
