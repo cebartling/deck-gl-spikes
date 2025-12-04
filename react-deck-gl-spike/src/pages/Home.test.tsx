@@ -1,15 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen } from '../test/test-utils';
 import Home from './Home';
 
 describe('Home', () => {
   it('renders the page heading', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
+    render(<Home />);
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       'deck.gl Spike Project'
@@ -17,11 +12,7 @@ describe('Home', () => {
   });
 
   it('renders the description text', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
+    render(<Home />);
 
     expect(
       screen.getByText(/React \+ TypeScript spike project/i)
@@ -29,11 +20,7 @@ describe('Home', () => {
   });
 
   it('renders link to earthquakes page', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
+    render(<Home />);
 
     const earthquakesLink = screen.getByRole('link', {
       name: /earthquake map visualization/i,
@@ -43,11 +30,7 @@ describe('Home', () => {
   });
 
   it('renders link to about page', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
+    render(<Home />);
 
     const aboutLink = screen.getByRole('link', { name: /about/i });
     expect(aboutLink).toBeInTheDocument();
