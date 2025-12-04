@@ -21,17 +21,33 @@ vi.mock('@deck.gl/react', () => ({
 vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}));
 
 describe('App', () => {
-  it('renders the earthquake map on home page', () => {
+  it('renders the home page with heading', () => {
     render(<App />);
+
+    expect(
+      screen.getByRole('heading', { name: /deck\.gl spike project/i })
+    ).toBeInTheDocument();
+  });
+
+  it('renders navigation links on home page', () => {
+    render(<App />);
+
+    expect(
+      screen.getByRole('link', { name: /earthquake map visualization/i })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
+  });
+
+  it('renders the earthquake map on /earthquakes route', () => {
+    render(<App />, { route: '/earthquakes' });
 
     expect(screen.getByTestId('deckgl-container')).toBeInTheDocument();
     expect(screen.getByTestId('maplibre-map')).toBeInTheDocument();
   });
 
-  it('renders the map within a responsive container', () => {
-    render(<App />);
+  it('renders the about page on /about route', () => {
+    render(<App />, { route: '/about' });
 
-    const container = screen.getByTestId('deckgl-container').closest('.h-screen');
-    expect(container).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /about/i })).toBeInTheDocument();
   });
 });

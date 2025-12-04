@@ -1,37 +1,39 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '../test/test-utils';
 import Home from './Home';
 
-// Mock react-map-gl/maplibre
-vi.mock('react-map-gl/maplibre', () => ({
-  default: vi.fn(({ children }) => (
-    <div data-testid="maplibre-map">{children}</div>
-  )),
-}));
-
-// Mock @deck.gl/react
-vi.mock('@deck.gl/react', () => ({
-  default: vi.fn(({ children }) => (
-    <div data-testid="deckgl-container">{children}</div>
-  )),
-}));
-
-// Mock maplibre-gl CSS import
-vi.mock('maplibre-gl/dist/maplibre-gl.css', () => ({}));
-
 describe('Home', () => {
-  it('renders the MapContainer', () => {
+  it('renders the page heading', () => {
     render(<Home />);
 
-    const container = screen.getByTestId('deckgl-container').closest('.h-screen');
-    expect(container).toBeInTheDocument();
-    expect(container).toHaveClass('w-full', 'h-screen');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'deck.gl Spike Project'
+    );
   });
 
-  it('renders the EarthquakeMap component', () => {
+  it('renders the description text', () => {
     render(<Home />);
 
-    expect(screen.getByTestId('deckgl-container')).toBeInTheDocument();
-    expect(screen.getByTestId('maplibre-map')).toBeInTheDocument();
+    expect(
+      screen.getByText(/React \+ TypeScript spike project/i)
+    ).toBeInTheDocument();
+  });
+
+  it('renders link to earthquakes page', () => {
+    render(<Home />);
+
+    const earthquakesLink = screen.getByRole('link', {
+      name: /earthquake map visualization/i,
+    });
+    expect(earthquakesLink).toBeInTheDocument();
+    expect(earthquakesLink).toHaveAttribute('href', '/earthquakes');
+  });
+
+  it('renders link to about page', () => {
+    render(<Home />);
+
+    const aboutLink = screen.getByRole('link', { name: /about/i });
+    expect(aboutLink).toBeInTheDocument();
+    expect(aboutLink).toHaveAttribute('href', '/about');
   });
 });
