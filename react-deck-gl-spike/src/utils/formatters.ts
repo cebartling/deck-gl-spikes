@@ -101,7 +101,7 @@ export function formatNumber(value: number): string {
  * Format percentage with specified decimal places
  */
 export function formatPercent(value: number, decimals: number = 1): string {
-  return `${Math.abs(value).toFixed(decimals)}%`;
+  return `${value.toFixed(decimals)}%`;
 }
 
 /**
