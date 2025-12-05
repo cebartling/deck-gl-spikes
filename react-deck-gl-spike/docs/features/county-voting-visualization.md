@@ -70,7 +70,6 @@ Display county-level voting data on an interactive map visualization using deck.
 - [ ] Fetch election data once and cache in the project and version control system to avoid redundant requests
 - [ ] Match data shape that is already in place
 
-
 ### Filter by mid-term election year
 
 **As a** user
@@ -83,8 +82,6 @@ Display county-level voting data on an interactive map visualization using deck.
 - [ ] Map updates with counties' voting data for the selected year
 - [ ] Fetch election data once and cache in the project and version control system to avoid redundant requests
 - [ ] Match data shape that is already in place
-
-
 
 ## Visual Requirements
 

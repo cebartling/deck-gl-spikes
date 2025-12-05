@@ -42,6 +42,12 @@ See [Feature Specification](../../features/county-voting-visualization.md) for u
 | --- | ----------------------- | ---------------------------------------------------------------- |
 | 05  | Filter by Election Year | [05-filter-by-election-year.md](./05-filter-by-election-year.md) |
 
+### Filter by Mid-term Election Year
+
+| #   | User Story                       | Plan                                                                             |
+| --- | -------------------------------- | -------------------------------------------------------------------------------- |
+| 06  | Filter by Mid-term Election Year | [06-filter-by-midterm-election-year.md](./06-filter-by-midterm-election-year.md) |
+
 ## Technology Stack
 
 | Technology   | Version | Purpose                            |
@@ -75,12 +81,16 @@ src/
 │       │   └── TooltipContent.tsx
 │       ├── Filters/
 │       │   ├── StateSelector.tsx
-│       │   └── YearSelector.tsx
+│       │   ├── YearSelector.tsx
+│       │   ├── ElectionTypeSelector.tsx
+│       │   └── MidtermYearSelector.tsx
 │       └── Legend/
 │           └── VotingLegend.tsx
 ├── types/
 │   ├── county.ts                    # County data types
-│   ├── election.ts                  # Election year types
+│   ├── election.ts                  # Presidential election year types
+│   ├── midterm.ts                   # Midterm election year types
+│   ├── electionType.ts              # Election type (presidential/midterm)
 │   └── voting.ts                    # Voting result types
 ├── stores/
 │   └── countyVotingStore.ts         # Global state
@@ -88,8 +98,10 @@ src/
 │   ├── formatters.ts                # Display formatting
 │   └── votingCalculations.ts        # Vote margin calculations
 └── hooks/
-    ├── useCountyVotingData.ts       # Data fetching
-    └── useElectionData.ts           # Election year data
+    ├── useCountyVotingData.ts       # Presidential data fetching
+    ├── useElectionData.ts           # Election year data
+    ├── useMidtermData.ts            # Midterm election data
+    └── useMidtermVotingData.ts      # Midterm voting data with geometry
 ```
 
 ## Data Sources
