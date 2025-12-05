@@ -89,6 +89,8 @@ describe('TooltipContent', () => {
     render(<TooltipContent county={mockDemocratCounty} />);
     const indicator = screen.getByTestId('margin-color-indicator');
     expect(indicator).toBeInTheDocument();
-    expect(indicator).toHaveStyle({ backgroundColor: expect.stringContaining('rgb') });
+    expect(indicator).toHaveStyle({
+      backgroundColor: expect.stringContaining('rgb'),
+    });
   });
 });

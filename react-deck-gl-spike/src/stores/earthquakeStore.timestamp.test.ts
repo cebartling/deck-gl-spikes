@@ -155,7 +155,9 @@ describe('transformGeoJSONFeature timestamp handling', () => {
       expect(parsedTime).toBe(recentTimestamp);
 
       // Verify it's a valid ISO string
-      expect(result.timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+      expect(result.timestamp).toMatch(
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+      );
     });
 
     it('transforms complete USGS-like feature correctly', () => {

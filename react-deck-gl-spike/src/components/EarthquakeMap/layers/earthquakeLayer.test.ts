@@ -76,7 +76,9 @@ describe('earthquakeLayer', () => {
 
     it('getPosition accessor returns [longitude, latitude]', () => {
       const layer = createEarthquakeLayer(mockEarthquakes);
-      const getPosition = layer.props.getPosition as unknown as (d: Earthquake) => number[];
+      const getPosition = layer.props.getPosition as unknown as (
+        d: Earthquake
+      ) => number[];
       expect(getPosition(mockEarthquakes[0])).toEqual([-122.5, 37.5]);
       expect(getPosition(mockEarthquakes[1])).toEqual([139.7, 35.7]);
     });

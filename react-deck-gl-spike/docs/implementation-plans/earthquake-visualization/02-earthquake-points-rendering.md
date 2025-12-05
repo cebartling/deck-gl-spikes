@@ -1,6 +1,7 @@
 # Implementation Plan: Earthquake Points Rendering
 
 ## Acceptance Criterion
+
 > Earthquake events are rendered as points on the map
 
 ## Approach
@@ -23,8 +24,8 @@ graph LR
 
 ## Libraries
 
-| Library | Purpose |
-|---------|---------|
+| Library           | Purpose                              |
+| ----------------- | ------------------------------------ |
 | `@deck.gl/layers` | ScatterplotLayer for point rendering |
 
 ## Data Structure
@@ -35,10 +36,10 @@ export interface Earthquake {
   id: string;
   longitude: number;
   latitude: number;
-  depth: number;        // km
-  magnitude: number;    // Richter scale
-  timestamp: string;    // ISO 8601
-  location: string;     // Human-readable location
+  depth: number; // km
+  magnitude: number; // Richter scale
+  timestamp: string; // ISO 8601
+  location: string; // Human-readable location
 }
 ```
 
@@ -79,12 +80,7 @@ export function createEarthquakeLayer(data: Earthquake[]) {
 function getDepthColor(depth: number): [number, number, number, number] {
   // Yellow (shallow) to Red (deep)
   const t = Math.min(depth / 700, 1); // Normalize to 0-700km range
-  return [
-    255,
-    Math.round(255 * (1 - t)),
-    0,
-    180,
-  ];
+  return [255, Math.round(255 * (1 - t)), 0, 180];
 }
 ```
 

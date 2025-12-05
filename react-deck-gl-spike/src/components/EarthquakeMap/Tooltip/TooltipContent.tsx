@@ -39,7 +39,10 @@ export function TooltipContent({ earthquake }: TooltipContentProps) {
         >
           M{magnitude.value}
         </span>
-        <span className="text-sm text-gray-400" data-testid="magnitude-descriptor">
+        <span
+          className="text-sm text-gray-400"
+          data-testid="magnitude-descriptor"
+        >
           {magnitude.descriptor}
         </span>
       </div>
@@ -66,12 +69,16 @@ export function TooltipContent({ earthquake }: TooltipContentProps) {
 
         <div data-testid="date-info">
           <span className="text-gray-400">Date:</span>
-          <span className="ml-1 font-medium text-gray-200">{dateTime.date}</span>
+          <span className="ml-1 font-medium text-gray-200">
+            {dateTime.date}
+          </span>
         </div>
 
         <div className="col-span-2" data-testid="time-info">
           <span className="text-gray-400">Time:</span>
-          <span className="ml-1 font-medium text-gray-200">{dateTime.time}</span>
+          <span className="ml-1 font-medium text-gray-200">
+            {dateTime.time}
+          </span>
           {dateTime.relative && (
             <span className="text-xs text-gray-500 ml-2">
               ({dateTime.relative})

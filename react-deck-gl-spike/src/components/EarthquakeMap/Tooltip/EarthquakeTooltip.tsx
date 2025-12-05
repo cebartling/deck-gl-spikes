@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import type { Earthquake } from '../../../types/earthquake';
 import { TooltipContent } from './TooltipContent';
-import { formatMagnitude, formatDepth, formatDateTime } from '../../../utils/formatters';
+import {
+  formatMagnitude,
+  formatDepth,
+  formatDateTime,
+} from '../../../utils/formatters';
 
 interface TooltipProps {
   earthquake: Earthquake | null;
@@ -29,6 +33,7 @@ export function EarthquakeTooltip({
   useEffect(() => {
     if (earthquake && visible) {
       // Show immediately with new data
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayData(earthquake);
       setPosition({ x, y });
       setIsVisible(true);
@@ -73,10 +78,9 @@ export function EarthquakeTooltip({
       data-testid="earthquake-tooltip"
     >
       <span className="sr-only">
-        Magnitude {magnitude.value} {magnitude.descriptor} earthquake.
-        Location: {displayData.location}.
-        Depth: {depth.value}.
-        Occurred on {dateTime.date} at {dateTime.time}.
+        Magnitude {magnitude.value} {magnitude.descriptor} earthquake. Location:{' '}
+        {displayData.location}. Depth: {depth.value}. Occurred on{' '}
+        {dateTime.date} at {dateTime.time}.
       </span>
       <TooltipContent earthquake={displayData} />
     </div>

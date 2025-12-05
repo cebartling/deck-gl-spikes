@@ -26,9 +26,7 @@ export function formatDepth(depthKm: number): {
   classification: string;
 } {
   const value =
-    depthKm < 100
-      ? `${depthKm.toFixed(1)} km`
-      : `${Math.round(depthKm)} km`;
+    depthKm < 100 ? `${depthKm.toFixed(1)} km` : `${Math.round(depthKm)} km`;
 
   let classification: string;
   if (depthKm < 70) classification = 'Shallow';

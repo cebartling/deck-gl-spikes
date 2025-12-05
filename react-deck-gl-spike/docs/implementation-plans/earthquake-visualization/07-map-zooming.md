@@ -1,6 +1,7 @@
 # Implementation Plan: Map Zooming Interaction
 
 ## Acceptance Criterion
+
 > Map supports scroll wheel zooming
 
 ## Approach
@@ -33,8 +34,8 @@ sequenceDiagram
 import DeckGL from '@deck.gl/react';
 
 const ZOOM_CONSTRAINTS = {
-  minZoom: 0.5,  // Global view
-  maxZoom: 12,   // Street level
+  minZoom: 0.5, // Global view
+  maxZoom: 12, // Street level
 };
 
 export function EarthquakeMap() {
@@ -64,8 +65,8 @@ export function EarthquakeMap() {
 <DeckGL
   controller={{
     scrollZoom: {
-      speed: 0.01,    // Zoom speed multiplier (default: 0.01)
-      smooth: true,   // Enable smooth zooming
+      speed: 0.01, // Zoom speed multiplier (default: 0.01)
+      smooth: true, // Enable smooth zooming
     },
   }}
 />
@@ -122,7 +123,11 @@ interface ZoomControlsProps {
   onResetView: () => void;
 }
 
-export function ZoomControls({ onZoomIn, onZoomOut, onResetView }: ZoomControlsProps) {
+export function ZoomControls({
+  onZoomIn,
+  onZoomOut,
+  onResetView,
+}: ZoomControlsProps) {
   return (
     <div className="absolute top-4 right-4 flex flex-col gap-1">
       <button

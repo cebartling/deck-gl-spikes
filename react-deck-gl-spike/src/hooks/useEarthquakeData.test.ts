@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useEarthquakeData, transformGeoJSONFeature } from './useEarthquakeData';
+import {
+  useEarthquakeData,
+  transformGeoJSONFeature,
+} from './useEarthquakeData';
 import type { GeoJSONFeature, GeoJSONResponse } from '../types/earthquake';
 
 declare const global: typeof globalThis;
@@ -47,9 +50,7 @@ describe('useEarthquakeData', () => {
   });
 
   it('loading state is true initially', () => {
-    vi.spyOn(global, 'fetch').mockImplementation(
-      () => new Promise(() => {})
-    );
+    vi.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => {}));
 
     const { result } = renderHook(() =>
       useEarthquakeData('https://example.com/earthquakes.json')

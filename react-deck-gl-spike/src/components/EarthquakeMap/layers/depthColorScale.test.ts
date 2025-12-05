@@ -85,7 +85,9 @@ describe('depthColorScale', () => {
     });
 
     it('returns valid RGBA array with values 0-255', () => {
-      const testDepths = [0, 35, 70, 110, 150, 225, 300, 400, 500, 600, 700, 1000];
+      const testDepths = [
+        0, 35, 70, 110, 150, 225, 300, 400, 500, 600, 700, 1000,
+      ];
       testDepths.forEach((depth) => {
         const color = depthToColorMultiStop(depth);
         expect(color).toHaveLength(4);

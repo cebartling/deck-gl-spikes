@@ -1,6 +1,7 @@
 # Implementation Plan: Date Range Selector
 
 ## Acceptance Criterion
+
 > Date range selector is available
 
 ## Approach
@@ -86,9 +87,7 @@ export function DateRangeSelector({
 
   return (
     <div className="flex flex-col gap-2 p-3 bg-white/90 rounded-lg shadow">
-      <label className="text-sm font-semibold text-gray-700">
-        Time Period
-      </label>
+      <label className="text-sm font-semibold text-gray-700">Time Period</label>
 
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="flex-1">
@@ -116,7 +115,11 @@ export function DateRangeSelector({
             value={formatDateForInput(value.endDate)}
             onChange={handleEndChange}
             min={formatDateForInput(value.startDate || minDate)}
-            max={maxDate ? formatDateForInput(maxDate) : formatDateForInput(new Date())}
+            max={
+              maxDate
+                ? formatDateForInput(maxDate)
+                : formatDateForInput(new Date())
+            }
             className="w-full px-2 py-1 border rounded text-sm focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -139,7 +142,12 @@ const PRESETS = [
   { label: 'All', days: null },
 ];
 
-export function DateRangeSelector({ value, onChange, minDate, maxDate }: Props) {
+export function DateRangeSelector({
+  value,
+  onChange,
+  minDate,
+  maxDate,
+}: Props) {
   const handlePresetClick = useCallback(
     (days: number | null) => {
       if (days === null) {
@@ -164,9 +172,10 @@ export function DateRangeSelector({ value, onChange, minDate, maxDate }: Props) 
             onClick={() => handlePresetClick(days)}
             className={`
               px-2 py-1 text-xs rounded
-              ${isPresetActive(value, days)
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+              ${
+                isPresetActive(value, days)
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
               }
             `}
           >
@@ -316,11 +325,7 @@ const debouncedSetDateRange = useDebouncedCallback(setDateRange, 300);
   </span>
 
   <label htmlFor="start-date">Start date</label>
-  <input
-    id="start-date"
-    type="date"
-    aria-describedby="date-range-help"
-  />
+  <input id="start-date" type="date" aria-describedby="date-range-help" />
 
   <span id="date-range-help" className="sr-only">
     Select start and end dates to filter displayed earthquakes

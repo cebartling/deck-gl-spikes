@@ -225,7 +225,9 @@ describe('countyLayer', () => {
         data: mockData,
         highlightedFips: '06001',
       });
-      const getLineWidth = layer.props.getLineWidth as (d: CountyFeature) => number;
+      const getLineWidth = layer.props.getLineWidth as (
+        d: CountyFeature
+      ) => number;
 
       const width = getLineWidth(mockCountyFeature);
       expect(width).toBe(2);
@@ -233,7 +235,9 @@ describe('countyLayer', () => {
 
     it('returns 0.5 for non-highlighted county', () => {
       const layer = createCountyLayer({ data: mockData });
-      const getLineWidth = layer.props.getLineWidth as (d: CountyFeature) => number;
+      const getLineWidth = layer.props.getLineWidth as (
+        d: CountyFeature
+      ) => number;
 
       const width = getLineWidth(mockCountyFeature);
       expect(width).toBe(0.5);

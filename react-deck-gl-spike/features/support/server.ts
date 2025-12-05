@@ -14,7 +14,7 @@ export async function startDevServer(): Promise<void> {
   serverProcess = spawn('npx', ['vite'], {
     cwd: process.cwd(),
     stdio: ['ignore', 'pipe', 'pipe'],
-    detached: false,
+    detached: true,
   });
 
   serverProcess.stdout?.on('data', (data) => {
@@ -69,18 +69,30 @@ export async function stopDevServer(): Promise<void> {
       resolve();
     });
 
+    const pid = serverProcess.pid;
+
     if (process.platform === 'win32') {
-      spawn('taskkill', ['/pid', String(serverProcess.pid), '/f', '/t']);
-    } else {
-      serverProcess.kill('SIGTERM');
+      spawn('taskkill', ['/pid', String(pid), '/f', '/t']);
+    } else if (pid) {
+      // Kill the entire process group (negative PID)
+      try {
+        process.kill(-pid, 'SIGTERM');
+      } catch {
+        // Process might already be dead
+      }
     }
 
     setTimeout(() => {
-      if (serverProcess) {
-        serverProcess.kill('SIGKILL');
+      if (serverProcess && pid) {
+        try {
+          process.kill(-pid, 'SIGKILL');
+        } catch {
+          // Process might already be dead
+        }
       }
+      serverProcess = null;
       resolve();
-    }, 5000);
+    }, 3000);
   });
 }
 

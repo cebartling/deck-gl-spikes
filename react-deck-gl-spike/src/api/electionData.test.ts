@@ -105,7 +105,9 @@ describe('electionData', () => {
       });
 
       const result = await fetchCountyVotingData();
-      const autauga = result.features.find((f) => f.properties.fips === '01001');
+      const autauga = result.features.find(
+        (f) => f.properties.fips === '01001'
+      );
 
       expect(autauga).toBeDefined();
       expect(autauga?.properties.name).toBe('Autauga');
@@ -134,7 +136,9 @@ describe('electionData', () => {
       });
 
       const result = await fetchCountyVotingData();
-      const autauga = result.features.find((f) => f.properties.fips === '01001');
+      const autauga = result.features.find(
+        (f) => f.properties.fips === '01001'
+      );
 
       // Margin = demVotes - gopVotes = 7439 - 20484 = -13045 (negative = GOP lead)
       expect(autauga?.properties.margin).toBe(-13045);
@@ -161,7 +165,9 @@ describe('electionData', () => {
       });
 
       const result = await fetchCountyVotingData();
-      const alameda = result.features.find((f) => f.properties.fips === '06001');
+      const alameda = result.features.find(
+        (f) => f.properties.fips === '06001'
+      );
 
       // Margin = demVotes - gopVotes = 350000 - 130000 = 220000 (positive = DEM lead)
       expect(alameda?.properties.margin).toBe(220000);
@@ -275,7 +281,9 @@ Alabama,01001,Autauga,1000,1000,2500,0,0.4,0.4,0`;
       });
 
       const result = await fetchCountyVotingData();
-      const autauga = result.features.find((f) => f.properties.fips === '01001');
+      const autauga = result.features.find(
+        (f) => f.properties.fips === '01001'
+      );
 
       // otherVotes = totalVotes - gopVotes - demVotes = 2500 - 1000 - 1000 = 500
       expect(autauga?.properties.otherVotes).toBe(500);
@@ -302,7 +310,9 @@ Alabama,1001,Autauga,20484,7439,28190,13045,0.727,0.264,0.463`;
       });
 
       const result = await fetchCountyVotingData();
-      const autauga = result.features.find((f) => f.properties.fips === '01001');
+      const autauga = result.features.find(
+        (f) => f.properties.fips === '01001'
+      );
 
       expect(autauga).toBeDefined();
       expect(autauga?.properties.fips).toBe('01001');

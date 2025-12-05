@@ -93,7 +93,9 @@ describe('CountyTooltip', () => {
   });
 
   it('respects visible prop', () => {
-    render(<CountyTooltip county={mockCounty} x={100} y={100} visible={false} />);
+    render(
+      <CountyTooltip county={mockCounty} x={100} y={100} visible={false} />
+    );
 
     // Should start fade out immediately when visible is false
     vi.advanceTimersByTime(200);

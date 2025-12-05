@@ -44,10 +44,10 @@ graph TB
 
 ## Libraries
 
-| Library | Purpose |
-|---------|---------|
-| `zustand` | Filter state management |
-| `@turf/bbox` | Calculate state bounding box |
+| Library         | Purpose                           |
+| --------------- | --------------------------------- |
+| `zustand`       | Filter state management           |
+| `@turf/bbox`    | Calculate state bounding box      |
 | `@deck.gl/core` | FlyToInterpolator for transitions |
 
 ## Data Structures
@@ -55,9 +55,9 @@ graph TB
 ```typescript
 // src/types/states.ts
 export interface USState {
-  code: string;      // e.g., 'CA'
-  name: string;      // e.g., 'California'
-  fips: string;      // e.g., '06'
+  code: string; // e.g., 'CA'
+  name: string; // e.g., 'California'
+  fips: string; // e.g., '06'
 }
 
 export const US_STATES: USState[] = [
@@ -69,9 +69,12 @@ export const US_STATES: USState[] = [
 ];
 
 // State center coordinates for fly-to
-export const STATE_CENTERS: Record<string, { longitude: number; latitude: number; zoom: number }> = {
+export const STATE_CENTERS: Record<
+  string,
+  { longitude: number; latitude: number; zoom: number }
+> = {
   AL: { longitude: -86.9023, latitude: 32.3182, zoom: 6 },
-  AK: { longitude: -154.4931, latitude: 63.3850, zoom: 4 },
+  AK: { longitude: -154.4931, latitude: 63.385, zoom: 4 },
   AZ: { longitude: -111.0937, latitude: 34.0489, zoom: 6 },
   // ... all states
 };
@@ -86,7 +89,7 @@ export const STATE_CENTERS: Record<string, { longitude: number; latitude: number
 import { create } from 'zustand';
 
 interface CountyFilterStore {
-  selectedState: string | null;  // State FIPS code, null = all states
+  selectedState: string | null; // State FIPS code, null = all states
   setSelectedState: (stateFips: string | null) => void;
   reset: () => void;
 }
@@ -109,7 +112,10 @@ export const useCountyFilterStore = create<CountyFilterStore>((set) => ({
 ```typescript
 // src/components/CountyVotingMap/hooks/useFilteredCounties.ts
 import { useMemo } from 'react';
-import type { CountyFeatureCollection, CountyFeature } from '../../../types/county';
+import type {
+  CountyFeatureCollection,
+  CountyFeature,
+} from '../../../types/county';
 import { useCountyFilterStore } from '../../../stores/countyFilterStore';
 
 export function useFilteredCounties(data: CountyFeatureCollection | null) {
@@ -378,58 +384,61 @@ export function CountyVotingMap({ data }: CountyVotingMapProps) {
 
 ```typescript
 // src/types/states.ts (extended)
-export const STATE_CENTERS: Record<string, { longitude: number; latitude: number; zoom: number }> = {
-  '01': { longitude: -86.9023, latitude: 32.3182, zoom: 6 },   // Alabama
-  '02': { longitude: -154.4931, latitude: 63.3850, zoom: 4 },  // Alaska
-  '04': { longitude: -111.0937, latitude: 34.0489, zoom: 6 },  // Arizona
-  '05': { longitude: -91.8318, latitude: 35.2010, zoom: 6 },   // Arkansas
-  '06': { longitude: -119.4179, latitude: 36.7783, zoom: 5 },  // California
-  '08': { longitude: -105.3111, latitude: 39.0598, zoom: 6 },  // Colorado
-  '09': { longitude: -72.7554, latitude: 41.6032, zoom: 8 },   // Connecticut
-  '10': { longitude: -75.5277, latitude: 38.9108, zoom: 8 },   // Delaware
-  '11': { longitude: -77.0369, latitude: 38.9072, zoom: 11 },  // DC
-  '12': { longitude: -81.5158, latitude: 27.6648, zoom: 6 },   // Florida
-  '13': { longitude: -82.9001, latitude: 32.1656, zoom: 6 },   // Georgia
-  '15': { longitude: -155.5828, latitude: 19.8968, zoom: 6 },  // Hawaii
-  '16': { longitude: -114.4788, latitude: 44.0682, zoom: 5 },  // Idaho
-  '17': { longitude: -89.3985, latitude: 40.6331, zoom: 6 },   // Illinois
-  '18': { longitude: -86.1349, latitude: 40.2672, zoom: 6 },   // Indiana
-  '19': { longitude: -93.0977, latitude: 41.8780, zoom: 6 },   // Iowa
-  '20': { longitude: -98.4842, latitude: 39.0119, zoom: 6 },   // Kansas
-  '21': { longitude: -84.2700, latitude: 37.8393, zoom: 6 },   // Kentucky
-  '22': { longitude: -91.9623, latitude: 30.9843, zoom: 6 },   // Louisiana
-  '23': { longitude: -69.4455, latitude: 45.2538, zoom: 6 },   // Maine
-  '24': { longitude: -76.6413, latitude: 39.0458, zoom: 7 },   // Maryland
-  '25': { longitude: -71.3824, latitude: 42.4072, zoom: 7 },   // Massachusetts
-  '26': { longitude: -84.5555, latitude: 44.3148, zoom: 6 },   // Michigan
-  '27': { longitude: -94.6859, latitude: 46.7296, zoom: 5 },   // Minnesota
-  '28': { longitude: -89.3985, latitude: 32.3547, zoom: 6 },   // Mississippi
-  '29': { longitude: -91.8318, latitude: 37.9643, zoom: 6 },   // Missouri
-  '30': { longitude: -110.3626, latitude: 46.8797, zoom: 5 },  // Montana
-  '31': { longitude: -99.9018, latitude: 41.4925, zoom: 6 },   // Nebraska
-  '32': { longitude: -116.4194, latitude: 38.8026, zoom: 5 },  // Nevada
-  '33': { longitude: -71.5724, latitude: 43.1939, zoom: 7 },   // New Hampshire
-  '34': { longitude: -74.4057, latitude: 40.0583, zoom: 7 },   // New Jersey
-  '35': { longitude: -105.8701, latitude: 34.5199, zoom: 6 },  // New Mexico
-  '36': { longitude: -75.4999, latitude: 43.2994, zoom: 6 },   // New York
-  '37': { longitude: -79.0193, latitude: 35.7596, zoom: 6 },   // North Carolina
-  '38': { longitude: -101.0020, latitude: 47.5515, zoom: 6 },  // North Dakota
-  '39': { longitude: -82.9071, latitude: 40.4173, zoom: 6 },   // Ohio
-  '40': { longitude: -97.0929, latitude: 35.0078, zoom: 6 },   // Oklahoma
-  '41': { longitude: -120.5542, latitude: 43.8041, zoom: 6 },  // Oregon
-  '42': { longitude: -77.1945, latitude: 41.2033, zoom: 6 },   // Pennsylvania
-  '44': { longitude: -71.4774, latitude: 41.5801, zoom: 9 },   // Rhode Island
-  '45': { longitude: -81.1637, latitude: 33.8361, zoom: 6 },   // South Carolina
-  '46': { longitude: -99.9018, latitude: 43.9695, zoom: 6 },   // South Dakota
-  '47': { longitude: -86.5804, latitude: 35.5175, zoom: 6 },   // Tennessee
-  '48': { longitude: -99.9018, latitude: 31.9686, zoom: 5 },   // Texas
-  '49': { longitude: -111.0937, latitude: 39.3210, zoom: 6 },  // Utah
-  '50': { longitude: -72.5778, latitude: 44.5588, zoom: 7 },   // Vermont
-  '51': { longitude: -78.6569, latitude: 37.4316, zoom: 6 },   // Virginia
-  '53': { longitude: -120.7401, latitude: 47.7511, zoom: 6 },  // Washington
-  '54': { longitude: -80.4549, latitude: 38.5976, zoom: 7 },   // West Virginia
-  '55': { longitude: -89.6165, latitude: 43.7844, zoom: 6 },   // Wisconsin
-  '56': { longitude: -107.2903, latitude: 43.0760, zoom: 6 },  // Wyoming
+export const STATE_CENTERS: Record<
+  string,
+  { longitude: number; latitude: number; zoom: number }
+> = {
+  '01': { longitude: -86.9023, latitude: 32.3182, zoom: 6 }, // Alabama
+  '02': { longitude: -154.4931, latitude: 63.385, zoom: 4 }, // Alaska
+  '04': { longitude: -111.0937, latitude: 34.0489, zoom: 6 }, // Arizona
+  '05': { longitude: -91.8318, latitude: 35.201, zoom: 6 }, // Arkansas
+  '06': { longitude: -119.4179, latitude: 36.7783, zoom: 5 }, // California
+  '08': { longitude: -105.3111, latitude: 39.0598, zoom: 6 }, // Colorado
+  '09': { longitude: -72.7554, latitude: 41.6032, zoom: 8 }, // Connecticut
+  '10': { longitude: -75.5277, latitude: 38.9108, zoom: 8 }, // Delaware
+  '11': { longitude: -77.0369, latitude: 38.9072, zoom: 11 }, // DC
+  '12': { longitude: -81.5158, latitude: 27.6648, zoom: 6 }, // Florida
+  '13': { longitude: -82.9001, latitude: 32.1656, zoom: 6 }, // Georgia
+  '15': { longitude: -155.5828, latitude: 19.8968, zoom: 6 }, // Hawaii
+  '16': { longitude: -114.4788, latitude: 44.0682, zoom: 5 }, // Idaho
+  '17': { longitude: -89.3985, latitude: 40.6331, zoom: 6 }, // Illinois
+  '18': { longitude: -86.1349, latitude: 40.2672, zoom: 6 }, // Indiana
+  '19': { longitude: -93.0977, latitude: 41.878, zoom: 6 }, // Iowa
+  '20': { longitude: -98.4842, latitude: 39.0119, zoom: 6 }, // Kansas
+  '21': { longitude: -84.27, latitude: 37.8393, zoom: 6 }, // Kentucky
+  '22': { longitude: -91.9623, latitude: 30.9843, zoom: 6 }, // Louisiana
+  '23': { longitude: -69.4455, latitude: 45.2538, zoom: 6 }, // Maine
+  '24': { longitude: -76.6413, latitude: 39.0458, zoom: 7 }, // Maryland
+  '25': { longitude: -71.3824, latitude: 42.4072, zoom: 7 }, // Massachusetts
+  '26': { longitude: -84.5555, latitude: 44.3148, zoom: 6 }, // Michigan
+  '27': { longitude: -94.6859, latitude: 46.7296, zoom: 5 }, // Minnesota
+  '28': { longitude: -89.3985, latitude: 32.3547, zoom: 6 }, // Mississippi
+  '29': { longitude: -91.8318, latitude: 37.9643, zoom: 6 }, // Missouri
+  '30': { longitude: -110.3626, latitude: 46.8797, zoom: 5 }, // Montana
+  '31': { longitude: -99.9018, latitude: 41.4925, zoom: 6 }, // Nebraska
+  '32': { longitude: -116.4194, latitude: 38.8026, zoom: 5 }, // Nevada
+  '33': { longitude: -71.5724, latitude: 43.1939, zoom: 7 }, // New Hampshire
+  '34': { longitude: -74.4057, latitude: 40.0583, zoom: 7 }, // New Jersey
+  '35': { longitude: -105.8701, latitude: 34.5199, zoom: 6 }, // New Mexico
+  '36': { longitude: -75.4999, latitude: 43.2994, zoom: 6 }, // New York
+  '37': { longitude: -79.0193, latitude: 35.7596, zoom: 6 }, // North Carolina
+  '38': { longitude: -101.002, latitude: 47.5515, zoom: 6 }, // North Dakota
+  '39': { longitude: -82.9071, latitude: 40.4173, zoom: 6 }, // Ohio
+  '40': { longitude: -97.0929, latitude: 35.0078, zoom: 6 }, // Oklahoma
+  '41': { longitude: -120.5542, latitude: 43.8041, zoom: 6 }, // Oregon
+  '42': { longitude: -77.1945, latitude: 41.2033, zoom: 6 }, // Pennsylvania
+  '44': { longitude: -71.4774, latitude: 41.5801, zoom: 9 }, // Rhode Island
+  '45': { longitude: -81.1637, latitude: 33.8361, zoom: 6 }, // South Carolina
+  '46': { longitude: -99.9018, latitude: 43.9695, zoom: 6 }, // South Dakota
+  '47': { longitude: -86.5804, latitude: 35.5175, zoom: 6 }, // Tennessee
+  '48': { longitude: -99.9018, latitude: 31.9686, zoom: 5 }, // Texas
+  '49': { longitude: -111.0937, latitude: 39.321, zoom: 6 }, // Utah
+  '50': { longitude: -72.5778, latitude: 44.5588, zoom: 7 }, // Vermont
+  '51': { longitude: -78.6569, latitude: 37.4316, zoom: 6 }, // Virginia
+  '53': { longitude: -120.7401, latitude: 47.7511, zoom: 6 }, // Washington
+  '54': { longitude: -80.4549, latitude: 38.5976, zoom: 7 }, // West Virginia
+  '55': { longitude: -89.6165, latitude: 43.7844, zoom: 6 }, // Wisconsin
+  '56': { longitude: -107.2903, latitude: 43.076, zoom: 6 }, // Wyoming
 };
 ```
 

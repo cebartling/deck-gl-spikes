@@ -1,6 +1,7 @@
 # Implementation Plan: Point Positioning by Latitude/Longitude
 
 ## Acceptance Criterion
+
 > Each point is positioned at the earthquake's latitude/longitude
 
 ## Approach
@@ -28,7 +29,7 @@ graph LR
 
 ```typescript
 // The getPosition accessor extracts [longitude, latitude] from each data point
-getPosition: (d: Earthquake) => [d.longitude, d.latitude]
+getPosition: (d: Earthquake) => [d.longitude, d.latitude];
 ```
 
 ### 2. Coordinate System Configuration
@@ -66,7 +67,9 @@ export function isValidCoordinate(lng: number, lat: number): boolean {
   );
 }
 
-export function filterValidEarthquakes(earthquakes: Earthquake[]): Earthquake[] {
+export function filterValidEarthquakes(
+  earthquakes: Earthquake[]
+): Earthquake[] {
   return earthquakes.filter((eq) =>
     isValidCoordinate(eq.longitude, eq.latitude)
   );
@@ -120,11 +123,11 @@ deck.gl automatically culls points outside the visible viewport, improving perfo
 
 ## Coordinate Reference
 
-| Earthquake Data Source | Coordinate Order | Notes |
-|----------------------|------------------|-------|
-| USGS GeoJSON | [lng, lat, depth] | Standard GeoJSON |
-| CSV formats | Varies | Check header for order |
-| ISO 6709 | lat, lng | Convert to [lng, lat] |
+| Earthquake Data Source | Coordinate Order  | Notes                  |
+| ---------------------- | ----------------- | ---------------------- |
+| USGS GeoJSON           | [lng, lat, depth] | Standard GeoJSON       |
+| CSV formats            | Varies            | Check header for order |
+| ISO 6709               | lat, lng          | Convert to [lng, lat]  |
 
 ## Testing
 

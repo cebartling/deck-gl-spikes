@@ -40,7 +40,9 @@ vi.mock('./layers/earthquakeLayer', () => ({
 
 // Mock Legend components
 vi.mock('./Legend', () => ({
-  SizeLegend: vi.fn(() => <div data-testid="size-legend">Magnitude Legend</div>),
+  SizeLegend: vi.fn(() => (
+    <div data-testid="size-legend">Magnitude Legend</div>
+  )),
   ColorLegend: vi.fn(() => <div data-testid="color-legend">Depth Legend</div>),
 }));
 
@@ -48,9 +50,15 @@ vi.mock('./Legend', () => ({
 vi.mock('./ZoomControls', () => ({
   ZoomControls: vi.fn(({ onZoomIn, onZoomOut, onResetView }) => (
     <div data-testid="zoom-controls">
-      <button data-testid="zoom-in" onClick={onZoomIn}>+</button>
-      <button data-testid="zoom-out" onClick={onZoomOut}>-</button>
-      <button data-testid="reset-view" onClick={onResetView}>Reset</button>
+      <button data-testid="zoom-in" onClick={onZoomIn}>
+        +
+      </button>
+      <button data-testid="zoom-out" onClick={onZoomOut}>
+        -
+      </button>
+      <button data-testid="reset-view" onClick={onResetView}>
+        Reset
+      </button>
     </div>
   )),
 }));
@@ -158,7 +166,17 @@ describe('EarthquakeMap', () => {
 
   it('renders with earthquake layer', () => {
     useEarthquakeStore.setState({
-      earthquakes: [{ id: '1', longitude: 0, latitude: 0, depth: 10, magnitude: 5.0, timestamp: '', location: '' }],
+      earthquakes: [
+        {
+          id: '1',
+          longitude: 0,
+          latitude: 0,
+          depth: 10,
+          magnitude: 5.0,
+          timestamp: '',
+          location: '',
+        },
+      ],
       loading: false,
       error: null,
     });
@@ -210,7 +228,9 @@ describe('EarthquakeMap', () => {
     render(<EarthquakeMap />);
 
     await waitFor(() => {
-      expect(screen.getByText('Error loading data: Network error')).toBeInTheDocument();
+      expect(
+        screen.getByText('Error loading data: Network error')
+      ).toBeInTheDocument();
     });
   });
 
@@ -239,12 +259,14 @@ describe('EarthquakeMap', () => {
       ok: true,
       json: async () => ({
         type: 'FeatureCollection',
-        features: [{
-          id: '1',
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [0, 0, 10] },
-          properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
-        }],
+        features: [
+          {
+            id: '1',
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [0, 0, 10] },
+            properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
+          },
+        ],
       }),
     } as Response);
 
@@ -297,12 +319,14 @@ describe('EarthquakeMap', () => {
       ok: true,
       json: async () => ({
         type: 'FeatureCollection',
-        features: [{
-          id: '1',
-          type: 'Feature',
-          geometry: { type: 'Point', coordinates: [0, 0, 10] },
-          properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
-        }],
+        features: [
+          {
+            id: '1',
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [0, 0, 10] },
+            properties: { mag: 5.0, time: 1704067200000, place: 'Test' },
+          },
+        ],
       }),
     } as Response);
 

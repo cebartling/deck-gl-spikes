@@ -32,13 +32,17 @@ describe('TooltipContent', () => {
   it('renders magnitude descriptor', () => {
     render(<TooltipContent earthquake={mockEarthquake} />);
 
-    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent('Strong');
+    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent(
+      'Strong'
+    );
   });
 
   it('renders location', () => {
     render(<TooltipContent earthquake={mockEarthquake} />);
 
-    expect(screen.getByTestId('location')).toHaveTextContent('San Francisco, CA');
+    expect(screen.getByTestId('location')).toHaveTextContent(
+      'San Francisco, CA'
+    );
   });
 
   it('renders coordinates', () => {
@@ -87,7 +91,9 @@ describe('TooltipContent', () => {
 
     const indicator = screen.getByTestId('depth-color-indicator');
     // Shallow depth (10km) should be close to yellow
-    expect(indicator).toHaveStyle({ backgroundColor: expect.stringContaining('rgb') });
+    expect(indicator).toHaveStyle({
+      backgroundColor: expect.stringContaining('rgb'),
+    });
   });
 
   it('renders correct descriptor for minor earthquake', () => {
@@ -98,7 +104,9 @@ describe('TooltipContent', () => {
 
     render(<TooltipContent earthquake={minorQuake} />);
 
-    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent('Minor');
+    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent(
+      'Minor'
+    );
   });
 
   it('renders correct descriptor for great earthquake', () => {
@@ -109,7 +117,9 @@ describe('TooltipContent', () => {
 
     render(<TooltipContent earthquake={greatQuake} />);
 
-    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent('Great');
+    expect(screen.getByTestId('magnitude-descriptor')).toHaveTextContent(
+      'Great'
+    );
   });
 
   it('renders intermediate depth classification', () => {

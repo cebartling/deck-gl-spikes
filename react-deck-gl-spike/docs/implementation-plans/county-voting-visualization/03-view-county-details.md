@@ -40,11 +40,11 @@ sequenceDiagram
 
 ## Libraries
 
-| Library | Purpose |
-|---------|---------|
-| `@deck.gl/layers` | GeoJsonLayer picking |
-| `@deck.gl/core` | Picking info types |
-| `react` | Tooltip component state |
+| Library           | Purpose                 |
+| ----------------- | ----------------------- |
+| `@deck.gl/layers` | GeoJsonLayer picking    |
+| `@deck.gl/core`   | Picking info types      |
+| `react`           | Tooltip component state |
 
 ## Implementation Steps
 
@@ -262,7 +262,10 @@ export function formatCompactNumber(value: number): string {
 ```typescript
 // src/components/CountyVotingMap/layers/countyLayer.ts
 import { GeoJsonLayer } from '@deck.gl/layers';
-import type { CountyFeature, CountyFeatureCollection } from '../../../types/county';
+import type {
+  CountyFeature,
+  CountyFeatureCollection,
+} from '../../../types/county';
 import { getVotingColor } from './votingColorScale';
 
 interface CountyLayerOptions {
@@ -300,7 +303,12 @@ export function createCountyLayer({
 
       // Dim non-highlighted counties when something is hovered
       if (highlightedFips) {
-        return [...baseColor.slice(0, 3), 150] as [number, number, number, number];
+        return [...baseColor.slice(0, 3), 150] as [
+          number,
+          number,
+          number,
+          number,
+        ];
       }
 
       return baseColor;
@@ -323,7 +331,7 @@ export function createCountyLayer({
 
     // Hover handler
     onHover,
-    autoHighlight: false,  // We handle highlighting manually
+    autoHighlight: false, // We handle highlighting manually
 
     // Re-render on highlight change
     updateTriggers: {

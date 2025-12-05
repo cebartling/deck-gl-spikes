@@ -21,7 +21,12 @@ export function SizeLegend() {
       role="region"
       aria-labelledby="legend-title"
     >
-      <h4 id="legend-title" className="text-sm font-semibold mb-2 text-gray-100">Magnitude</h4>
+      <h4
+        id="legend-title"
+        className="text-sm font-semibold mb-2 text-gray-100"
+      >
+        Magnitude
+      </h4>
       <ul className="flex items-end gap-3" aria-labelledby="legend-title">
         {MAGNITUDE_SAMPLES.map((mag) => {
           const size = getDisplaySize(mag);

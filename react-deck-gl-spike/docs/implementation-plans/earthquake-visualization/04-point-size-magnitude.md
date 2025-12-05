@@ -1,6 +1,7 @@
 # Implementation Plan: Point Size by Magnitude
 
 ## Acceptance Criterion
+
 > Point size corresponds to earthquake magnitude
 
 ## Approach
@@ -25,13 +26,13 @@ graph LR
 ## Scale Design
 
 | Magnitude | Energy Release | Visual Radius | Description |
-|-----------|----------------|---------------|-------------|
-| 2.0 | Minor | 4km → ~4px | Micro |
-| 4.0 | Light | 16km → ~8px | Minor |
-| 5.0 | Moderate | 32km → ~12px | Light |
-| 6.0 | Strong | 64km → ~20px | Moderate |
-| 7.0 | Major | 128km → ~35px | Strong |
-| 8.0+ | Great | 256km → ~50px | Major/Great |
+| --------- | -------------- | ------------- | ----------- |
+| 2.0       | Minor          | 4km → ~4px    | Micro       |
+| 4.0       | Light          | 16km → ~8px   | Minor       |
+| 5.0       | Moderate       | 32km → ~12px  | Light       |
+| 6.0       | Strong         | 64km → ~20px  | Moderate    |
+| 7.0       | Major          | 128km → ~35px | Strong      |
+| 8.0+      | Great          | 256km → ~50px | Major/Great |
 
 ## Implementation Steps
 
@@ -82,8 +83,8 @@ export function createEarthquakeLayer(data: Earthquake[]) {
     // Size configuration
     getRadius: (d) => magnitudeToRadius(d.magnitude),
     radiusScale: 1,
-    radiusMinPixels: 3,    // Minimum visibility
-    radiusMaxPixels: 50,   // Prevent visual clutter
+    radiusMinPixels: 3, // Minimum visibility
+    radiusMaxPixels: 50, // Prevent visual clutter
     radiusUnits: 'meters', // Radius in world coordinates
 
     // Update triggers for React re-renders
@@ -152,11 +153,11 @@ const layer = new ScatterplotLayer({
 
 ### Radius Units Trade-offs
 
-| Unit | Behavior | Use Case |
-|------|----------|----------|
-| `meters` | Scales with zoom | Geographic accuracy |
+| Unit     | Behavior          | Use Case              |
+| -------- | ----------------- | --------------------- |
+| `meters` | Scales with zoom  | Geographic accuracy   |
 | `pixels` | Fixed screen size | Consistent visibility |
-| `common` | Hybrid scaling | Balanced approach |
+| `common` | Hybrid scaling    | Balanced approach     |
 
 ## Responsiveness
 

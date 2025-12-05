@@ -148,12 +148,12 @@ describe('earthquakeStore', () => {
 
   describe('fetchEarthquakes', () => {
     it('sets loading to true when fetching', async () => {
-      vi.spyOn(global, 'fetch').mockImplementation(
-        () => new Promise(() => {})
-      );
+      vi.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => {}));
 
       act(() => {
-        useEarthquakeStore.getState().fetchEarthquakes('https://example.com/earthquakes.json');
+        useEarthquakeStore
+          .getState()
+          .fetchEarthquakes('https://example.com/earthquakes.json');
       });
 
       expect(useEarthquakeStore.getState().loading).toBe(true);
@@ -166,7 +166,9 @@ describe('earthquakeStore', () => {
       } as Response);
 
       await act(async () => {
-        await useEarthquakeStore.getState().fetchEarthquakes('https://example.com/earthquakes.json');
+        await useEarthquakeStore
+          .getState()
+          .fetchEarthquakes('https://example.com/earthquakes.json');
       });
 
       expect(useEarthquakeStore.getState().earthquakes).toHaveLength(2);
@@ -186,11 +188,15 @@ describe('earthquakeStore', () => {
       vi.spyOn(global, 'fetch').mockRejectedValue(new Error('Network error'));
 
       await act(async () => {
-        await useEarthquakeStore.getState().fetchEarthquakes('https://example.com/earthquakes.json');
+        await useEarthquakeStore
+          .getState()
+          .fetchEarthquakes('https://example.com/earthquakes.json');
       });
 
       expect(useEarthquakeStore.getState().error).toBeInstanceOf(Error);
-      expect(useEarthquakeStore.getState().error?.message).toBe('Network error');
+      expect(useEarthquakeStore.getState().error?.message).toBe(
+        'Network error'
+      );
       expect(useEarthquakeStore.getState().loading).toBe(false);
     });
 
@@ -201,10 +207,14 @@ describe('earthquakeStore', () => {
       } as Response);
 
       await act(async () => {
-        await useEarthquakeStore.getState().fetchEarthquakes('https://example.com/earthquakes.json');
+        await useEarthquakeStore
+          .getState()
+          .fetchEarthquakes('https://example.com/earthquakes.json');
       });
 
-      expect(useEarthquakeStore.getState().error?.message).toBe('HTTP error! status: 404');
+      expect(useEarthquakeStore.getState().error?.message).toBe(
+        'HTTP error! status: 404'
+      );
       expect(useEarthquakeStore.getState().loading).toBe(false);
     });
 
@@ -215,10 +225,14 @@ describe('earthquakeStore', () => {
       } as Response);
 
       await act(async () => {
-        await useEarthquakeStore.getState().fetchEarthquakes('https://example.com/earthquakes.json');
+        await useEarthquakeStore
+          .getState()
+          .fetchEarthquakes('https://example.com/earthquakes.json');
       });
 
-      expect(useEarthquakeStore.getState().lastFetchedUrl).toBe('https://example.com/earthquakes.json');
+      expect(useEarthquakeStore.getState().lastFetchedUrl).toBe(
+        'https://example.com/earthquakes.json'
+      );
     });
   });
 });

@@ -64,7 +64,9 @@ describe('useTooltip', () => {
     const { result } = renderHook(() => useTooltip());
 
     act(() => {
-      result.current.onHover(createPickingInfo(mockCountyFeature, true, 150, 250));
+      result.current.onHover(
+        createPickingInfo(mockCountyFeature, true, 150, 250)
+      );
     });
 
     expect(result.current.tooltip).not.toBeNull();
@@ -146,14 +148,18 @@ describe('useTooltip', () => {
     const { result } = renderHook(() => useTooltip());
 
     act(() => {
-      result.current.onHover(createPickingInfo(mockCountyFeature, true, 100, 100));
+      result.current.onHover(
+        createPickingInfo(mockCountyFeature, true, 100, 100)
+      );
     });
 
     expect(result.current.tooltip?.x).toBe(100);
     expect(result.current.tooltip?.y).toBe(100);
 
     act(() => {
-      result.current.onHover(createPickingInfo(mockCountyFeature, true, 200, 300));
+      result.current.onHover(
+        createPickingInfo(mockCountyFeature, true, 200, 300)
+      );
     });
 
     expect(result.current.tooltip?.x).toBe(200);

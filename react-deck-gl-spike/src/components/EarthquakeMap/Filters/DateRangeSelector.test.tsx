@@ -85,7 +85,9 @@ describe('DateRangeSelector', () => {
 
     render(<DateRangeSelector value={value} onChange={mockOnChange} />);
 
-    const startInput = screen.getByTestId('start-date-input') as HTMLInputElement;
+    const startInput = screen.getByTestId(
+      'start-date-input'
+    ) as HTMLInputElement;
     const endInput = screen.getByTestId('end-date-input') as HTMLInputElement;
 
     expect(startInput.value).toBe('2024-06-01');
@@ -96,7 +98,11 @@ describe('DateRangeSelector', () => {
     const minDate = new Date('2024-01-01');
 
     render(
-      <DateRangeSelector value={defaultValue} onChange={mockOnChange} minDate={minDate} />
+      <DateRangeSelector
+        value={defaultValue}
+        onChange={mockOnChange}
+        minDate={minDate}
+      />
     );
 
     const startInput = screen.getByTestId('start-date-input');
@@ -107,7 +113,11 @@ describe('DateRangeSelector', () => {
     const maxDate = new Date('2024-12-31');
 
     render(
-      <DateRangeSelector value={defaultValue} onChange={mockOnChange} maxDate={maxDate} />
+      <DateRangeSelector
+        value={defaultValue}
+        onChange={mockOnChange}
+        maxDate={maxDate}
+      />
     );
 
     const endInput = screen.getByTestId('end-date-input');
@@ -149,7 +159,9 @@ describe('DateRangeSelector', () => {
     render(<DateRangeSelector value={defaultValue} onChange={mockOnChange} />);
 
     expect(
-      screen.getByText('Select start and end dates to filter displayed earthquakes')
+      screen.getByText(
+        'Select start and end dates to filter displayed earthquakes'
+      )
     ).toHaveClass('sr-only');
   });
 });
@@ -262,7 +274,9 @@ describe('DateRangeSelector presets', () => {
   it('preset group has accessible label', () => {
     render(<DateRangeSelector value={defaultValue} onChange={mockOnChange} />);
 
-    const presetGroup = screen.getByRole('group', { name: 'Quick date presets' });
+    const presetGroup = screen.getByRole('group', {
+      name: 'Quick date presets',
+    });
     expect(presetGroup).toBeInTheDocument();
   });
 });

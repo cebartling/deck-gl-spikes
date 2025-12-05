@@ -1,6 +1,11 @@
 import * as topojson from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
-import type { Feature, Polygon, MultiPolygon, FeatureCollection } from 'geojson';
+import type {
+  Feature,
+  Polygon,
+  MultiPolygon,
+  FeatureCollection,
+} from 'geojson';
 import type { CountyFeatureCollection, CountyVoting } from '../types/county';
 
 // Data source URLs

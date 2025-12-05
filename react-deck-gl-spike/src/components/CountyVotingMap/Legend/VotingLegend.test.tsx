@@ -37,7 +37,9 @@ describe('VotingLegend', () => {
   it('applies correct styling classes', () => {
     const { container } = render(<VotingLegend />);
 
-    const legendContainer = container.querySelector('.absolute.bottom-4.left-4');
+    const legendContainer = container.querySelector(
+      '.absolute.bottom-4.left-4'
+    );
     expect(legendContainer).toBeInTheDocument();
     expect(legendContainer).toHaveClass(
       'bg-gray-900/80',
@@ -72,9 +74,13 @@ describe('VotingLegend', () => {
     const segments = gradientContainer?.querySelectorAll('div');
 
     // First segment should be reddish (Republican)
-    expect(segments?.[0]).toHaveStyle({ backgroundColor: expect.stringContaining('rgb') });
+    expect(segments?.[0]).toHaveStyle({
+      backgroundColor: expect.stringContaining('rgb'),
+    });
 
     // Last segment should be bluish (Democrat)
-    expect(segments?.[4]).toHaveStyle({ backgroundColor: expect.stringContaining('rgb') });
+    expect(segments?.[4]).toHaveStyle({
+      backgroundColor: expect.stringContaining('rgb'),
+    });
   });
 });

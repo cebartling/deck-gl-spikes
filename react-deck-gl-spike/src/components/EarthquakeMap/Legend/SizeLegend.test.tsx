@@ -50,9 +50,17 @@ describe('SizeLegend', () => {
   it('applies correct styling classes', () => {
     const { container } = render(<SizeLegend />);
 
-    const legendContainer = container.querySelector('.absolute.bottom-24.left-4');
+    const legendContainer = container.querySelector(
+      '.absolute.bottom-24.left-4'
+    );
     expect(legendContainer).toBeInTheDocument();
-    expect(legendContainer).toHaveClass('bg-gray-900/80', 'backdrop-blur-md', 'rounded-lg', 'shadow-lg', 'border-white/10');
+    expect(legendContainer).toHaveClass(
+      'bg-gray-900/80',
+      'backdrop-blur-md',
+      'rounded-lg',
+      'shadow-lg',
+      'border-white/10'
+    );
   });
 
   it('circles have orange color styling', () => {

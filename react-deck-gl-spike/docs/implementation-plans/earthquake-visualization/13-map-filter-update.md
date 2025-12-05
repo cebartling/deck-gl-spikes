@@ -1,6 +1,7 @@
 # Implementation Plan: Map Updates on Filter
 
 ## Acceptance Criterion
+
 > Map updates to show only earthquakes within selected range
 
 ## Approach
@@ -132,10 +133,7 @@ export function EarthquakeMap({ earthquakes }: Props) {
       </DeckGL>
 
       <div className="absolute top-4 left-4">
-        <DateRangeSelector
-          value={filters.dateRange}
-          onChange={setDateRange}
-        />
+        <DateRangeSelector value={filters.dateRange} onChange={setDateRange} />
       </div>
     </div>
   );
@@ -217,21 +215,24 @@ export function useFilterUrlState() {
     };
   }, [searchParams]);
 
-  const setDateRange = useCallback((dateRange: DateRange) => {
-    setSearchParams((prev) => {
-      if (dateRange.startDate) {
-        prev.set('start', dateRange.startDate.toISOString().split('T')[0]);
-      } else {
-        prev.delete('start');
-      }
-      if (dateRange.endDate) {
-        prev.set('end', dateRange.endDate.toISOString().split('T')[0]);
-      } else {
-        prev.delete('end');
-      }
-      return prev;
-    });
-  }, [setSearchParams]);
+  const setDateRange = useCallback(
+    (dateRange: DateRange) => {
+      setSearchParams((prev) => {
+        if (dateRange.startDate) {
+          prev.set('start', dateRange.startDate.toISOString().split('T')[0]);
+        } else {
+          prev.delete('start');
+        }
+        if (dateRange.endDate) {
+          prev.set('end', dateRange.endDate.toISOString().split('T')[0]);
+        } else {
+          prev.delete('end');
+        }
+        return prev;
+      });
+    },
+    [setSearchParams]
+  );
 
   return { filters, setDateRange };
 }
@@ -258,9 +259,7 @@ export function createFilteredDataset(earthquakes: Earthquake[]): {
       if (!start && !end) return sorted;
 
       // Binary search for start index
-      const startIdx = start
-        ? binarySearchLeft(sorted, start.getTime())
-        : 0;
+      const startIdx = start ? binarySearchLeft(sorted, start.getTime()) : 0;
 
       // Binary search for end index
       const endIdx = end
@@ -276,12 +275,9 @@ export function createFilteredDataset(earthquakes: Earthquake[]): {
 ### Debounce Filter Updates
 
 ```typescript
-const debouncedFilter = useDebouncedCallback(
-  (dateRange: DateRange) => {
-    setFilters((prev) => ({ ...prev, dateRange }));
-  },
-  200
-);
+const debouncedFilter = useDebouncedCallback((dateRange: DateRange) => {
+  setFilters((prev) => ({ ...prev, dateRange }));
+}, 200);
 ```
 
 ## Testing

@@ -45,12 +45,14 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen, closeDropdown]);
 
   // Close dropdown on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     closeDropdown();
   }, [location.pathname, closeDropdown]);
 
@@ -81,6 +83,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleItemKeyDown = (event: React.KeyboardEvent, _index: number) => {
     switch (event.key) {
       case 'ArrowDown':

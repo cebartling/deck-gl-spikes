@@ -29,6 +29,7 @@ export function CountyTooltip({
   useEffect(() => {
     if (county && visible) {
       // Show immediately with new data
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayData(county);
       setPosition({ x, y });
       setIsVisible(true);
@@ -71,9 +72,9 @@ export function CountyTooltip({
       data-testid="county-tooltip"
     >
       <span className="sr-only">
-        {displayData.name}, {displayData.state}.
-        {winnerParty} margin of {formatPercent(displayData.marginPercent)}.
-        Total votes: {displayData.totalVotes}.
+        {displayData.name}, {displayData.state}.{winnerParty} margin of{' '}
+        {formatPercent(displayData.marginPercent)}. Total votes:{' '}
+        {displayData.totalVotes}.
       </span>
       <TooltipContent county={displayData} />
     </div>
