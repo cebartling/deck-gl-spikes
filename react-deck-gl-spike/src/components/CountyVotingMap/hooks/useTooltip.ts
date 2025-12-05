@@ -11,10 +11,10 @@ export interface TooltipState {
 export function useTooltip() {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
 
-  const onHover = useCallback((info: PickingInfo) => {
+  const onHover = useCallback((info: PickingInfo<CountyFeature>) => {
     if (info.object && info.picked) {
       setTooltip({
-        object: info.object as CountyFeature,
+        object: info.object,
         x: info.x,
         y: info.y,
       });

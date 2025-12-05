@@ -1,4 +1,5 @@
 import { GeoJsonLayer } from '@deck.gl/layers';
+import type { PickingInfo } from '@deck.gl/core';
 import type {
   CountyFeature,
   CountyFeatureCollection,
@@ -9,12 +10,8 @@ import { getVotingColor } from './votingColorScale';
 interface CountyLayerOptions {
   data: CountyFeatureCollection;
   highlightedFips?: string | null;
-  onHover?: (info: {
-    object?: CountyFeature;
-    x: number;
-    y: number;
-  }) => void;
-  onClick?: (info: { object?: CountyFeature }) => void;
+  onHover?: (info: PickingInfo<CountyFeature>) => void;
+  onClick?: (info: PickingInfo<CountyFeature>) => void;
 }
 
 export function createCountyLayer({
