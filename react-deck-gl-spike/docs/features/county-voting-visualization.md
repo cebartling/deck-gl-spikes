@@ -57,6 +57,35 @@ Display county-level voting data on an interactive map visualization using deck.
 - [ ] Map updates to show only counties within selected state
 - [ ] Option to view all states simultaneously
 
+### Filter by election year
+
+**As a** user
+**I want to** filter counties by election year
+**So that I** can focus on specific geographic areas
+
+#### Acceptance Criteria
+
+- [ ] Election selector is available
+- [ ] Map updates with counties' voting data for the selected year
+- [ ] Fetch election data once and cache in the project and version control system to avoid redundant requests
+- [ ] Match data shape that is already in place
+
+
+### Filter by mid-term election year
+
+**As a** user
+**I want to** filter counties by mid-term election year
+**So that I** can focus on specific geographic areas
+
+#### Acceptance Criteria
+
+- [ ] Election selector is available
+- [ ] Map updates with counties' voting data for the selected year
+- [ ] Fetch election data once and cache in the project and version control system to avoid redundant requests
+- [ ] Match data shape that is already in place
+
+
+
 ## Visual Requirements
 
 - County polygons should use a diverging color scale (e.g., blue to red)
