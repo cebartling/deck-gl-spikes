@@ -42,13 +42,13 @@ graph TB
 
 ## Libraries
 
-| Library | Purpose |
-|---------|---------|
-| `@deck.gl/layers` | GeoJsonLayer for polygon rendering |
-| `@deck.gl/react` | React integration |
-| `react-map-gl/maplibre` | MapLibre base map |
-| `d3-scale` | Diverging color scale |
-| `zod` | Runtime data validation |
+| Library                 | Purpose                            |
+| ----------------------- | ---------------------------------- |
+| `@deck.gl/layers`       | GeoJsonLayer for polygon rendering |
+| `@deck.gl/react`        | React integration                  |
+| `react-map-gl/maplibre` | MapLibre base map                  |
+| `d3-scale`              | Diverging color scale              |
+| `zod`                   | Runtime data validation            |
 
 ## Data Structures
 
@@ -57,16 +57,16 @@ graph TB
 import { z } from 'zod';
 
 export const CountyVotingSchema = z.object({
-  fips: z.string(),           // 5-digit FIPS code
-  name: z.string(),           // County name
-  state: z.string(),          // State abbreviation
-  stateFips: z.string(),      // 2-digit state FIPS
+  fips: z.string(), // 5-digit FIPS code
+  name: z.string(), // County name
+  state: z.string(), // State abbreviation
+  stateFips: z.string(), // 2-digit state FIPS
   totalVotes: z.number(),
   democratVotes: z.number(),
   republicanVotes: z.number(),
   otherVotes: z.number(),
-  margin: z.number(),         // Positive = Democrat, Negative = Republican
-  marginPercent: z.number(),  // -100 to +100
+  margin: z.number(), // Positive = Democrat, Negative = Republican
+  marginPercent: z.number(), // -100 to +100
 });
 
 export type CountyVoting = z.infer<typeof CountyVotingSchema>;
@@ -93,9 +93,9 @@ export interface CountyFeatureCollection {
 import { scaleLinear } from 'd3-scale';
 
 // Blue (Democrat) to White (neutral) to Red (Republican)
-const DEMOCRAT_COLOR: [number, number, number] = [33, 102, 172];   // #2166ac
-const NEUTRAL_COLOR: [number, number, number] = [247, 247, 247];   // #f7f7f7
-const REPUBLICAN_COLOR: [number, number, number] = [178, 24, 43];  // #b2182b
+const DEMOCRAT_COLOR: [number, number, number] = [33, 102, 172]; // #2166ac
+const NEUTRAL_COLOR: [number, number, number] = [247, 247, 247]; // #f7f7f7
+const REPUBLICAN_COLOR: [number, number, number] = [178, 24, 43]; // #b2182b
 
 export function getVotingColor(
   marginPercent: number,
@@ -112,15 +112,27 @@ export function getVotingColor(
   if (t < 0.5) {
     // Republican side: blend from red to white
     const localT = t * 2;
-    r = Math.round(REPUBLICAN_COLOR[0] + (NEUTRAL_COLOR[0] - REPUBLICAN_COLOR[0]) * localT);
-    g = Math.round(REPUBLICAN_COLOR[1] + (NEUTRAL_COLOR[1] - REPUBLICAN_COLOR[1]) * localT);
-    b = Math.round(REPUBLICAN_COLOR[2] + (NEUTRAL_COLOR[2] - REPUBLICAN_COLOR[2]) * localT);
+    r = Math.round(
+      REPUBLICAN_COLOR[0] + (NEUTRAL_COLOR[0] - REPUBLICAN_COLOR[0]) * localT
+    );
+    g = Math.round(
+      REPUBLICAN_COLOR[1] + (NEUTRAL_COLOR[1] - REPUBLICAN_COLOR[1]) * localT
+    );
+    b = Math.round(
+      REPUBLICAN_COLOR[2] + (NEUTRAL_COLOR[2] - REPUBLICAN_COLOR[2]) * localT
+    );
   } else {
     // Democrat side: blend from white to blue
     const localT = (t - 0.5) * 2;
-    r = Math.round(NEUTRAL_COLOR[0] + (DEMOCRAT_COLOR[0] - NEUTRAL_COLOR[0]) * localT);
-    g = Math.round(NEUTRAL_COLOR[1] + (DEMOCRAT_COLOR[1] - NEUTRAL_COLOR[1]) * localT);
-    b = Math.round(NEUTRAL_COLOR[2] + (DEMOCRAT_COLOR[2] - NEUTRAL_COLOR[2]) * localT);
+    r = Math.round(
+      NEUTRAL_COLOR[0] + (DEMOCRAT_COLOR[0] - NEUTRAL_COLOR[0]) * localT
+    );
+    g = Math.round(
+      NEUTRAL_COLOR[1] + (DEMOCRAT_COLOR[1] - NEUTRAL_COLOR[1]) * localT
+    );
+    b = Math.round(
+      NEUTRAL_COLOR[2] + (DEMOCRAT_COLOR[2] - NEUTRAL_COLOR[2]) * localT
+    );
   }
 
   return [r, g, b, opacity];
@@ -150,7 +162,10 @@ export function getAccessibleVotingColor(
 ```typescript
 // src/components/CountyVotingMap/layers/countyLayer.ts
 import { GeoJsonLayer } from '@deck.gl/layers';
-import type { CountyFeature, CountyFeatureCollection } from '../../../types/county';
+import type {
+  CountyFeature,
+  CountyFeatureCollection,
+} from '../../../types/county';
 import { getVotingColor } from './votingColorScale';
 
 interface CountyLayerOptions {
@@ -245,7 +260,8 @@ export function useCountyVotingData(): UseCountyVotingDataResult {
         }
 
         const geoJson = await geoResponse.json();
-        const votingData: Record<string, CountyVoting> = await votingResponse.json();
+        const votingData: Record<string, CountyVoting> =
+          await votingResponse.json();
 
         // Validate voting data
         const validatedVoting: Record<string, CountyVoting> = {};

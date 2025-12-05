@@ -1,7 +1,9 @@
 // Blue (Democrat) to White (neutral) to Red (Republican)
 export const DEMOCRAT_COLOR: readonly [number, number, number] = [33, 102, 172]; // #2166ac
 export const NEUTRAL_COLOR: readonly [number, number, number] = [247, 247, 247]; // #f7f7f7
-export const REPUBLICAN_COLOR: readonly [number, number, number] = [178, 24, 43]; // #b2182b
+export const REPUBLICAN_COLOR: readonly [number, number, number] = [
+  178, 24, 43,
+]; // #b2182b
 
 /**
  * Convert vote margin percentage to RGBA color.

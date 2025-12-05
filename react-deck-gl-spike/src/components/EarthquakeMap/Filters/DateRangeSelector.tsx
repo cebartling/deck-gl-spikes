@@ -46,7 +46,9 @@ export function DateRangeSelector({
 }: DateRangeSelectorProps) {
   const handleStartChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const date = e.target.value ? new Date(e.target.value + 'T00:00:00') : null;
+      const date = e.target.value
+        ? new Date(e.target.value + 'T00:00:00')
+        : null;
       onChange({ ...value, startDate: date });
     },
     [value, onChange]
@@ -54,7 +56,9 @@ export function DateRangeSelector({
 
   const handleEndChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const date = e.target.value ? new Date(e.target.value + 'T23:59:59') : null;
+      const date = e.target.value
+        ? new Date(e.target.value + 'T23:59:59')
+        : null;
       onChange({ ...value, endDate: date });
     },
     [value, onChange]
@@ -82,7 +86,10 @@ export function DateRangeSelector({
       className="flex flex-col gap-2 p-3 bg-gray-900/80 backdrop-blur-md rounded-lg shadow-lg border border-white/10"
       data-testid="date-range-selector"
     >
-      <span id="date-range-label" className="text-sm font-semibold text-gray-100">
+      <span
+        id="date-range-label"
+        className="text-sm font-semibold text-gray-100"
+      >
         Time Period
       </span>
 
@@ -136,7 +143,11 @@ export function DateRangeSelector({
             value={formatDateForInput(value.endDate)}
             onChange={handleEndChange}
             min={formatDateForInput(value.startDate || minDate)}
-            max={maxDate ? formatDateForInput(maxDate) : formatDateForInput(new Date())}
+            max={
+              maxDate
+                ? formatDateForInput(maxDate)
+                : formatDateForInput(new Date())
+            }
             className="w-full px-2 py-1 bg-gray-800/60 border border-gray-600 rounded text-sm text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:border-blue-500"
             data-testid="end-date-input"
           />

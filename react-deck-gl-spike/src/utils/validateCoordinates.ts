@@ -21,7 +21,9 @@ export function isValidCoordinate(lng: number, lat: number): boolean {
 /**
  * Filters out earthquakes with invalid coordinates.
  */
-export function filterValidEarthquakes(earthquakes: Earthquake[]): Earthquake[] {
+export function filterValidEarthquakes(
+  earthquakes: Earthquake[]
+): Earthquake[] {
   return earthquakes.filter((eq) =>
     isValidCoordinate(eq.longitude, eq.latitude)
   );

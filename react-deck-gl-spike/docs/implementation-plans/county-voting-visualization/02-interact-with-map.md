@@ -45,12 +45,12 @@ graph TB
 
 ## Libraries
 
-| Library | Purpose |
-|---------|---------|
-| `@deck.gl/react` | DeckGL component with controller |
-| `@deck.gl/core` | MapController for interaction handling |
-| `react-map-gl/maplibre` | MapLibre base map sync |
-| `zustand` | Optional global view state |
+| Library                 | Purpose                                |
+| ----------------------- | -------------------------------------- |
+| `@deck.gl/react`        | DeckGL component with controller       |
+| `@deck.gl/core`         | MapController for interaction handling |
+| `react-map-gl/maplibre` | MapLibre base map sync                 |
+| `zustand`               | Optional global view state             |
 
 ## Implementation Steps
 
@@ -68,7 +68,7 @@ export interface MapViewState {
 }
 
 export const INITIAL_VIEW_STATE: MapViewState = {
-  longitude: -98.5795,  // Center of contiguous US
+  longitude: -98.5795, // Center of contiguous US
   latitude: 39.8283,
   zoom: 4,
   pitch: 0,
@@ -79,10 +79,10 @@ export const INITIAL_VIEW_STATE: MapViewState = {
 export const VIEW_BOUNDS = {
   minZoom: 3,
   maxZoom: 12,
-  minLatitude: 24,   // Southern US border
-  maxLatitude: 50,   // Northern US border
+  minLatitude: 24, // Southern US border
+  maxLatitude: 50, // Northern US border
   minLongitude: -125, // Western US border
-  maxLongitude: -66,  // Eastern US border
+  maxLongitude: -66, // Eastern US border
 };
 ```
 
@@ -104,26 +104,34 @@ interface ViewStateChangeInfo {
   };
 }
 
-export function useMapViewState(initialState: MapViewState = INITIAL_VIEW_STATE) {
+export function useMapViewState(
+  initialState: MapViewState = INITIAL_VIEW_STATE
+) {
   const [viewState, setViewState] = useState<MapViewState>(initialState);
 
-  const handleViewStateChange = useCallback(({ viewState }: ViewStateChangeInfo) => {
-    // Constrain view to bounds
-    const constrainedState: MapViewState = {
-      ...viewState,
-      zoom: Math.max(VIEW_BOUNDS.minZoom, Math.min(VIEW_BOUNDS.maxZoom, viewState.zoom)),
-      latitude: Math.max(
-        VIEW_BOUNDS.minLatitude,
-        Math.min(VIEW_BOUNDS.maxLatitude, viewState.latitude)
-      ),
-      longitude: Math.max(
-        VIEW_BOUNDS.minLongitude,
-        Math.min(VIEW_BOUNDS.maxLongitude, viewState.longitude)
-      ),
-    };
+  const handleViewStateChange = useCallback(
+    ({ viewState }: ViewStateChangeInfo) => {
+      // Constrain view to bounds
+      const constrainedState: MapViewState = {
+        ...viewState,
+        zoom: Math.max(
+          VIEW_BOUNDS.minZoom,
+          Math.min(VIEW_BOUNDS.maxZoom, viewState.zoom)
+        ),
+        latitude: Math.max(
+          VIEW_BOUNDS.minLatitude,
+          Math.min(VIEW_BOUNDS.maxLatitude, viewState.latitude)
+        ),
+        longitude: Math.max(
+          VIEW_BOUNDS.minLongitude,
+          Math.min(VIEW_BOUNDS.maxLongitude, viewState.longitude)
+        ),
+      };
 
-    setViewState(constrainedState);
-  }, []);
+      setViewState(constrainedState);
+    },
+    []
+  );
 
   const resetView = useCallback(() => {
     setViewState({
@@ -168,7 +176,10 @@ interface MapViewStore {
 function constrainViewState(viewState: MapViewState): MapViewState {
   return {
     ...viewState,
-    zoom: Math.max(VIEW_BOUNDS.minZoom, Math.min(VIEW_BOUNDS.maxZoom, viewState.zoom)),
+    zoom: Math.max(
+      VIEW_BOUNDS.minZoom,
+      Math.min(VIEW_BOUNDS.maxZoom, viewState.zoom)
+    ),
     latitude: Math.max(
       VIEW_BOUNDS.minLatitude,
       Math.min(VIEW_BOUNDS.maxLatitude, viewState.latitude)
@@ -396,6 +407,7 @@ controller={{
 ### Touch Gesture Support
 
 deck.gl's controller handles touch gestures automatically:
+
 - Single finger drag = pan
 - Pinch = zoom
 - Double tap = zoom in

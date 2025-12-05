@@ -19,7 +19,8 @@ import {
 } from '../../utils/constrainViewState';
 
 // Free OpenStreetMap-based style
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const MAP_STYLE =
+  'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 // USGS Earthquake API - All earthquakes in the past 30 days
 const EARTHQUAKE_DATA_URL =
@@ -30,7 +31,9 @@ export function EarthquakeMap() {
   const earthquakes = useEarthquakeStore((state) => state.earthquakes);
   const loading = useEarthquakeStore((state) => state.loading);
   const error = useEarthquakeStore((state) => state.error);
-  const fetchEarthquakes = useEarthquakeStore((state) => state.fetchEarthquakes);
+  const fetchEarthquakes = useEarthquakeStore(
+    (state) => state.fetchEarthquakes
+  );
 
   // Map view store
   const viewState = useMapViewStore((state) => state.viewState);
@@ -59,7 +62,9 @@ export function EarthquakeMap() {
   const dateBounds = useMemo(() => {
     if (earthquakes.length === 0) return { min: undefined, max: undefined };
 
-    const timestamps = earthquakes.map((eq) => new Date(eq.timestamp).getTime());
+    const timestamps = earthquakes.map((eq) =>
+      new Date(eq.timestamp).getTime()
+    );
     return {
       min: new Date(Math.min(...timestamps)),
       max: new Date(Math.max(...timestamps)),

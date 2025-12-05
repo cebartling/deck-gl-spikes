@@ -46,7 +46,11 @@ describe('EarthquakeStats', () => {
 
   it('hides total count when not filtered', () => {
     render(
-      <EarthquakeStats totalCount={100} filteredCount={100} isFiltered={false} />
+      <EarthquakeStats
+        totalCount={100}
+        filteredCount={100}
+        isFiltered={false}
+      />
     );
 
     expect(screen.queryByTestId('total-count')).not.toBeInTheDocument();
@@ -63,7 +67,11 @@ describe('EarthquakeStats', () => {
 
   it('hides filter indicator when isFiltered is false', () => {
     render(
-      <EarthquakeStats totalCount={100} filteredCount={100} isFiltered={false} />
+      <EarthquakeStats
+        totalCount={100}
+        filteredCount={100}
+        isFiltered={false}
+      />
     );
 
     expect(screen.queryByTestId('filter-indicator')).not.toBeInTheDocument();

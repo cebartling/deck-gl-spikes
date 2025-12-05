@@ -37,9 +37,17 @@ describe('ColorLegend', () => {
   it('applies correct styling classes', () => {
     const { container } = render(<ColorLegend />);
 
-    const legendContainer = container.querySelector('.absolute.bottom-4.right-4');
+    const legendContainer = container.querySelector(
+      '.absolute.bottom-4.right-4'
+    );
     expect(legendContainer).toBeInTheDocument();
-    expect(legendContainer).toHaveClass('bg-gray-900/80', 'backdrop-blur-md', 'rounded-lg', 'shadow-lg', 'border-white/10');
+    expect(legendContainer).toHaveClass(
+      'bg-gray-900/80',
+      'backdrop-blur-md',
+      'rounded-lg',
+      'shadow-lg',
+      'border-white/10'
+    );
   });
 
   it('has accessible role and aria-labelledby', () => {

@@ -39,7 +39,9 @@ export function useEarthquakeData(url: string) {
 
         // Validate the API response with Zod
         const validatedResponse = GeoJSONResponseSchema.parse(json);
-        const earthquakes = validatedResponse.features.map(transformGeoJSONFeature);
+        const earthquakes = validatedResponse.features.map(
+          transformGeoJSONFeature
+        );
 
         if (!cancelled) {
           setData(earthquakes);

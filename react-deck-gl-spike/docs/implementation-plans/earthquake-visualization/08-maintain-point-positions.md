@@ -1,6 +1,7 @@
 # Implementation Plan: Maintain Point Positions During Navigation
 
 ## Acceptance Criterion
+
 > Map maintains earthquake point positions during navigation
 
 ## Approach

@@ -1,6 +1,7 @@
 # Implementation Plan: Map Panning Interaction
 
 ## Acceptance Criterion
+
 > Map supports click-and-drag panning
 
 ## Approach
@@ -56,14 +57,14 @@ export function EarthquakeMap() {
 <DeckGL
   controller={{
     type: MapController,
-    dragPan: true,           // Enable panning
-    dragRotate: false,       // Disable rotation for 2D map
-    scrollZoom: true,        // Enable zoom
-    touchZoom: true,         // Enable pinch zoom
-    touchRotate: false,      // Disable touch rotation
-    keyboard: true,          // Enable keyboard navigation
-    doubleClickZoom: true,   // Enable double-click zoom
-    inertia: 300,            // Momentum after drag (ms)
+    dragPan: true, // Enable panning
+    dragRotate: false, // Disable rotation for 2D map
+    scrollZoom: true, // Enable zoom
+    touchZoom: true, // Enable pinch zoom
+    touchRotate: false, // Disable touch rotation
+    keyboard: true, // Enable keyboard navigation
+    doubleClickZoom: true, // Enable double-click zoom
+    inertia: 300, // Momentum after drag (ms)
   }}
 />
 ```
@@ -126,12 +127,9 @@ function constrainViewState(viewState: ViewState): ViewState {
   };
 }
 
-const onViewStateChange = useCallback(
-  ({ viewState }) => {
-    setViewState(constrainViewState(viewState));
-  },
-  []
-);
+const onViewStateChange = useCallback(({ viewState }) => {
+  setViewState(constrainViewState(viewState));
+}, []);
 ```
 
 ## Touch Device Support
@@ -157,13 +155,10 @@ const onViewStateChange = useCallback(
 // For heavy computations based on view state
 import { useDebouncedCallback } from 'use-debounce';
 
-const debouncedUpdate = useDebouncedCallback(
-  (viewState: ViewState) => {
-    // Expensive operations like fetching visible data
-    fetchVisibleEarthquakes(viewState);
-  },
-  150
-);
+const debouncedUpdate = useDebouncedCallback((viewState: ViewState) => {
+  // Expensive operations like fetching visible data
+  fetchVisibleEarthquakes(viewState);
+}, 150);
 ```
 
 ### Smooth Transitions

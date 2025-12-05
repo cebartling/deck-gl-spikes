@@ -32,9 +32,7 @@ describe('App', () => {
     render(<App />);
 
     expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /spikes/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /spikes/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
   });
 

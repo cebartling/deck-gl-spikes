@@ -1,6 +1,7 @@
 # Implementation Plan: Tooltip Content Display
 
 ## Acceptance Criterion
+
 > Tooltip displays magnitude, depth, location, and date/time
 
 ## Approach
@@ -34,10 +35,10 @@ interface Earthquake {
   id: string;
   longitude: number;
   latitude: number;
-  depth: number;        // km below surface
-  magnitude: number;    // Richter scale
-  timestamp: string;    // ISO 8601 format
-  location: string;     // Human-readable place name
+  depth: number; // km below surface
+  magnitude: number; // Richter scale
+  timestamp: string; // ISO 8601 format
+  location: string; // Human-readable place name
 }
 ```
 
@@ -75,9 +76,8 @@ export function formatDepth(depthKm: number): {
   value: string;
   classification: string;
 } {
-  const value = depthKm < 100
-    ? `${depthKm.toFixed(1)} km`
-    : `${Math.round(depthKm)} km`;
+  const value =
+    depthKm < 100 ? `${depthKm.toFixed(1)} km` : `${Math.round(depthKm)} km`;
 
   let classification: string;
   if (depthKm < 70) classification = 'Shallow';
@@ -167,16 +167,12 @@ export function TooltipContent({ earthquake }: TooltipContentProps) {
         <span className="text-2xl font-bold text-gray-900">
           M{magnitude.value}
         </span>
-        <span className="text-sm text-gray-500">
-          {magnitude.descriptor}
-        </span>
+        <span className="text-sm text-gray-500">{magnitude.descriptor}</span>
       </div>
 
       {/* Location */}
       <div>
-        <div className="font-medium text-gray-800">
-          {earthquake.location}
-        </div>
+        <div className="font-medium text-gray-800">{earthquake.location}</div>
         <div className="text-xs text-gray-500">
           {formatCoordinates(earthquake.longitude, earthquake.latitude)}
         </div>
@@ -187,7 +183,9 @@ export function TooltipContent({ earthquake }: TooltipContentProps) {
         <div>
           <span className="text-gray-500">Depth:</span>
           <span className="ml-1 font-medium">{depth.value}</span>
-          <span className="text-xs text-gray-400 ml-1">({depth.classification})</span>
+          <span className="text-xs text-gray-400 ml-1">
+            ({depth.classification})
+          </span>
         </div>
 
         <div>
@@ -267,21 +265,21 @@ function getDepthColorCSS(depth: number): string {
 // Compact layout for smaller screens
 <div className="space-y-1 md:space-y-2">
   {/* On mobile, use stacked layout */}
-  <div className="md:grid md:grid-cols-2">
-    {/* ... */}
-  </div>
+  <div className="md:grid md:grid-cols-2">{/* ... */}</div>
 </div>
 ```
 
 ## Accessibility
 
 ```tsx
-<div role="tooltip" aria-label={`Earthquake details: Magnitude ${earthquake.magnitude}`}>
+<div
+  role="tooltip"
+  aria-label={`Earthquake details: Magnitude ${earthquake.magnitude}`}
+>
   <span className="sr-only">
-    Magnitude {magnitude.value} {magnitude.descriptor} earthquake.
-    Location: {earthquake.location}.
-    Depth: {depth.value}.
-    Occurred on {dateTime.date} at {dateTime.time}.
+    Magnitude {magnitude.value} {magnitude.descriptor} earthquake. Location:{' '}
+    {earthquake.location}. Depth: {depth.value}. Occurred on {dateTime.date} at{' '}
+    {dateTime.time}.
   </span>
   {/* Visual content */}
 </div>

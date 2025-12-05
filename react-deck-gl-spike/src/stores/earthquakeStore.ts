@@ -61,7 +61,9 @@ export const useEarthquakeStore = create<EarthquakeState>((set, get) => ({
 
       // Validate the API response with Zod
       const validatedResponse = GeoJSONResponseSchema.parse(json);
-      const earthquakes = validatedResponse.features.map(transformGeoJSONFeature);
+      const earthquakes = validatedResponse.features.map(
+        transformGeoJSONFeature
+      );
 
       set({ earthquakes, loading: false });
     } catch (err) {

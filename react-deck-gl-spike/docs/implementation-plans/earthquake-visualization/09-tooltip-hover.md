@@ -1,6 +1,7 @@
 # Implementation Plan: Tooltip on Hover
 
 ## Acceptance Criterion
+
 > Tooltip appears on point hover
 
 ## Approach
@@ -122,9 +123,7 @@ export function EarthquakeMap({ earthquakes }: Props) {
   const { tooltip, onHover } = useTooltip();
 
   const layers = useMemo(
-    () => [
-      createEarthquakeLayer(earthquakes),
-    ],
+    () => [createEarthquakeLayer(earthquakes)],
     [earthquakes]
   );
 
@@ -236,30 +235,23 @@ const debouncedOnHover = useDebouncedCallback(
 
 ```tsx
 // On touch devices, use click instead of hover
-const handleInteraction = useCallback(
-  (info: PickingInfo<Earthquake>) => {
-    if (info.object) {
-      setTooltip({ object: info.object, x: info.x, y: info.y });
-    }
-  },
-  []
-);
+const handleInteraction = useCallback((info: PickingInfo<Earthquake>) => {
+  if (info.object) {
+    setTooltip({ object: info.object, x: info.x, y: info.y });
+  }
+}, []);
 
 <DeckGL
   onHover={!isTouchDevice ? onHover : undefined}
   onClick={isTouchDevice ? handleInteraction : undefined}
-/>
+/>;
 ```
 
 ## Accessibility
 
 ```tsx
 // Add ARIA attributes for screen readers
-<div
-  role="tooltip"
-  aria-live="polite"
-  className="..."
->
+<div role="tooltip" aria-live="polite" className="...">
   <span className="sr-only">Earthquake details:</span>
   {/* Tooltip content */}
 </div>

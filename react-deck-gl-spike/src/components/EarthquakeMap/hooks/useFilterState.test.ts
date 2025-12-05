@@ -115,7 +115,9 @@ describe('useFilterState', () => {
       });
     });
 
-    expect(result.current.filters.dateRange.startDate).toEqual(new Date('2024-01-01'));
+    expect(result.current.filters.dateRange.startDate).toEqual(
+      new Date('2024-01-01')
+    );
 
     // Second update
     act(() => {
@@ -125,7 +127,11 @@ describe('useFilterState', () => {
       });
     });
 
-    expect(result.current.filters.dateRange.startDate).toEqual(new Date('2024-06-01'));
-    expect(result.current.filters.dateRange.endDate).toEqual(new Date('2024-06-30'));
+    expect(result.current.filters.dateRange.startDate).toEqual(
+      new Date('2024-06-01')
+    );
+    expect(result.current.filters.dateRange.endDate).toEqual(
+      new Date('2024-06-30')
+    );
   });
 });

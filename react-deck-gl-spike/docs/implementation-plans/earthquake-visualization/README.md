@@ -14,48 +14,48 @@ See [Feature Specification](../../features/earthquake-visualization.md) for user
 
 ### View Earthquake Map
 
-| # | Criterion | Plan |
-|---|-----------|------|
-| 01 | Map displays with a base layer showing geographic context | [01-map-base-layer.md](./01-map-base-layer.md) |
-| 02 | Earthquake events are rendered as points on the map | [02-earthquake-points-rendering.md](./02-earthquake-points-rendering.md) |
-| 03 | Each point is positioned at the earthquake's latitude/longitude | [03-point-positioning.md](./03-point-positioning.md) |
-| 04 | Point size corresponds to earthquake magnitude | [04-point-size-magnitude.md](./04-point-size-magnitude.md) |
-| 05 | Point color indicates earthquake depth | [05-point-color-depth.md](./05-point-color-depth.md) |
+| #   | Criterion                                                       | Plan                                                                     |
+| --- | --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 01  | Map displays with a base layer showing geographic context       | [01-map-base-layer.md](./01-map-base-layer.md)                           |
+| 02  | Earthquake events are rendered as points on the map             | [02-earthquake-points-rendering.md](./02-earthquake-points-rendering.md) |
+| 03  | Each point is positioned at the earthquake's latitude/longitude | [03-point-positioning.md](./03-point-positioning.md)                     |
+| 04  | Point size corresponds to earthquake magnitude                  | [04-point-size-magnitude.md](./04-point-size-magnitude.md)               |
+| 05  | Point color indicates earthquake depth                          | [05-point-color-depth.md](./05-point-color-depth.md)                     |
 
 ### Interact with Map
 
-| # | Criterion | Plan |
-|---|-----------|------|
-| 06 | Map supports click-and-drag panning | [06-map-panning.md](./06-map-panning.md) |
-| 07 | Map supports scroll wheel zooming | [07-map-zooming.md](./07-map-zooming.md) |
-| 08 | Map maintains earthquake point positions during navigation | [08-maintain-point-positions.md](./08-maintain-point-positions.md) |
+| #   | Criterion                                                  | Plan                                                               |
+| --- | ---------------------------------------------------------- | ------------------------------------------------------------------ |
+| 06  | Map supports click-and-drag panning                        | [06-map-panning.md](./06-map-panning.md)                           |
+| 07  | Map supports scroll wheel zooming                          | [07-map-zooming.md](./07-map-zooming.md)                           |
+| 08  | Map maintains earthquake point positions during navigation | [08-maintain-point-positions.md](./08-maintain-point-positions.md) |
 
 ### View Earthquake Details
 
-| # | Criterion | Plan |
-|---|-----------|------|
-| 09 | Tooltip appears on point hover | [09-tooltip-hover.md](./09-tooltip-hover.md) |
-| 10 | Tooltip displays magnitude, depth, location, and date/time | [10-tooltip-content.md](./10-tooltip-content.md) |
-| 11 | Tooltip dismisses when cursor moves away | [11-tooltip-dismiss.md](./11-tooltip-dismiss.md) |
+| #   | Criterion                                                  | Plan                                             |
+| --- | ---------------------------------------------------------- | ------------------------------------------------ |
+| 09  | Tooltip appears on point hover                             | [09-tooltip-hover.md](./09-tooltip-hover.md)     |
+| 10  | Tooltip displays magnitude, depth, location, and date/time | [10-tooltip-content.md](./10-tooltip-content.md) |
+| 11  | Tooltip dismisses when cursor moves away                   | [11-tooltip-dismiss.md](./11-tooltip-dismiss.md) |
 
 ### Filter by Time Range
 
-| # | Criterion | Plan |
-|---|-----------|------|
-| 12 | Date range selector is available | [12-date-range-selector.md](./12-date-range-selector.md) |
-| 13 | Map updates to show only earthquakes within selected range | [13-map-filter-update.md](./13-map-filter-update.md) |
-| 14 | Point count reflects filtered results | [14-point-count-display.md](./14-point-count-display.md) |
+| #   | Criterion                                                  | Plan                                                     |
+| --- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| 12  | Date range selector is available                           | [12-date-range-selector.md](./12-date-range-selector.md) |
+| 13  | Map updates to show only earthquakes within selected range | [13-map-filter-update.md](./13-map-filter-update.md)     |
+| 14  | Point count reflects filtered results                      | [14-point-count-display.md](./14-point-count-display.md) |
 
 ## Technology Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| deck.gl | ^9.x | WebGL-powered visualization layers |
-| MapLibre GL | ^4.x | Base map rendering |
-| react-map-gl | ^7.x | React wrapper for MapLibre |
-| React | ^19.x | UI framework |
-| TypeScript | ^5.x | Type safety |
-| Tailwind CSS | ^4.x | Styling |
+| Technology   | Version | Purpose                            |
+| ------------ | ------- | ---------------------------------- |
+| deck.gl      | ^9.x    | WebGL-powered visualization layers |
+| MapLibre GL  | ^4.x    | Base map rendering                 |
+| react-map-gl | ^7.x    | React wrapper for MapLibre         |
+| React        | ^19.x   | UI framework                       |
+| TypeScript   | ^5.x    | Type safety                        |
+| Tailwind CSS | ^4.x    | Styling                            |
 
 ## Architecture Overview
 
@@ -98,6 +98,7 @@ src/
 ## Performance Considerations
 
 All plans address:
+
 - Large dataset optimization (100k+ points)
 - Binary attribute buffers for GPU efficiency
 - Memoization to prevent unnecessary re-renders
@@ -106,6 +107,7 @@ All plans address:
 ## Responsive Design
 
 All plans include considerations for:
+
 - Mobile touch interactions
 - Flexible layouts (mobile/desktop)
 - Touch-friendly control sizes
@@ -114,6 +116,7 @@ All plans include considerations for:
 ## Accessibility
 
 All plans consider:
+
 - Keyboard navigation
 - Screen reader support
 - ARIA attributes

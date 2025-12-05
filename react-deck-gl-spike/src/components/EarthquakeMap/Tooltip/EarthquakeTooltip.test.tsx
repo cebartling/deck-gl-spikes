@@ -71,7 +71,10 @@ describe('EarthquakeTooltip', () => {
     render(<EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} />);
 
     const tooltip = screen.getByRole('tooltip');
-    expect(tooltip).toHaveAttribute('aria-label', 'Earthquake details: Magnitude 4.5');
+    expect(tooltip).toHaveAttribute(
+      'aria-label',
+      'Earthquake details: Magnitude 4.5'
+    );
   });
 
   it('includes screen reader only text with full details', () => {
@@ -122,7 +125,12 @@ describe('EarthquakeTooltip', () => {
   describe('transitions', () => {
     it('has opacity-100 when visible', () => {
       render(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={true}
+        />
       );
 
       const tooltip = screen.getByRole('tooltip');
@@ -131,12 +139,22 @@ describe('EarthquakeTooltip', () => {
 
     it('has opacity-0 when not visible', () => {
       const { rerender } = render(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={true}
+        />
       );
 
       // Start hide transition
       rerender(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={false} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={false}
+        />
       );
 
       // Tooltip should still be in DOM during fade-out but with opacity-0
@@ -160,7 +178,12 @@ describe('EarthquakeTooltip', () => {
 
     it('data persists during fade-out animation', () => {
       const { rerender } = render(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={true}
+        />
       );
 
       // Start hide transition
@@ -181,14 +204,21 @@ describe('EarthquakeTooltip', () => {
     });
 
     it('does not render when earthquake is null and never was visible', () => {
-      render(<EarthquakeTooltip earthquake={null} x={100} y={200} visible={false} />);
+      render(
+        <EarthquakeTooltip earthquake={null} x={100} y={200} visible={false} />
+      );
 
       expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
     });
 
     it('has aria-hidden when not visible', () => {
       const { rerender } = render(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={true} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={true}
+        />
       );
 
       let tooltip = screen.getByRole('tooltip');
@@ -196,7 +226,12 @@ describe('EarthquakeTooltip', () => {
 
       // Hide tooltip - keep earthquake data to allow fade-out animation
       rerender(
-        <EarthquakeTooltip earthquake={mockEarthquake} x={100} y={200} visible={false} />
+        <EarthquakeTooltip
+          earthquake={mockEarthquake}
+          x={100}
+          y={200}
+          visible={false}
+        />
       );
 
       // Tooltip should still be in DOM during fade-out with aria-hidden="true"

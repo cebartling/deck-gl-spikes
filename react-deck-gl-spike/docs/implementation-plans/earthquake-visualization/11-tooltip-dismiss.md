@@ -1,6 +1,7 @@
 # Implementation Plan: Tooltip Dismiss Behavior
 
 ## Acceptance Criterion
+
 > Tooltip dismisses when cursor moves away
 
 ## Approach
@@ -179,28 +180,34 @@ export function useTooltip(isTouchDevice: boolean) {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
 
   // On touch devices, dismiss on tap anywhere else
-  const onClick = useCallback((info: PickingInfo<Earthquake>) => {
-    if (isTouchDevice) {
-      if (info.object) {
-        // Show tooltip on tap
-        setTooltip({ object: info.object, x: info.x, y: info.y });
-      } else {
-        // Dismiss on tap elsewhere
-        setTooltip(null);
+  const onClick = useCallback(
+    (info: PickingInfo<Earthquake>) => {
+      if (isTouchDevice) {
+        if (info.object) {
+          // Show tooltip on tap
+          setTooltip({ object: info.object, x: info.x, y: info.y });
+        } else {
+          // Dismiss on tap elsewhere
+          setTooltip(null);
+        }
       }
-    }
-  }, [isTouchDevice]);
+    },
+    [isTouchDevice]
+  );
 
   // Desktop: use hover
-  const onHover = useCallback((info: PickingInfo<Earthquake>) => {
-    if (!isTouchDevice) {
-      if (info.object) {
-        setTooltip({ object: info.object, x: info.x, y: info.y });
-      } else {
-        setTooltip(null);
+  const onHover = useCallback(
+    (info: PickingInfo<Earthquake>) => {
+      if (!isTouchDevice) {
+        if (info.object) {
+          setTooltip({ object: info.object, x: info.x, y: info.y });
+        } else {
+          setTooltip(null);
+        }
       }
-    }
-  }, [isTouchDevice]);
+    },
+    [isTouchDevice]
+  );
 
   return { tooltip, onHover, onClick };
 }
@@ -254,14 +261,14 @@ const debouncedSetTooltip = useDebouncedCallback(setTooltip, 16);
 
 ## Edge Cases
 
-| Scenario | Behavior |
-|----------|----------|
+| Scenario                       | Behavior                       |
+| ------------------------------ | ------------------------------ |
 | Cursor moves to adjacent point | Update tooltip without dismiss |
-| Rapid cursor movement | Debounce prevents flicker |
-| Map pan during hover | Dismiss tooltip |
-| Window loses focus | Keep tooltip visible |
-| Touch device | Dismiss on tap outside |
-| Escape key pressed | Dismiss tooltip |
+| Rapid cursor movement          | Debounce prevents flicker      |
+| Map pan during hover           | Dismiss tooltip                |
+| Window loses focus             | Keep tooltip visible           |
+| Touch device                   | Dismiss on tap outside         |
+| Escape key pressed             | Dismiss tooltip                |
 
 ## Accessibility
 

@@ -1,6 +1,7 @@
 # Implementation Plan: Point Count Display
 
 ## Acceptance Criterion
+
 > Point count reflects filtered results
 
 ## Approach
@@ -124,7 +125,7 @@ export function AnimatedCount({ value, duration = 300 }: AnimatedCountProps) {
 // Usage
 <span className="font-semibold text-gray-900">
   <AnimatedCount value={filteredCount} />
-</span>
+</span>;
 ```
 
 ### 3. Extended Stats with Summary
@@ -258,23 +259,25 @@ export function EarthquakeMap({ earthquakes }: Props) {
 
 ```tsx
 // Handle empty filter results
-{filteredEarthquakes.length === 0 && isFiltered ? (
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-    <div className="bg-white/90 px-6 py-4 rounded-lg shadow text-center">
-      <div className="text-gray-400 text-4xl mb-2">🔍</div>
-      <div className="font-semibold text-gray-700">No earthquakes found</div>
-      <div className="text-sm text-gray-500 mt-1">
-        Try adjusting your date range
+{
+  filteredEarthquakes.length === 0 && isFiltered ? (
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div className="bg-white/90 px-6 py-4 rounded-lg shadow text-center">
+        <div className="text-gray-400 text-4xl mb-2">🔍</div>
+        <div className="font-semibold text-gray-700">No earthquakes found</div>
+        <div className="text-sm text-gray-500 mt-1">
+          Try adjusting your date range
+        </div>
+        <button
+          onClick={resetFilters}
+          className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm pointer-events-auto"
+        >
+          Clear filters
+        </button>
       </div>
-      <button
-        onClick={resetFilters}
-        className="mt-3 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm pointer-events-auto"
-      >
-        Clear filters
-      </button>
     </div>
-  </div>
-) : null}
+  ) : null;
+}
 ```
 
 ## Performance Considerations
@@ -300,9 +303,7 @@ const throttledCount = useThrottle(filteredCount, 100);
 ```tsx
 // Compact stats for mobile
 <div className="text-sm md:text-base">
-  <span className="font-semibold">
-    {filteredCount.toLocaleString()}
-  </span>
+  <span className="font-semibold">{filteredCount.toLocaleString()}</span>
   {/* Hide "of total" on mobile to save space */}
   <span className="hidden sm:inline text-gray-400">
     {isFiltered && ` of ${totalCount.toLocaleString()}`}
@@ -313,11 +314,7 @@ const throttledCount = useThrottle(filteredCount, 100);
 ## Accessibility
 
 ```tsx
-<div
-  role="status"
-  aria-live="polite"
-  aria-atomic="true"
->
+<div role="status" aria-live="polite" aria-atomic="true">
   <span className="sr-only">
     Showing {filteredCount} of {totalCount} earthquakes
     {isFiltered ? ' (filtered)' : ''}

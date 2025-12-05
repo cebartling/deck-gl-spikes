@@ -1,6 +1,7 @@
 # Implementation Plan: Map Base Layer with Geographic Context
 
 ## Acceptance Criterion
+
 > Map displays with a base layer showing geographic context
 
 ## Approach
@@ -24,12 +25,12 @@ graph TD
 
 ## Libraries
 
-| Library | Version | Purpose |
-|---------|---------|---------|
-| `maplibre-gl` | ^4.x | Base map rendering |
-| `@deck.gl/core` | ^9.x | Visualization framework |
-| `@deck.gl/mapbox` | ^9.x | MapLibre/Mapbox integration |
-| `react-map-gl` | ^7.x | React wrapper for MapLibre |
+| Library           | Version | Purpose                     |
+| ----------------- | ------- | --------------------------- |
+| `maplibre-gl`     | ^4.x    | Base map rendering          |
+| `@deck.gl/core`   | ^9.x    | Visualization framework     |
+| `@deck.gl/mapbox` | ^9.x    | MapLibre/Mapbox integration |
+| `react-map-gl`    | ^7.x    | React wrapper for MapLibre  |
 
 ## Implementation Steps
 
@@ -57,7 +58,8 @@ const INITIAL_VIEW_STATE = {
 };
 
 // Free OpenStreetMap-based style
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const MAP_STYLE =
+  'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 export function EarthquakeMap() {
   const [viewState, setViewState] = useState(INITIAL_VIEW_STATE);
@@ -108,11 +110,11 @@ export function MapContainer({ children }: { children: React.ReactNode }) {
 
 ## Free Map Style Options
 
-| Provider | Style URL | Notes |
-|----------|-----------|-------|
-| CARTO Positron | `basemaps.cartocdn.com/gl/positron-gl-style/style.json` | Light, minimal |
-| CARTO Dark Matter | `basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json` | Dark theme |
-| OpenFreeMap | `tiles.openfreemap.org/styles/liberty/style.json` | OSM-based |
+| Provider          | Style URL                                                  | Notes          |
+| ----------------- | ---------------------------------------------------------- | -------------- |
+| CARTO Positron    | `basemaps.cartocdn.com/gl/positron-gl-style/style.json`    | Light, minimal |
+| CARTO Dark Matter | `basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json` | Dark theme     |
+| OpenFreeMap       | `tiles.openfreemap.org/styles/liberty/style.json`          | OSM-based      |
 
 ## Testing
 
@@ -148,5 +150,6 @@ Feature: Earthquake Map Visualization
 ```
 
 Step definitions should:
+
 - Verify the DeckGL container is visible
 - Verify the MapLibre canvas element exists with non-zero dimensions

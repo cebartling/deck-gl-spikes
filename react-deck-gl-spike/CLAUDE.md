@@ -59,7 +59,9 @@ features/                          # Cucumber acceptance tests
 ## Key Patterns
 
 ### Zod Validation
+
 API responses are validated at runtime using Zod schemas. Types are inferred from schemas:
+
 ```typescript
 // src/types/earthquake.ts
 export const EarthquakeSchema = z.object({...});
@@ -67,7 +69,9 @@ export type Earthquake = z.infer<typeof EarthquakeSchema>;
 ```
 
 ### deck.gl Layers
+
 Layers are created via factory functions in `src/components/EarthquakeMap/layers/`:
+
 ```typescript
 export function createEarthquakeLayer(data: Earthquake[]) {
   return new ScatterplotLayer<Earthquake>({...});
@@ -75,7 +79,9 @@ export function createEarthquakeLayer(data: Earthquake[]) {
 ```
 
 ### Zustand Stores
+
 Global state is managed with Zustand stores in `src/stores/`:
+
 ```typescript
 // Access state with selectors (avoids unnecessary re-renders)
 const earthquakes = useEarthquakeStore((state) => state.earthquakes);
@@ -87,6 +93,7 @@ const setViewState = useMapViewStore((state) => state.setViewState);
 ```
 
 Stores include `reset()` methods for testing. Call in `beforeEach`:
+
 ```typescript
 beforeEach(() => {
   useEarthquakeStore.getState().reset();

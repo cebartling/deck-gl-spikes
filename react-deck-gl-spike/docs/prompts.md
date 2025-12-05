@@ -76,7 +76,6 @@ Add zustand to the project.
 - Open a pull request for review.
 ```
 
-
 ### Create a feature file with acceptance criteria
 
 ```
@@ -117,5 +116,5 @@ Create implementation plans for the county voting visualization feature user sto
 Implement the implementation plan @docs/implementation-plans/earthquake-visualization/01-map-base-layer.md
 - Create a feature branch from main.
 - Commit the changes with a descriptive message.
-- Open a pull request for review.   
+- Open a pull request for review.
 ```

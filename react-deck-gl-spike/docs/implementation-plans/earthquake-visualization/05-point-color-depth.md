@@ -1,6 +1,7 @@
 # Implementation Plan: Point Color by Depth
 
 ## Acceptance Criterion
+
 > Point color indicates earthquake depth
 
 ## Approach
@@ -24,12 +25,12 @@ graph LR
 
 ## Depth Classification
 
-| Depth Range | Classification | Color | Hex |
-|-------------|---------------|-------|-----|
-| 0-70 km | Shallow | Yellow | `#FFFF00` |
-| 70-300 km | Intermediate | Orange | `#FF8800` |
-| 300-700 km | Deep | Red | `#FF0000` |
-| 700+ km | Very Deep | Dark Red | `#8B0000` |
+| Depth Range | Classification | Color    | Hex       |
+| ----------- | -------------- | -------- | --------- |
+| 0-70 km     | Shallow        | Yellow   | `#FFFF00` |
+| 70-300 km   | Intermediate   | Orange   | `#FF8800` |
+| 300-700 km  | Deep           | Red      | `#FF0000` |
+| 700+ km     | Very Deep      | Dark Red | `#8B0000` |
 
 ## Implementation Steps
 
@@ -54,25 +55,22 @@ export function depthToColor(depth: number): [number, number, number, number] {
   // B: 0
   // A: 180 (semi-transparent)
 
-  return [
-    255,
-    Math.round(255 * (1 - normalizedDepth)),
-    0,
-    180,
-  ];
+  return [255, Math.round(255 * (1 - normalizedDepth)), 0, 180];
 }
 
 /**
  * Multi-stop color scale for more nuanced visualization
  */
-export function depthToColorMultiStop(depth: number): [number, number, number, number] {
+export function depthToColorMultiStop(
+  depth: number
+): [number, number, number, number] {
   const stops = [
-    { depth: 0, color: [255, 255, 0] },    // Yellow
-    { depth: 70, color: [255, 200, 0] },   // Gold
-    { depth: 150, color: [255, 140, 0] },  // Orange
-    { depth: 300, color: [255, 69, 0] },   // Red-Orange
-    { depth: 500, color: [255, 0, 0] },    // Red
-    { depth: 700, color: [139, 0, 0] },    // Dark Red
+    { depth: 0, color: [255, 255, 0] }, // Yellow
+    { depth: 70, color: [255, 200, 0] }, // Gold
+    { depth: 150, color: [255, 140, 0] }, // Orange
+    { depth: 300, color: [255, 69, 0] }, // Red-Orange
+    { depth: 500, color: [255, 0, 0] }, // Red
+    { depth: 700, color: [139, 0, 0] }, // Dark Red
   ];
 
   // Find the two stops to interpolate between
@@ -144,7 +142,8 @@ export function ColorLegend() {
         <div
           className="h-4 w-32 rounded"
           style={{
-            background: 'linear-gradient(to right, #FFFF00, #FFC800, #FF4500, #8B0000)',
+            background:
+              'linear-gradient(to right, #FFFF00, #FFC800, #FF4500, #8B0000)',
           }}
         />
         {/* Labels */}
@@ -169,7 +168,9 @@ export function ColorLegend() {
 
 ```typescript
 // For large datasets, pre-compute colors as Uint8ClampedArray
-export function createColorBuffer(earthquakes: Earthquake[]): Uint8ClampedArray {
+export function createColorBuffer(
+  earthquakes: Earthquake[]
+): Uint8ClampedArray {
   const colors = new Uint8ClampedArray(earthquakes.length * 4);
 
   earthquakes.forEach((eq, i) => {
@@ -203,12 +204,14 @@ const layer = new ScatterplotLayer({
 
 ```typescript
 // Colorblind-safe alternative (Blue → Purple → Magenta)
-export function depthToColorAccessible(depth: number): [number, number, number, number] {
+export function depthToColorAccessible(
+  depth: number
+): [number, number, number, number] {
   const t = Math.min(depth / 700, 1);
   return [
-    Math.round(100 + 155 * t),  // 100 → 255
-    Math.round(149 * (1 - t)),  // 149 → 0
-    Math.round(237 - 37 * t),   // 237 → 200
+    Math.round(100 + 155 * t), // 100 → 255
+    Math.round(149 * (1 - t)), // 149 → 0
+    Math.round(237 - 37 * t), // 237 → 200
     180,
   ];
 }

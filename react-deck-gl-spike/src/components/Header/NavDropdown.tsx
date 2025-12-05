@@ -45,7 +45,8 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen, closeDropdown]);
 

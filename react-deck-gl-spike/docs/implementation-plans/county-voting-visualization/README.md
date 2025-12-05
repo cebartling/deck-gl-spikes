@@ -14,40 +14,40 @@ See [Feature Specification](../../features/county-voting-visualization.md) for u
 
 ### View County Voting Map
 
-| # | User Story | Plan |
-|---|-----------|------|
-| 01 | View County Voting Map | [01-view-county-voting-map.md](./01-view-county-voting-map.md) |
+| #   | User Story             | Plan                                                           |
+| --- | ---------------------- | -------------------------------------------------------------- |
+| 01  | View County Voting Map | [01-view-county-voting-map.md](./01-view-county-voting-map.md) |
 
 ### Interact with Map
 
-| # | User Story | Plan |
-|---|-----------|------|
-| 02 | Interact with Map | [02-interact-with-map.md](./02-interact-with-map.md) |
+| #   | User Story        | Plan                                                 |
+| --- | ----------------- | ---------------------------------------------------- |
+| 02  | Interact with Map | [02-interact-with-map.md](./02-interact-with-map.md) |
 
 ### View County Details
 
-| # | User Story | Plan |
-|---|-----------|------|
-| 03 | View County Details | [03-view-county-details.md](./03-view-county-details.md) |
+| #   | User Story          | Plan                                                     |
+| --- | ------------------- | -------------------------------------------------------- |
+| 03  | View County Details | [03-view-county-details.md](./03-view-county-details.md) |
 
 ### Filter by State
 
-| # | User Story | Plan |
-|---|-----------|------|
-| 04 | Filter by State | [04-filter-by-state.md](./04-filter-by-state.md) |
+| #   | User Story      | Plan                                             |
+| --- | --------------- | ------------------------------------------------ |
+| 04  | Filter by State | [04-filter-by-state.md](./04-filter-by-state.md) |
 
 ## Technology Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| deck.gl | ^9.x | WebGL-powered visualization layers |
-| MapLibre GL | ^4.x | Base map rendering |
-| react-map-gl | ^7.x | React wrapper for MapLibre |
-| React | ^19.x | UI framework |
-| TypeScript | ^5.x | Type safety |
-| Tailwind CSS | ^4.x | Styling |
-| Zustand | ^5.x | State management |
-| Zod | ^4.x | Runtime validation |
+| Technology   | Version | Purpose                            |
+| ------------ | ------- | ---------------------------------- |
+| deck.gl      | ^9.x    | WebGL-powered visualization layers |
+| MapLibre GL  | ^4.x    | Base map rendering                 |
+| react-map-gl | ^7.x    | React wrapper for MapLibre         |
+| React        | ^19.x   | UI framework                       |
+| TypeScript   | ^5.x    | Type safety                        |
+| Tailwind CSS | ^4.x    | Styling                            |
+| Zustand      | ^5.x    | State management                   |
+| Zod          | ^4.x    | Runtime validation                 |
 
 ## Architecture Overview
 
@@ -86,6 +86,7 @@ src/
 ## Data Sources
 
 County voting data can be sourced from:
+
 - MIT Election Data + Science Lab
 - US Census Bureau (county boundaries GeoJSON)
 - State election offices
@@ -93,6 +94,7 @@ County voting data can be sourced from:
 ## Performance Considerations
 
 All plans address:
+
 - Large polygon rendering (~3,100 US counties)
 - Binary attribute buffers for GPU efficiency
 - Memoization to prevent unnecessary re-renders
@@ -101,6 +103,7 @@ All plans address:
 ## Responsive Design
 
 All plans include considerations for:
+
 - Mobile touch interactions
 - Flexible layouts (mobile/desktop)
 - Touch-friendly control sizes
@@ -109,6 +112,7 @@ All plans include considerations for:
 ## Accessibility
 
 All plans consider:
+
 - Keyboard navigation
 - Screen reader support
 - ARIA attributes

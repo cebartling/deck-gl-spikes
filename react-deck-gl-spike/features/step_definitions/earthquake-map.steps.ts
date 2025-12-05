@@ -8,17 +8,20 @@ Then('I should see the map container', async function (this: CustomWorld) {
   await expect(mapContainer).toBeVisible({ timeout: 10000 });
 });
 
-Then('I should see the MapLibre canvas rendering', async function (this: CustomWorld) {
-  // MapLibre renders to a canvas element with class 'maplibregl-canvas'
-  const canvas = this.page.locator('canvas.maplibregl-canvas');
-  await expect(canvas).toBeVisible({ timeout: 10000 });
+Then(
+  'I should see the MapLibre canvas rendering',
+  async function (this: CustomWorld) {
+    // MapLibre renders to a canvas element with class 'maplibregl-canvas'
+    const canvas = this.page.locator('canvas.maplibregl-canvas');
+    await expect(canvas).toBeVisible({ timeout: 10000 });
 
-  // Verify the canvas has non-zero dimensions (map is actually rendering)
-  const boundingBox = await canvas.boundingBox();
-  expect(boundingBox).not.toBeNull();
-  expect(boundingBox!.width).toBeGreaterThan(0);
-  expect(boundingBox!.height).toBeGreaterThan(0);
-});
+    // Verify the canvas has non-zero dimensions (map is actually rendering)
+    const boundingBox = await canvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
+  }
+);
 
 Given('earthquake data has loaded', async function (this: CustomWorld) {
   // Wait for the loading indicator to disappear, indicating data has loaded
@@ -26,22 +29,25 @@ Given('earthquake data has loaded', async function (this: CustomWorld) {
   await expect(loadingIndicator).toBeHidden({ timeout: 30000 });
 });
 
-Then('I should see earthquake points rendered on the map', async function (this: CustomWorld) {
-  // deck.gl renders earthquake points to a canvas element
-  // The deck.gl canvas is separate from the MapLibre canvas
-  const deckCanvas = this.page.locator('canvas').first();
-  await expect(deckCanvas).toBeVisible({ timeout: 10000 });
+Then(
+  'I should see earthquake points rendered on the map',
+  async function (this: CustomWorld) {
+    // deck.gl renders earthquake points to a canvas element
+    // The deck.gl canvas is separate from the MapLibre canvas
+    const deckCanvas = this.page.locator('canvas').first();
+    await expect(deckCanvas).toBeVisible({ timeout: 10000 });
 
-  // Verify the canvas is rendering (has non-zero dimensions)
-  const boundingBox = await deckCanvas.boundingBox();
-  expect(boundingBox).not.toBeNull();
-  expect(boundingBox!.width).toBeGreaterThan(0);
-  expect(boundingBox!.height).toBeGreaterThan(0);
+    // Verify the canvas is rendering (has non-zero dimensions)
+    const boundingBox = await deckCanvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
 
-  // Verify no error message is displayed
-  const errorMessage = this.page.locator('text=Error loading data');
-  await expect(errorMessage).toBeHidden();
-});
+    // Verify no error message is displayed
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
+  }
+);
 
 Then('I should see the loading indicator', async function (this: CustomWorld) {
   // The loading indicator may appear briefly - check if it exists or data already loaded
@@ -59,15 +65,20 @@ Then('I should see the loading indicator', async function (this: CustomWorld) {
   }
 });
 
-Then('the loading indicator should disappear when data loads', async function (this: CustomWorld) {
-  // Wait for loading to complete (loading indicator hidden, no error)
-  const loadingIndicator = this.page.locator('text=Loading earthquake data...');
-  await expect(loadingIndicator).toBeHidden({ timeout: 30000 });
+Then(
+  'the loading indicator should disappear when data loads',
+  async function (this: CustomWorld) {
+    // Wait for loading to complete (loading indicator hidden, no error)
+    const loadingIndicator = this.page.locator(
+      'text=Loading earthquake data...'
+    );
+    await expect(loadingIndicator).toBeHidden({ timeout: 30000 });
 
-  // Verify no error message
-  const errorMessage = this.page.locator('text=Error loading data');
-  await expect(errorMessage).toBeHidden();
-});
+    // Verify no error message
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
+  }
+);
 
 When('I zoom in on the map', async function (this: CustomWorld) {
   const canvas = this.page.locator('canvas.maplibregl-canvas');
@@ -103,26 +114,29 @@ Then('the map zoom level should increase', async function (this: CustomWorld) {
   // Direct zoom level verification would require accessing internal MapLibre state
 });
 
-Then('the map should render without coordinate errors', async function (this: CustomWorld) {
-  // Verify no JavaScript errors occurred during rendering
-  // deck.gl would throw errors for invalid coordinates if not filtered
-  const errorMessage = this.page.locator('text=Error loading data');
-  await expect(errorMessage).toBeHidden();
+Then(
+  'the map should render without coordinate errors',
+  async function (this: CustomWorld) {
+    // Verify no JavaScript errors occurred during rendering
+    // deck.gl would throw errors for invalid coordinates if not filtered
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
 
-  // Verify both canvases (MapLibre and deck.gl) are rendering properly
-  const maplibreCanvas = this.page.locator('canvas.maplibregl-canvas');
-  await expect(maplibreCanvas).toBeVisible({ timeout: 10000 });
+    // Verify both canvases (MapLibre and deck.gl) are rendering properly
+    const maplibreCanvas = this.page.locator('canvas.maplibregl-canvas');
+    await expect(maplibreCanvas).toBeVisible({ timeout: 10000 });
 
-  const deckglWrapper = this.page.locator('#deckgl-wrapper');
-  await expect(deckglWrapper).toBeVisible({ timeout: 10000 });
+    const deckglWrapper = this.page.locator('#deckgl-wrapper');
+    await expect(deckglWrapper).toBeVisible({ timeout: 10000 });
 
-  // Verify the deck.gl layer is rendering (canvas has content)
-  const deckCanvas = this.page.locator('#deckgl-wrapper canvas').first();
-  const boundingBox = await deckCanvas.boundingBox();
-  expect(boundingBox).not.toBeNull();
-  expect(boundingBox!.width).toBeGreaterThan(0);
-  expect(boundingBox!.height).toBeGreaterThan(0);
-});
+    // Verify the deck.gl layer is rendering (canvas has content)
+    const deckCanvas = this.page.locator('#deckgl-wrapper canvas').first();
+    const boundingBox = await deckCanvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
+  }
+);
 
 Then('the size legend should be visible', async function (this: CustomWorld) {
   // Verify the size legend is displayed
@@ -168,19 +182,22 @@ When(
   }
 );
 
-Then('the map should pan in the direction of the drag', async function (this: CustomWorld) {
-  // Verify the map canvas is still visible and rendering after pan
-  const canvas = this.page.locator('canvas.maplibregl-canvas');
-  await expect(canvas).toBeVisible({ timeout: 10000 });
+Then(
+  'the map should pan in the direction of the drag',
+  async function (this: CustomWorld) {
+    // Verify the map canvas is still visible and rendering after pan
+    const canvas = this.page.locator('canvas.maplibregl-canvas');
+    await expect(canvas).toBeVisible({ timeout: 10000 });
 
-  const boundingBox = await canvas.boundingBox();
-  expect(boundingBox).not.toBeNull();
-  expect(boundingBox!.width).toBeGreaterThan(0);
-  expect(boundingBox!.height).toBeGreaterThan(0);
+    const boundingBox = await canvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
 
-  // The pan action was successful if the map is still interactive and rendering
-  // Direct position verification would require accessing internal MapLibre state
-});
+    // The pan action was successful if the map is still interactive and rendering
+    // Direct position verification would require accessing internal MapLibre state
+  }
+);
 
 Then(
   'earthquake points should maintain their geographic positions',
@@ -261,20 +278,23 @@ When('I click the reset view button', async function (this: CustomWorld) {
   await this.page.waitForTimeout(500);
 });
 
-Then('the map should return to the initial view', async function (this: CustomWorld) {
-  // Verify the map canvas is still visible and rendering
-  const canvas = this.page.locator('canvas.maplibregl-canvas');
-  await expect(canvas).toBeVisible({ timeout: 10000 });
+Then(
+  'the map should return to the initial view',
+  async function (this: CustomWorld) {
+    // Verify the map canvas is still visible and rendering
+    const canvas = this.page.locator('canvas.maplibregl-canvas');
+    await expect(canvas).toBeVisible({ timeout: 10000 });
 
-  const boundingBox = await canvas.boundingBox();
-  expect(boundingBox).not.toBeNull();
-  expect(boundingBox!.width).toBeGreaterThan(0);
-  expect(boundingBox!.height).toBeGreaterThan(0);
+    const boundingBox = await canvas.boundingBox();
+    expect(boundingBox).not.toBeNull();
+    expect(boundingBox!.width).toBeGreaterThan(0);
+    expect(boundingBox!.height).toBeGreaterThan(0);
 
-  // Verify no error occurred
-  const errorMessage = this.page.locator('text=Error loading data');
-  await expect(errorMessage).toBeHidden();
-});
+    // Verify no error occurred
+    const errorMessage = this.page.locator('text=Error loading data');
+    await expect(errorMessage).toBeHidden();
+  }
+);
 
 Then(
   'earthquake points should remain at their geographic locations',
@@ -345,27 +365,35 @@ Then(
 
 // Date Range Filtering Steps
 
-Then('I should see the date range selector', async function (this: CustomWorld) {
-  const dateRangeSelector = this.page.locator('[data-testid="date-range-selector"]');
-  await expect(dateRangeSelector).toBeVisible({ timeout: 10000 });
+Then(
+  'I should see the date range selector',
+  async function (this: CustomWorld) {
+    const dateRangeSelector = this.page.locator(
+      '[data-testid="date-range-selector"]'
+    );
+    await expect(dateRangeSelector).toBeVisible({ timeout: 10000 });
 
-  // Verify the label is present
-  const label = this.page.locator('text=Time Period');
-  await expect(label).toBeVisible();
-});
+    // Verify the label is present
+    const label = this.page.locator('text=Time Period');
+    await expect(label).toBeVisible();
+  }
+);
 
-Then('I should see the time period presets', async function (this: CustomWorld) {
-  // Verify all preset buttons are visible
-  const preset24h = this.page.locator('[data-testid="preset-24h"]');
-  const preset7d = this.page.locator('[data-testid="preset-7d"]');
-  const preset30d = this.page.locator('[data-testid="preset-30d"]');
-  const presetAll = this.page.locator('[data-testid="preset-all"]');
+Then(
+  'I should see the time period presets',
+  async function (this: CustomWorld) {
+    // Verify all preset buttons are visible
+    const preset24h = this.page.locator('[data-testid="preset-24h"]');
+    const preset7d = this.page.locator('[data-testid="preset-7d"]');
+    const preset30d = this.page.locator('[data-testid="preset-30d"]');
+    const presetAll = this.page.locator('[data-testid="preset-all"]');
 
-  await expect(preset24h).toBeVisible({ timeout: 10000 });
-  await expect(preset7d).toBeVisible();
-  await expect(preset30d).toBeVisible();
-  await expect(presetAll).toBeVisible();
-});
+    await expect(preset24h).toBeVisible({ timeout: 10000 });
+    await expect(preset7d).toBeVisible();
+    await expect(preset30d).toBeVisible();
+    await expect(presetAll).toBeVisible();
+  }
+);
 
 When(
   'I click the {string} preset button',
@@ -377,7 +405,8 @@ When(
     // Store the current count before clicking for comparison
     const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
     const initialText = await statsPanel.textContent();
-    (this as CustomWorld & { initialStatsText?: string }).initialStatsText = initialText || '';
+    (this as CustomWorld & { initialStatsText?: string }).initialStatsText =
+      initialText || '';
 
     await presetButton.click();
 
@@ -396,15 +425,20 @@ Then('the earthquake count should update', async function (this: CustomWorld) {
   expect(statsText).toMatch(/\d+/); // Should contain at least one number
 });
 
-Then('the filter indicator should show active state', async function (this: CustomWorld) {
-  // When a filter is active, the filter indicator element should be visible
-  const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
-  await expect(filterIndicator).toBeVisible({ timeout: 10000 });
+Then(
+  'the filter indicator should show active state',
+  async function (this: CustomWorld) {
+    // When a filter is active, the filter indicator element should be visible
+    const filterIndicator = this.page.locator(
+      '[data-testid="filter-indicator"]'
+    );
+    await expect(filterIndicator).toBeVisible({ timeout: 10000 });
 
-  // The filter indicator should show "Filter active" text
-  const filterText = await filterIndicator.textContent();
-  expect(filterText).toContain('Filter active');
-});
+    // The filter indicator should show "Filter active" text
+    const filterText = await filterIndicator.textContent();
+    expect(filterText).toContain('Filter active');
+  }
+);
 
 Then(
   'the earthquake count should show all earthquakes',
@@ -425,7 +459,9 @@ Then(
     await expect(statsPanel).toBeVisible({ timeout: 10000 });
 
     // When no filter is active, the filter indicator element should not be visible
-    const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
+    const filterIndicator = this.page.locator(
+      '[data-testid="filter-indicator"]'
+    );
     await expect(filterIndicator).toBeHidden();
 
     // The "of X" total count element should also not be visible
@@ -434,17 +470,25 @@ Then(
   }
 );
 
-Then('I should see the earthquake stats panel', async function (this: CustomWorld) {
-  const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
-  await expect(statsPanel).toBeVisible({ timeout: 10000 });
-});
+Then(
+  'I should see the earthquake stats panel',
+  async function (this: CustomWorld) {
+    const statsPanel = this.page.locator('[data-testid="earthquake-stats"]');
+    await expect(statsPanel).toBeVisible({ timeout: 10000 });
+  }
+);
 
-Then('the stats should indicate filtering is active', async function (this: CustomWorld) {
-  // When filtering is active, the filter indicator should be visible
-  const filterIndicator = this.page.locator('[data-testid="filter-indicator"]');
-  await expect(filterIndicator).toBeVisible({ timeout: 10000 });
+Then(
+  'the stats should indicate filtering is active',
+  async function (this: CustomWorld) {
+    // When filtering is active, the filter indicator should be visible
+    const filterIndicator = this.page.locator(
+      '[data-testid="filter-indicator"]'
+    );
+    await expect(filterIndicator).toBeVisible({ timeout: 10000 });
 
-  // And the total count element should show the unfiltered total
-  const totalCountElement = this.page.locator('[data-testid="total-count"]');
-  await expect(totalCountElement).toBeVisible();
-});
+    // And the total count element should show the unfiltered total
+    const totalCountElement = this.page.locator('[data-testid="total-count"]');
+    await expect(totalCountElement).toBeVisible();
+  }
+);
