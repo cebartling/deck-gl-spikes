@@ -13,9 +13,9 @@ import {
 
 type ElectionType = 'presidential' | 'midterm';
 
-// Get the most recent year as default fallback
-const DEFAULT_PRESIDENTIAL_YEAR: ElectionYear = 2024; // ELECTION_YEARS[0]
-const DEFAULT_MIDTERM_YEAR: MidtermYear = 2022; // MIDTERM_YEARS[0]
+// Get the most recent year as default fallback (ELECTION_YEARS[0] and MIDTERM_YEARS[0])
+const DEFAULT_PRESIDENTIAL_YEAR = 2024 satisfies ElectionYear;
+const DEFAULT_MIDTERM_YEAR = 2022 satisfies MidtermYear;
 
 interface UseVotingDataParams {
   electionType: ElectionType;
@@ -151,4 +151,3 @@ export function useVotingData({
     selectedYear,
   };
 }
-
