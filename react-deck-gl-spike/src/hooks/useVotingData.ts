@@ -6,14 +6,13 @@ import type { MidtermYear, MidtermCountyVoting } from '../types/midterm';
 import { useElectionData } from './useElectionData';
 import { useMidtermData } from './useMidtermData';
 import { fetchCountyGeometry } from '../api/countyGeometry';
+import { geometryCache as sharedGeometryCache } from './useCountyVotingData';
 
 type ElectionType = 'presidential' | 'midterm';
 
-// Cache geometry since it doesn't change between years
-let geometryCache: FeatureCollection<
-  Polygon | MultiPolygon,
-  { name: string }
-> | null = null;
+// Get the most recent year as default fallback
+const DEFAULT_PRESIDENTIAL_YEAR: ElectionYear = 2024; // ELECTION_YEARS[0]
+const DEFAULT_MIDTERM_YEAR: MidtermYear = 2022; // MIDTERM_YEARS[0]
 
 interface UseVotingDataParams {
   electionType: ElectionType;
@@ -41,22 +40,27 @@ export function useVotingData({
   const [geometry, setGeometry] = useState<FeatureCollection<
     Polygon | MultiPolygon,
     { name: string }
-  > | null>(geometryCache);
-  const [geometryLoading, setGeometryLoading] = useState(!geometryCache);
+  > | null>(sharedGeometryCache);
+  const [geometryLoading, setGeometryLoading] = useState(!sharedGeometryCache);
   const [geometryError, setGeometryError] = useState<Error | null>(null);
 
   // Conditionally fetch election data based on election type
+  // Use default years for inactive election type to minimize unnecessary fetches
   const {
     data: presidentialElectionData,
     loading: presidentialLoading,
     error: presidentialError,
-  } = useElectionData(electionType === 'presidential' ? presidentialYear : 2024);
+  } = useElectionData(
+    electionType === 'presidential' ? presidentialYear : DEFAULT_PRESIDENTIAL_YEAR
+  );
 
   const {
     data: midtermElectionData,
     loading: midtermLoading,
     error: midtermError,
-  } = useMidtermData(electionType === 'midterm' ? midtermYear : 2022);
+  } = useMidtermData(
+    electionType === 'midterm' ? midtermYear : DEFAULT_MIDTERM_YEAR
+  );
 
   // Load geometry once (only if not cached)
   useEffect(() => {
@@ -70,7 +74,6 @@ export function useVotingData({
     fetchCountyGeometry()
       .then((geo) => {
         if (!cancelled) {
-          geometryCache = geo;
           setGeometry(geo);
           setGeometryLoading(false);
         }
@@ -165,7 +168,4 @@ export function useVotingData({
     selectedYear,
   };
 }
-
-// Export for testing
-export { geometryCache };
 
