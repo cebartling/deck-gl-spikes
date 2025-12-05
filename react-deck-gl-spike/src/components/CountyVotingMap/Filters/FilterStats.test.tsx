@@ -20,20 +20,24 @@ describe('FilterStats', () => {
   describe('rendering', () => {
     it('should return null when stats is null', () => {
       const { container } = render(
-        <FilterStats stats={null} isFiltered={false} />
+        <FilterStats stats={null} isFiltered={false} year={2024} />
       );
       expect(container.firstChild).toBeNull();
     });
 
     it('should render the component when stats are provided', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       expect(screen.getByText('National Summary')).toBeInTheDocument();
     });
   });
 
   describe('header', () => {
     it('should display "National Summary" when not filtered', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       expect(screen.getByText('National Summary')).toBeInTheDocument();
     });
 
@@ -43,9 +47,47 @@ describe('FilterStats', () => {
           stats={createMockStats()}
           isFiltered={true}
           stateName="California"
+          year={2024}
         />
       );
       expect(screen.getByText('California Summary')).toBeInTheDocument();
+    });
+  });
+
+  describe('election year info', () => {
+    it('should display candidate description for 2024', () => {
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
+      expect(screen.getByText('Harris vs Trump')).toBeInTheDocument();
+    });
+
+    it('should display candidate description for 2020', () => {
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2020} />
+      );
+      expect(screen.getByText('Biden vs Trump')).toBeInTheDocument();
+    });
+
+    it('should display candidate description for 2016', () => {
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2016} />
+      );
+      expect(screen.getByText('Clinton vs Trump')).toBeInTheDocument();
+    });
+
+    it('should display candidate description for 2012', () => {
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2012} />
+      );
+      expect(screen.getByText('Obama vs Romney')).toBeInTheDocument();
+    });
+
+    it('should display candidate description for 2008', () => {
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2008} />
+      );
+      expect(screen.getByText('Obama vs McCain')).toBeInTheDocument();
     });
   });
 
@@ -55,13 +97,16 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ countyCount: 3143 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText('3,143')).toBeInTheDocument();
     });
 
     it('should display county count label', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       expect(screen.getByText('Counties')).toBeInTheDocument();
     });
   });
@@ -72,6 +117,7 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ totalVotes: 150000000 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText('150,000,000')).toBeInTheDocument();
@@ -82,6 +128,7 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ democratVotes: 81000000 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText('81,000,000')).toBeInTheDocument();
@@ -92,13 +139,16 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ republicanVotes: 74000000 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText('74,000,000')).toBeInTheDocument();
     });
 
     it('should display vote labels', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       expect(screen.getByText('Total Votes')).toBeInTheDocument();
       expect(screen.getByText('Democrat')).toBeInTheDocument();
       expect(screen.getByText('Republican')).toBeInTheDocument();
@@ -111,6 +161,7 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ overallMargin: 4.5 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText(/Democrat.*\+4\.5%/)).toBeInTheDocument();
@@ -121,6 +172,7 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ overallMargin: -3.2 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.getByText(/Republican.*3\.2%/)).toBeInTheDocument();
@@ -131,26 +183,33 @@ describe('FilterStats', () => {
         <FilterStats
           stats={createMockStats({ totalVotes: 0 })}
           isFiltered={false}
+          year={2024}
         />
       );
       expect(screen.queryByText('Overall Margin')).not.toBeInTheDocument();
     });
 
     it('should display margin label when there are votes', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       expect(screen.getByText('Overall Margin')).toBeInTheDocument();
     });
   });
 
   describe('styling', () => {
     it('should apply blue color for Democrat votes', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       const democratLabel = screen.getByText('Democrat');
       expect(democratLabel).toHaveClass('text-blue-400');
     });
 
     it('should apply red color for Republican votes', () => {
-      render(<FilterStats stats={createMockStats()} isFiltered={false} />);
+      render(
+        <FilterStats stats={createMockStats()} isFiltered={false} year={2024} />
+      );
       const republicanLabel = screen.getByText('Republican');
       expect(republicanLabel).toHaveClass('text-red-400');
     });

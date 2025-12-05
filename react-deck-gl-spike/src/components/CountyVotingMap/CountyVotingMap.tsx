@@ -8,7 +8,7 @@ import { createCountyLayer } from './layers/countyLayer';
 import { VotingLegend } from './Legend';
 import { CountyTooltip } from './Tooltip';
 import { ZoomControls } from './ZoomControls';
-import { StateSelector, FilterStats } from './Filters';
+import { StateSelector, FilterStats, YearSelector } from './Filters';
 import { useTooltip } from './hooks/useTooltip';
 import { useFilteredCounties } from './hooks/useFilteredCounties';
 import { useCountyVotingData } from '../../hooks/useCountyVotingData';
@@ -21,8 +21,11 @@ const MAP_STYLE =
   'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
 export function CountyVotingMap() {
-  // Fetch county voting data
-  const { data, loading, error } = useCountyVotingData();
+  // Get selected year from store
+  const selectedYear = useCountyFilterStore((state) => state.selectedYear);
+
+  // Fetch county voting data for selected year
+  const { data, loading, error } = useCountyVotingData(selectedYear);
 
   // View state from Zustand store
   const viewState = useCountyVotingViewStore((state) => state.viewState);
@@ -75,7 +78,7 @@ export function CountyVotingMap() {
     <div className="w-full h-full relative">
       {loading && (
         <div className="absolute top-4 left-4 z-10 bg-gray-900/80 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg border border-white/10 text-gray-100">
-          Loading county voting data...
+          Loading {selectedYear} election data...
         </div>
       )}
       {error && (
@@ -115,11 +118,13 @@ export function CountyVotingMap() {
       {/* Filter controls - shown when data is loaded */}
       {!loading && !error && data && (
         <div className="absolute top-4 left-4 z-10 space-y-2 w-48">
+          <YearSelector />
           <StateSelector />
           <FilterStats
             stats={stats}
             isFiltered={isFiltered}
             stateName={selectedStateName}
+            year={selectedYear}
           />
         </div>
       )}

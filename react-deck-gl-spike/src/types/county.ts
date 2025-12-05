@@ -27,3 +27,8 @@ export interface CountyFeatureCollection {
   type: 'FeatureCollection';
   features: CountyFeature[];
 }
+
+// Schema for validating cached election data files
+export const CachedElectionDataSchema = z.array(CountyVotingSchema);
+
+export type CachedElectionData = z.infer<typeof CachedElectionDataSchema>;

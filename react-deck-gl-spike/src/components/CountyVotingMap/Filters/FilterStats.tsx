@@ -1,16 +1,20 @@
 import { formatNumber, formatPercent } from '../../../utils/formatters';
 import type { FilterStats as FilterStatsType } from '../hooks/useFilteredCounties';
+import type { ElectionYear } from '../../../types/election';
+import { ELECTION_YEAR_INFO } from '../../../types/election';
 
 interface FilterStatsProps {
   stats: FilterStatsType | null;
   isFiltered: boolean;
   stateName?: string;
+  year: ElectionYear;
 }
 
 export function FilterStats({
   stats,
   isFiltered,
   stateName,
+  year,
 }: FilterStatsProps) {
   if (!stats) return null;
 
@@ -18,12 +22,14 @@ export function FilterStats({
   const winnerColor =
     stats.overallMargin > 0 ? 'text-blue-400' : 'text-red-400';
   const marginSign = stats.overallMargin > 0 ? '+' : '';
+  const yearInfo = ELECTION_YEAR_INFO[year];
 
   return (
     <div className="bg-gray-900/80 backdrop-blur-md rounded-lg p-3 shadow-lg border border-white/10">
-      <h3 className="text-white text-sm font-medium mb-2">
+      <h3 className="text-white text-sm font-medium mb-1">
         {isFiltered ? stateName : 'National'} Summary
       </h3>
+      <p className="text-gray-400 text-xs mb-2">{yearInfo.description}</p>
 
       <div className="space-y-1.5 text-xs">
         <div className="flex justify-between">
