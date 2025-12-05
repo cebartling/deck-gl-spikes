@@ -88,7 +88,7 @@ export function CountyVotingMap() {
       )}
       <DeckGL
         viewState={viewState}
-        onViewStateChange={handleViewStateChange as never}
+        onViewStateChange={handleViewStateChange}
         controller={true}
         layers={layers}
         getTooltip={null}
