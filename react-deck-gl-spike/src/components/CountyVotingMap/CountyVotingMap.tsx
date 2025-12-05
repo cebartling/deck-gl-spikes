@@ -47,7 +47,7 @@ export function CountyVotingMap() {
       viewState: MapViewState;
       interactionState?: { isDragging?: boolean; isZooming?: boolean };
     }) => {
-      setViewState(constrainToUSBounds(params.viewState));
+      setViewState(params.viewState);
 
       // Dismiss tooltip during pan/zoom interactions
       if (
