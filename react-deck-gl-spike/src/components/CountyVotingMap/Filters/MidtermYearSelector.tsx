@@ -1,19 +1,19 @@
 import { useCallback } from 'react';
 import { useCountyFilterStore } from '../../../stores/countyFilterStore';
-import { ELECTION_YEARS, ELECTION_YEAR_INFO } from '../../../types/election';
-import type { ElectionYear } from '../../../types/election';
+import { MIDTERM_YEARS, MIDTERM_YEAR_INFO } from '../../../types/midterm';
+import type { MidtermYear } from '../../../types/midterm';
 
-export function YearSelector() {
+export function MidtermYearSelector() {
   const selectedYear = useCountyFilterStore(
-    (state) => state.selectedPresidentialYear
+    (state) => state.selectedMidtermYear
   );
   const setSelectedYear = useCountyFilterStore(
-    (state) => state.setSelectedPresidentialYear
+    (state) => state.setSelectedMidtermYear
   );
 
   const handleYearChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const year = parseInt(event.target.value, 10) as ElectionYear;
+      const year = parseInt(event.target.value, 10) as MidtermYear;
       setSelectedYear(year);
     },
     [setSelectedYear]
@@ -22,24 +22,24 @@ export function YearSelector() {
   return (
     <div className="bg-gray-900/80 backdrop-blur-md rounded-lg p-3 shadow-lg border border-white/10">
       <label
-        htmlFor="year-selector"
+        htmlFor="midterm-year-selector"
         className="block text-xs font-medium text-gray-400 mb-1.5"
       >
-        Presidential Year
+        Midterm Year
       </label>
 
       <select
-        id="year-selector"
+        id="midterm-year-selector"
         value={selectedYear}
         onChange={handleYearChange}
         className="w-full bg-gray-800 text-white border border-gray-600 rounded-md
                    px-2.5 py-1.5 text-sm focus:outline-none focus:ring-2
                    focus:ring-blue-500 focus:border-transparent cursor-pointer"
       >
-        {ELECTION_YEARS.map((year) => (
+        {MIDTERM_YEARS.map((year) => (
           <option key={year} value={year}>
-            {ELECTION_YEAR_INFO[year].label} -{' '}
-            {ELECTION_YEAR_INFO[year].description}
+            {MIDTERM_YEAR_INFO[year].label} -{' '}
+            {MIDTERM_YEAR_INFO[year].description}
           </option>
         ))}
       </select>

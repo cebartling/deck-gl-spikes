@@ -13,7 +13,7 @@ describe('YearSelector', () => {
   describe('rendering', () => {
     it('should render the component', () => {
       render(<YearSelector />);
-      expect(screen.getByLabelText('Election Year')).toBeInTheDocument();
+      expect(screen.getByLabelText('Presidential Year')).toBeInTheDocument();
     });
 
     it('should render all election year options', () => {
@@ -51,7 +51,9 @@ describe('YearSelector', () => {
       const select = screen.getByRole('combobox');
       await user.selectOptions(select, '2020');
 
-      expect(useCountyFilterStore.getState().selectedYear).toBe(2020);
+      expect(useCountyFilterStore.getState().selectedPresidentialYear).toBe(
+        2020
+      );
     });
 
     it('should allow selecting any valid election year', async () => {
@@ -62,7 +64,9 @@ describe('YearSelector', () => {
 
       for (const year of ELECTION_YEARS) {
         await user.selectOptions(select, year.toString());
-        expect(useCountyFilterStore.getState().selectedYear).toBe(year);
+        expect(useCountyFilterStore.getState().selectedPresidentialYear).toBe(
+          year
+        );
       }
     });
 
@@ -83,7 +87,7 @@ describe('YearSelector', () => {
   describe('accessibility', () => {
     it('should have a proper label', () => {
       render(<YearSelector />);
-      const label = screen.getByText('Election Year');
+      const label = screen.getByText('Presidential Year');
       expect(label).toHaveAttribute('for', 'year-selector');
     });
 

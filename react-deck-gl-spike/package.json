@@ -16,7 +16,9 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:acceptance": "NODE_OPTIONS='--import tsx' cucumber-js --import 'features/**/*.ts'",
-    "data:download": "tsx scripts/download-election-data.ts"
+    "data:download": "tsx scripts/download-election-data.ts",
+    "data:download:midterm": "tsx scripts/download-midterm-data.ts",
+    "data:download:all": "npm run data:download && npm run data:download:midterm"
   },
   "dependencies": {
     "@deck.gl/core": "^9.2.2",

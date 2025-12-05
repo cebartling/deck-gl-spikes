@@ -8,10 +8,17 @@ import { createCountyLayer } from './layers/countyLayer';
 import { VotingLegend } from './Legend';
 import { CountyTooltip } from './Tooltip';
 import { ZoomControls } from './ZoomControls';
-import { StateSelector, FilterStats, YearSelector } from './Filters';
+import {
+  StateSelector,
+  FilterStats,
+  YearSelector,
+  ElectionTypeSelector,
+  MidtermYearSelector,
+} from './Filters';
 import { useTooltip } from './hooks/useTooltip';
 import { useFilteredCounties } from './hooks/useFilteredCounties';
 import { useCountyVotingData } from '../../hooks/useCountyVotingData';
+import { useMidtermVotingData } from '../../hooks/useMidtermVotingData';
 import { useCountyVotingViewStore } from '../../stores/countyVotingViewStore';
 import { useCountyFilterStore } from '../../stores/countyFilterStore';
 import { getStateNameByFips } from '../../types/states';
@@ -21,11 +28,29 @@ const MAP_STYLE =
   'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
 export function CountyVotingMap() {
-  // Get selected year from store
-  const selectedYear = useCountyFilterStore((state) => state.selectedYear);
+  // Get election type and years from store
+  const electionType = useCountyFilterStore((state) => state.electionType);
+  const selectedPresidentialYear = useCountyFilterStore(
+    (state) => state.selectedPresidentialYear
+  );
+  const selectedMidtermYear = useCountyFilterStore(
+    (state) => state.selectedMidtermYear
+  );
 
-  // Fetch county voting data for selected year
-  const { data, loading, error } = useCountyVotingData(selectedYear);
+  // Fetch data based on election type
+  const presidentialData = useCountyVotingData(selectedPresidentialYear);
+  const midtermData = useMidtermVotingData(selectedMidtermYear);
+
+  // Select active data based on election type
+  const { data, loading, error } = useMemo(() => {
+    return electionType === 'presidential' ? presidentialData : midtermData;
+  }, [electionType, presidentialData, midtermData]);
+
+  // Get the selected year for display
+  const selectedYear =
+    electionType === 'presidential'
+      ? selectedPresidentialYear
+      : selectedMidtermYear;
 
   // View state from Zustand store
   const viewState = useCountyVotingViewStore((state) => state.viewState);
@@ -78,7 +103,8 @@ export function CountyVotingMap() {
     <div className="w-full h-full relative">
       {loading && (
         <div className="absolute top-4 left-4 z-10 bg-gray-900/80 backdrop-blur-md px-3 py-2 rounded-lg shadow-lg border border-white/10 text-gray-100">
-          Loading {selectedYear} election data...
+          Loading {selectedYear}{' '}
+          {electionType === 'midterm' ? 'midterm' : 'election'} data...
         </div>
       )}
       {error && (
@@ -118,12 +144,18 @@ export function CountyVotingMap() {
       {/* Filter controls - shown when data is loaded */}
       {!loading && !error && data && (
         <div className="absolute top-4 left-4 z-10 space-y-2 w-48">
-          <YearSelector />
+          <ElectionTypeSelector />
+          {electionType === 'presidential' ? (
+            <YearSelector />
+          ) : (
+            <MidtermYearSelector />
+          )}
           <StateSelector />
           <FilterStats
             stats={stats}
             isFiltered={isFiltered}
             stateName={selectedStateName}
+            electionType={electionType}
             year={selectedYear}
           />
         </div>
