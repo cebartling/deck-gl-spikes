@@ -106,4 +106,22 @@ beforeEach(() => {
 - **Unit tests**: Co-located with source files (`*.test.ts(x)`)
 - **Acceptance tests**: Gherkin features in `features/`, steps in `features/step_definitions/`
 - **Mocking**: deck.gl and MapLibre components are mocked in unit tests
-- Always run `npm run test:run && npm run build` before committing
+
+## Pre-Commit Checklist
+
+Before committing changes or opening a pull request, always run:
+
+```bash
+npm run lint          # Check for ESLint errors
+npm run format        # Format code with Prettier
+npm run test:run      # Run all unit tests
+npm run build         # Verify TypeScript compilation
+```
+
+Or run all checks in sequence:
+
+```bash
+npm run lint && npm run format && npm run test:run && npm run build
+```
+
+**Important**: Fix any lint errors before committing. The CI pipeline will fail if linting or formatting checks do not pass.
