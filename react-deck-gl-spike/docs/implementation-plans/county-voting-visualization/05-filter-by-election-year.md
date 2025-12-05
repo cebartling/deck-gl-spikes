@@ -77,19 +77,19 @@ Each JSON file contains an array of county voting records matching the existing 
 // public/data/elections/2024.json
 [
   {
-    "fips": "01001",
-    "name": "Autauga",
-    "state": "AL",
-    "stateFips": "01",
-    "totalVotes": 28450,
-    "democratVotes": 6500,
-    "republicanVotes": 21200,
-    "otherVotes": 750,
-    "margin": -14700,
-    "marginPercent": -51.67
-  }
+    fips: '01001',
+    name: 'Autauga',
+    state: 'AL',
+    stateFips: '01',
+    totalVotes: 28450,
+    democratVotes: 6500,
+    republicanVotes: 21200,
+    otherVotes: 750,
+    margin: -14700,
+    marginPercent: -51.67,
+  },
   // ... ~3,100 counties
-]
+];
 ```
 
 ### Build-Time Data Generation
@@ -129,11 +129,11 @@ async function downloadAndTransform(year: number): Promise<void> {
 
 ## Libraries
 
-| Library         | Purpose                             |
-| --------------- | ----------------------------------- |
-| `zustand`       | Year selection state management     |
-| `@deck.gl/core` | WebGL visualization                 |
-| `zod`           | Runtime validation of cached data   |
+| Library           | Purpose                           |
+| ----------------- | --------------------------------- |
+| `zustand`         | Year selection state management   |
+| `@deck.gl/core`   | WebGL visualization               |
+| `zod`             | Runtime validation of cached data |
 | `topojson-client` | County geometry processing        |
 
 ## Data Structures

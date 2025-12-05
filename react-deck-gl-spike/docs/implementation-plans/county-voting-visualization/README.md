@@ -38,8 +38,8 @@ See [Feature Specification](../../features/county-voting-visualization.md) for u
 
 ### Filter by Election Year
 
-| #   | User Story             | Plan                                                             |
-| --- | ---------------------- | ---------------------------------------------------------------- |
+| #   | User Story              | Plan                                                             |
+| --- | ----------------------- | ---------------------------------------------------------------- |
 | 05  | Filter by Election Year | [05-filter-by-election-year.md](./05-filter-by-election-year.md) |
 
 ## Technology Stack
