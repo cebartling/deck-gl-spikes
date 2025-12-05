@@ -17,8 +17,7 @@ import {
 } from './Filters';
 import { useTooltip } from './hooks/useTooltip';
 import { useFilteredCounties } from './hooks/useFilteredCounties';
-import { useCountyVotingData } from '../../hooks/useCountyVotingData';
-import { useMidtermVotingData } from '../../hooks/useMidtermVotingData';
+import { useVotingData } from '../../hooks/useVotingData';
 import { useCountyVotingViewStore } from '../../stores/countyVotingViewStore';
 import { useCountyFilterStore } from '../../stores/countyFilterStore';
 import { getStateNameByFips } from '../../types/states';
@@ -37,20 +36,12 @@ export function CountyVotingMap() {
     (state) => state.selectedMidtermYear
   );
 
-  // Fetch data based on election type
-  const presidentialData = useCountyVotingData(selectedPresidentialYear);
-  const midtermData = useMidtermVotingData(selectedMidtermYear);
-
-  // Select active data based on election type
-  const { data, loading, error } = useMemo(() => {
-    return electionType === 'presidential' ? presidentialData : midtermData;
-  }, [electionType, presidentialData, midtermData]);
-
-  // Get the selected year for display
-  const selectedYear =
-    electionType === 'presidential'
-      ? selectedPresidentialYear
-      : selectedMidtermYear;
+  // Fetch data conditionally based on election type
+  const { data, loading, error, selectedYear } = useVotingData({
+    electionType,
+    presidentialYear: selectedPresidentialYear,
+    midtermYear: selectedMidtermYear,
+  });
 
   // View state from Zustand store
   const viewState = useCountyVotingViewStore((state) => state.viewState);
