@@ -73,7 +73,7 @@ export function TooltipContent({ county }: TooltipContentProps) {
         <div className="flex justify-between items-center">
           <span className="text-gray-400 text-sm">Margin</span>
           <span className={`font-semibold ${winnerColor}`} data-testid="margin">
-            {winnerParty} +{formatPercent(county.marginPercent)}
+            {winnerParty} +{formatPercent(Math.abs(county.marginPercent))}
           </span>
         </div>
         <div className="flex justify-between items-center">

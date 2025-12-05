@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useCallback } from 'react';
 import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
 import type { MapViewState } from '@deck.gl/core';
@@ -7,28 +7,25 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { createCountyLayer } from './layers/countyLayer';
 import { VotingLegend } from './Legend';
 import { CountyTooltip } from './Tooltip';
+import { ZoomControls } from './ZoomControls';
 import { useTooltip } from './hooks/useTooltip';
 import { useCountyVotingData } from '../../hooks/useCountyVotingData';
+import {
+  useCountyVotingViewStore,
+  constrainToUSBounds,
+} from '../../stores/countyVotingViewStore';
 
 // Dark map style for better contrast with colored polygons
 const MAP_STYLE =
   'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
-// Initial view centered on continental US
-const INITIAL_VIEW_STATE: MapViewState = {
-  longitude: -98.5795,
-  latitude: 39.8283,
-  zoom: 4,
-  pitch: 0,
-  bearing: 0,
-};
-
 export function CountyVotingMap() {
   // Fetch county voting data
   const { data, loading, error } = useCountyVotingData();
 
-  // View state
-  const [viewState, setViewState] = useState<MapViewState>(INITIAL_VIEW_STATE);
+  // View state from Zustand store
+  const viewState = useCountyVotingViewStore((state) => state.viewState);
+  const setViewState = useCountyVotingViewStore((state) => state.setViewState);
 
   // Tooltip state
   const { tooltip, onHover, clearTooltip, hoveredFips } = useTooltip();
@@ -50,7 +47,7 @@ export function CountyVotingMap() {
       viewState: MapViewState;
       interactionState?: { isDragging?: boolean; isZooming?: boolean };
     }) => {
-      setViewState(params.viewState);
+      setViewState(constrainToUSBounds(params.viewState));
 
       // Dismiss tooltip during pan/zoom interactions
       if (
@@ -60,7 +57,7 @@ export function CountyVotingMap() {
         clearTooltip();
       }
     },
-    [clearTooltip]
+    [setViewState, clearTooltip]
   );
 
   return (
@@ -77,12 +74,22 @@ export function CountyVotingMap() {
       )}
       <DeckGL
         viewState={viewState}
-        onViewStateChange={handleViewStateChange}
-        controller={true}
+        onViewStateChange={handleViewStateChange as never}
+        controller={{
+          dragPan: true,
+          dragRotate: false, // Disable rotation for 2D choropleth map
+          scrollZoom: true,
+          touchZoom: true,
+          touchRotate: false,
+          doubleClickZoom: true,
+          keyboard: true,
+          inertia: true,
+        }}
         layers={layers}
         getTooltip={null}
+        getCursor={({ isDragging }) => (isDragging ? 'grabbing' : 'grab')}
       >
-        <Map mapStyle={MAP_STYLE} />
+        <Map mapStyle={MAP_STYLE} reuseMaps attributionControl={false} />
       </DeckGL>
       <CountyTooltip
         county={tooltip?.object?.properties ?? null}
@@ -90,6 +97,7 @@ export function CountyVotingMap() {
         y={tooltip?.y ?? 0}
         visible={tooltip !== null}
       />
+      <ZoomControls />
       {!loading && !error && data && <VotingLegend />}
     </div>
   );
