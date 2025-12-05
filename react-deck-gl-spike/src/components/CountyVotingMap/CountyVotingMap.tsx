@@ -10,10 +10,7 @@ import { CountyTooltip } from './Tooltip';
 import { ZoomControls } from './ZoomControls';
 import { useTooltip } from './hooks/useTooltip';
 import { useCountyVotingData } from '../../hooks/useCountyVotingData';
-import {
-  useCountyVotingViewStore,
-  constrainToUSBounds,
-} from '../../stores/countyVotingViewStore';
+import { useCountyVotingViewStore } from '../../stores/countyVotingViewStore';
 
 // Dark map style for better contrast with colored polygons
 const MAP_STYLE =
@@ -74,7 +71,7 @@ export function CountyVotingMap() {
       )}
       <DeckGL
         viewState={viewState}
-        onViewStateChange={handleViewStateChange}
+        onViewStateChange={handleViewStateChange as never}
         controller={{
           dragPan: true,
           dragRotate: false, // Disable rotation for 2D choropleth map
@@ -87,7 +84,9 @@ export function CountyVotingMap() {
         }}
         layers={layers}
         getTooltip={null}
-        getCursor={({ isDragging }) => (isDragging ? 'grabbing' : 'grab')}
+        getCursor={({ isDragging, isHovering }) =>
+          isDragging ? 'grabbing' : isHovering ? 'pointer' : 'grab'
+        }
       >
         <Map mapStyle={MAP_STYLE} reuseMaps attributionControl={false} />
       </DeckGL>
