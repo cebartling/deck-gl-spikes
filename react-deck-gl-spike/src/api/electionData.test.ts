@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { fetchCountyVotingData } from './electionData';
 
+declare const global: typeof globalThis;
+
 // Mock TopoJSON data (minimal structure for testing)
 const mockTopoJson = {
   type: 'Topology',
