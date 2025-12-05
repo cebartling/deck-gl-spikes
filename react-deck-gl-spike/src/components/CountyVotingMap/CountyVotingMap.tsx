@@ -71,7 +71,12 @@ export function CountyVotingMap() {
       )}
       <DeckGL
         viewState={viewState}
-        onViewStateChange={handleViewStateChange as never}
+        {/* 
+          TypeScript type mismatch workaround: deck.gl's types for onViewStateChange may be incorrect.
+          handleViewStateChange matches the expected signature, so we cast to 'any' to satisfy TypeScript.
+          Remove this cast if deck.gl updates its types.
+        */}
+        onViewStateChange={handleViewStateChange as any}
         controller={{
           dragPan: true,
           dragRotate: false, // Disable rotation for 2D choropleth map
