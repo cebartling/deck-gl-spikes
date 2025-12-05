@@ -127,7 +127,7 @@ describe('constrainToUSBounds', () => {
 describe('useCountyVotingViewStore', () => {
   beforeEach(() => {
     act(() => {
-      useCountyVotingViewStore.getState().reset();
+      useCountyVotingViewStore.getState().resetView();
     });
   });
 
@@ -294,7 +294,7 @@ describe('useCountyVotingViewStore', () => {
       });
 
       act(() => {
-        useCountyVotingViewStore.getState().reset();
+        useCountyVotingViewStore.getState().resetView();
       });
 
       const { viewState } = useCountyVotingViewStore.getState();
