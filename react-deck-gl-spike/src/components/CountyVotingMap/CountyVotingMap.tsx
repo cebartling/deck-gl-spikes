@@ -40,21 +40,10 @@ export function CountyVotingMap() {
       createCountyLayer({
         data,
         highlightedFips: hoveredFips,
-        onHover: (info) => {
-          if (info.object) {
-            onHover({
-              object: info.object,
-              x: info.x,
-              y: info.y,
-              picked: true,
-            } as never);
-          } else {
-            clearTooltip();
-          }
-        },
+        onHover,
       }),
     ];
-  }, [data, hoveredFips, onHover, clearTooltip]);
+  }, [data, hoveredFips, onHover]);
 
   const handleViewStateChange = useCallback(
     (params: {
