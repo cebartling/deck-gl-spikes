@@ -25,12 +25,12 @@ The approach is to pre-download and transform mid-term election data from the MI
 
 ### Key Differences from Presidential Election Filter
 
-| Aspect | Presidential | Mid-term |
-|--------|--------------|----------|
-| Race type | Single nationwide race | Multiple district races |
-| Candidates | Same candidates everywhere | Different per district |
-| Data source | Direct county totals | Precinct data aggregated |
-| Display | Candidate names | Party totals only |
+| Aspect      | Presidential               | Mid-term                 |
+| ----------- | -------------------------- | ------------------------ |
+| Race type   | Single nationwide race     | Multiple district races  |
+| Candidates  | Same candidates everywhere | Different per district   |
+| Data source | Direct county totals       | Precinct data aggregated |
+| Display     | Candidate names            | Party totals only        |
 
 ## Architecture
 
@@ -130,8 +130,8 @@ Each JSON file contains county-level aggregated party totals:
     margin: -12400,
     marginPercent: -50.61,
     // Mid-term specific fields
-    houseRaces: 1,           // Number of House races in county
-    senateRace: false,       // Whether Senate race occurred
+    houseRaces: 1, // Number of House races in county
+    senateRace: false, // Whether Senate race occurred
   },
   // ... ~3,100 counties
 ];
@@ -229,7 +229,10 @@ function aggregateToCounty(precinctData: PrecinctRow[]): AggregatedCounty[] {
 
   for (const row of precinctData) {
     // Filter to House races only
-    if (!row.office.includes('US HOUSE') && !row.office.includes('US REPRESENTATIVE')) {
+    if (
+      !row.office.includes('US HOUSE') &&
+      !row.office.includes('US REPRESENTATIVE')
+    ) {
       continue;
     }
 
@@ -264,12 +267,15 @@ function aggregateToCounty(precinctData: PrecinctRow[]): AggregatedCounty[] {
   }
 
   // Calculate margins
-  return Array.from(countyMap.values()).map(county => ({
+  return Array.from(countyMap.values()).map((county) => ({
     ...county,
     margin: county.democratVotes - county.republicanVotes,
-    marginPercent: county.totalVotes > 0
-      ? ((county.democratVotes - county.republicanVotes) / county.totalVotes) * 100
-      : 0,
+    marginPercent:
+      county.totalVotes > 0
+        ? ((county.democratVotes - county.republicanVotes) /
+            county.totalVotes) *
+          100
+        : 0,
   }));
 }
 
@@ -280,7 +286,14 @@ async function downloadAndTransform(year: number): Promise<void> {
   // Aggregate to county level
   // Save as JSON
 
-  const outputDir = join(__dirname, '..', 'public', 'data', 'elections', 'midterm');
+  const outputDir = join(
+    __dirname,
+    '..',
+    'public',
+    'data',
+    'elections',
+    'midterm'
+  );
   mkdirSync(outputDir, { recursive: true });
 
   // const data = await fetchAndAggregate(year);
@@ -348,15 +361,17 @@ export const useCountyFilterStore = create<CountyFilterStore>((set) => ({
 
   setSelectedState: (stateFips) => set({ selectedState: stateFips }),
   setElectionType: (type) => set({ electionType: type }),
-  setSelectedPresidentialYear: (year) => set({ selectedPresidentialYear: year }),
+  setSelectedPresidentialYear: (year) =>
+    set({ selectedPresidentialYear: year }),
   setSelectedMidtermYear: (year) => set({ selectedMidtermYear: year }),
 
-  reset: () => set({
-    selectedState: null,
-    electionType: 'presidential',
-    selectedPresidentialYear: 2024,
-    selectedMidtermYear: 2022,
-  }),
+  reset: () =>
+    set({
+      selectedState: null,
+      electionType: 'presidential',
+      selectedPresidentialYear: 2024,
+      selectedMidtermYear: 2022,
+    }),
 }));
 ```
 
@@ -372,7 +387,9 @@ import { z } from 'zod';
 
 const midtermDataCache = new Map<MidtermYear, MidtermCountyVoting[]>();
 
-async function loadMidtermData(year: MidtermYear): Promise<MidtermCountyVoting[]> {
+async function loadMidtermData(
+  year: MidtermYear
+): Promise<MidtermCountyVoting[]> {
   const cached = midtermDataCache.get(year);
   if (cached) return cached;
 
@@ -415,7 +432,9 @@ export function useMidtermData(year: MidtermYear) {
     }
 
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [year]);
 
   return { data, loading, error };

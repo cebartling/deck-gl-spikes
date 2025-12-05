@@ -44,8 +44,8 @@ See [Feature Specification](../../features/county-voting-visualization.md) for u
 
 ### Filter by Mid-term Election Year
 
-| #   | User Story                      | Plan                                                                             |
-| --- | ------------------------------- | -------------------------------------------------------------------------------- |
+| #   | User Story                       | Plan                                                                             |
+| --- | -------------------------------- | -------------------------------------------------------------------------------- |
 | 06  | Filter by Mid-term Election Year | [06-filter-by-midterm-election-year.md](./06-filter-by-midterm-election-year.md) |
 
 ## Technology Stack
