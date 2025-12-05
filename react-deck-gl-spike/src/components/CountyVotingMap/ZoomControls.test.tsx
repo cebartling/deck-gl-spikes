@@ -11,7 +11,7 @@ import {
 describe('ZoomControls', () => {
   beforeEach(() => {
     act(() => {
-      useCountyVotingViewStore.getState().reset();
+      useCountyVotingViewStore.getState().resetView();
     });
   });
 

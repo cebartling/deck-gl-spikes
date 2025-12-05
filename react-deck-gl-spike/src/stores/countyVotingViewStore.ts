@@ -56,7 +56,6 @@ interface CountyVotingViewStore {
   zoomOut: () => void;
   resetView: () => void;
   flyTo: (target: Partial<MapViewState>) => void;
-  reset: () => void;
 }
 
 export const useCountyVotingViewStore = create<CountyVotingViewStore>(
@@ -103,10 +102,6 @@ export const useCountyVotingViewStore = create<CountyVotingViewStore>(
           ...target,
         }),
       });
-    },
-
-    reset: () => {
-      set({ viewState: US_INITIAL_VIEW_STATE });
     },
   })
 );
