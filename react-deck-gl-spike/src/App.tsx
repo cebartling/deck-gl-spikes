@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Earthquakes from './pages/Earthquakes';
+import CountyVoting from './pages/CountyVoting';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/earthquakes" element={<Earthquakes />} />
+          <Route path="/county-voting" element={<CountyVoting />} />
         </Routes>
       </main>
       <Footer />

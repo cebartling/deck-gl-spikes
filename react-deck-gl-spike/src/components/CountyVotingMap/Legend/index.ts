@@ -1,0 +1,1 @@
+export { VotingLegend } from './VotingLegend';
