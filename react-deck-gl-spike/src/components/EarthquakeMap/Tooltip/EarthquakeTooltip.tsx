@@ -29,6 +29,7 @@ export function EarthquakeTooltip({
   useEffect(() => {
     if (earthquake && visible) {
       // Show immediately with new data
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayData(earthquake);
       setPosition({ x, y });
       setIsVisible(true);

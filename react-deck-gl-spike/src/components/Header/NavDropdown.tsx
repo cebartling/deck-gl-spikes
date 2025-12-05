@@ -51,6 +51,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
 
   // Close dropdown on route change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     closeDropdown();
   }, [location.pathname, closeDropdown]);
 
@@ -81,7 +82,7 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
     }
   };
 
-  const handleItemKeyDown = (event: React.KeyboardEvent, _index: number) => {
+  const handleItemKeyDown = (event: React.KeyboardEvent) => {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();

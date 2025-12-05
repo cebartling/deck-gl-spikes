@@ -29,6 +29,7 @@ export function CountyTooltip({
   useEffect(() => {
     if (county && visible) {
       // Show immediately with new data
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDisplayData(county);
       setPosition({ x, y });
       setIsVisible(true);
