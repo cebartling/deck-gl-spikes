@@ -6,10 +6,7 @@ import type { MidtermYear, MidtermCountyVoting } from '../types/midterm';
 import { useElectionData } from './useElectionData';
 import { useMidtermData } from './useMidtermData';
 import { fetchCountyGeometry } from '../api/countyGeometry';
-import {
-  getGeometryCache,
-  setGeometryCache,
-} from '../utils/geometryCache';
+import { getGeometryCache, setGeometryCache } from '../utils/geometryCache';
 
 type ElectionType = 'presidential' | 'midterm';
 
@@ -55,7 +52,9 @@ export function useVotingData({
     loading: presidentialLoading,
     error: presidentialError,
   } = useElectionData(
-    electionType === 'presidential' ? presidentialYear : DEFAULT_PRESIDENTIAL_YEAR
+    electionType === 'presidential'
+      ? presidentialYear
+      : DEFAULT_PRESIDENTIAL_YEAR
   );
 
   const {
@@ -151,4 +150,3 @@ export function useVotingData({
     selectedYear,
   };
 }
-
