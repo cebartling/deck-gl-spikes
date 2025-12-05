@@ -69,7 +69,7 @@ describe('states', () => {
     });
 
     it('should have valid coordinates for each state', () => {
-      Object.entries(STATE_CENTERS).forEach(([_fips, center]) => {
+      Object.values(STATE_CENTERS).forEach((center) => {
         expect(center).toHaveProperty('longitude');
         expect(center).toHaveProperty('latitude');
         expect(center).toHaveProperty('zoom');
@@ -100,7 +100,9 @@ describe('states', () => {
 
     it('should have higher zoom for small states', () => {
       // Rhode Island should have higher zoom than Texas
-      expect(STATE_CENTERS['44'].zoom).toBeGreaterThan(STATE_CENTERS['48'].zoom);
+      expect(STATE_CENTERS['44'].zoom).toBeGreaterThan(
+        STATE_CENTERS['48'].zoom
+      );
     });
 
     it('should have lower zoom for Alaska', () => {

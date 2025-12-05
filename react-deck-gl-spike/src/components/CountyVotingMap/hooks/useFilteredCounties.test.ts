@@ -2,9 +2,14 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useFilteredCounties } from './useFilteredCounties';
 import { useCountyFilterStore } from '../../../stores/countyFilterStore';
-import type { CountyFeatureCollection, CountyFeature } from '../../../types/county';
+import type {
+  CountyFeatureCollection,
+  CountyFeature,
+} from '../../../types/county';
 
-function createMockFeature(overrides: Partial<CountyFeature['properties']> = {}): CountyFeature {
+function createMockFeature(
+  overrides: Partial<CountyFeature['properties']> = {}
+): CountyFeature {
   return {
     type: 'Feature',
     properties: {
@@ -22,7 +27,15 @@ function createMockFeature(overrides: Partial<CountyFeature['properties']> = {})
     },
     geometry: {
       type: 'Polygon',
-      coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]],
+      coordinates: [
+        [
+          [0, 0],
+          [1, 0],
+          [1, 1],
+          [0, 1],
+          [0, 0],
+        ],
+      ],
     },
   };
 }

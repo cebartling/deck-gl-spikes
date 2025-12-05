@@ -41,7 +41,9 @@ describe('StateSelector', () => {
 
     it('should render states with correct FIPS values', () => {
       render(<StateSelector />);
-      const californiaOption = screen.getByRole('option', { name: 'California' });
+      const californiaOption = screen.getByRole('option', {
+        name: 'California',
+      });
       expect(californiaOption).toHaveValue('06');
 
       const texasOption = screen.getByRole('option', { name: 'Texas' });
@@ -51,7 +53,9 @@ describe('StateSelector', () => {
     it('should render all state names from US_STATES', () => {
       render(<StateSelector />);
       US_STATES.forEach((state) => {
-        expect(screen.getByRole('option', { name: state.name })).toBeInTheDocument();
+        expect(
+          screen.getByRole('option', { name: state.name })
+        ).toBeInTheDocument();
       });
     });
   });
@@ -104,7 +108,10 @@ describe('StateSelector', () => {
     it('should call resetView when "All States" is selected', async () => {
       const user = userEvent.setup();
       useCountyFilterStore.getState().setSelectedState('06');
-      const resetViewSpy = vi.spyOn(useCountyVotingViewStore.getState(), 'resetView');
+      const resetViewSpy = vi.spyOn(
+        useCountyVotingViewStore.getState(),
+        'resetView'
+      );
 
       render(<StateSelector />);
       await user.selectOptions(screen.getByRole('combobox'), '');

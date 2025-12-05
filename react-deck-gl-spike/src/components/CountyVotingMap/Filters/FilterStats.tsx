@@ -7,7 +7,11 @@ interface FilterStatsProps {
   stateName?: string;
 }
 
-export function FilterStats({ stats, isFiltered, stateName }: FilterStatsProps) {
+export function FilterStats({
+  stats,
+  isFiltered,
+  stateName,
+}: FilterStatsProps) {
   if (!stats) return null;
 
   const winnerParty = stats.overallMargin > 0 ? 'Democrat' : 'Republican';

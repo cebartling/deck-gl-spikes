@@ -3,7 +3,9 @@ import { render, screen } from '@testing-library/react';
 import { FilterStats } from './FilterStats';
 import type { FilterStats as FilterStatsType } from '../hooks/useFilteredCounties';
 
-function createMockStats(overrides: Partial<FilterStatsType> = {}): FilterStatsType {
+function createMockStats(
+  overrides: Partial<FilterStatsType> = {}
+): FilterStatsType {
   return {
     countyCount: 100,
     totalVotes: 1000000,
@@ -50,7 +52,10 @@ describe('FilterStats', () => {
   describe('county count', () => {
     it('should display formatted county count', () => {
       render(
-        <FilterStats stats={createMockStats({ countyCount: 3143 })} isFiltered={false} />
+        <FilterStats
+          stats={createMockStats({ countyCount: 3143 })}
+          isFiltered={false}
+        />
       );
       expect(screen.getByText('3,143')).toBeInTheDocument();
     });
