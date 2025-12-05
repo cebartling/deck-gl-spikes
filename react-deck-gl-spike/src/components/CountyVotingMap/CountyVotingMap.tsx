@@ -74,7 +74,7 @@ export function CountyVotingMap() {
       )}
       <DeckGL
         viewState={viewState}
-        onViewStateChange={handleViewStateChange as never}
+        onViewStateChange={handleViewStateChange}
         controller={{
           dragPan: true,
           dragRotate: false, // Disable rotation for 2D choropleth map
