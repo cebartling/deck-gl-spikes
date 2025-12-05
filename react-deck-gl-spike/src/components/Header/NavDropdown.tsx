@@ -83,7 +83,8 @@ export function NavDropdown({ label, items }: NavDropdownProps) {
     }
   };
 
-  const handleItemKeyDown = (event: React.KeyboardEvent) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleItemKeyDown = (event: React.KeyboardEvent, _index: number) => {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
