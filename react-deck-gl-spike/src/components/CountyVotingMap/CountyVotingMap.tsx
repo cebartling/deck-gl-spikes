@@ -69,13 +69,9 @@ export function CountyVotingMap() {
           Error loading data: {error.message}
         </div>
       )}
+      {/* TypeScript type cast: deck.gl's types for onViewStateChange may be incorrect */}
       <DeckGL
         viewState={viewState}
-        {/* 
-          TypeScript type mismatch workaround: deck.gl's types for onViewStateChange may be incorrect.
-          handleViewStateChange matches the expected signature, so we cast to 'any' to satisfy TypeScript.
-          Remove this cast if deck.gl updates its types.
-        */}
         onViewStateChange={handleViewStateChange as any}
         controller={{
           dragPan: true,
