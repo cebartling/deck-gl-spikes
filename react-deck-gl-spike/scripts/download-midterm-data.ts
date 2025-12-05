@@ -244,7 +244,7 @@ function transformToMidterm(
     const republicanVotes = Math.round(
       totalVotes * (1 - finalVoteShare) * 0.98
     );
-    const otherVotes = totalVotes - democratVotes - republicanVotes;
+    const otherVotes = Math.max(0, totalVotes - democratVotes - republicanVotes);
     const margin = democratVotes - republicanVotes;
     const marginPercent = totalVotes > 0 ? (margin / totalVotes) * 100 : 0;
 
