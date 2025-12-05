@@ -8,9 +8,13 @@ import { createCountyLayer } from './layers/countyLayer';
 import { VotingLegend } from './Legend';
 import { CountyTooltip } from './Tooltip';
 import { ZoomControls } from './ZoomControls';
+import { StateSelector, FilterStats } from './Filters';
 import { useTooltip } from './hooks/useTooltip';
+import { useFilteredCounties } from './hooks/useFilteredCounties';
 import { useCountyVotingData } from '../../hooks/useCountyVotingData';
 import { useCountyVotingViewStore } from '../../stores/countyVotingViewStore';
+import { useCountyFilterStore } from '../../stores/countyFilterStore';
+import { getStateNameByFips } from '../../types/states';
 
 // Dark map style for better contrast with colored polygons
 const MAP_STYLE =
@@ -24,20 +28,30 @@ export function CountyVotingMap() {
   const viewState = useCountyVotingViewStore((state) => state.viewState);
   const setViewState = useCountyVotingViewStore((state) => state.setViewState);
 
+  // Filter state
+  const selectedState = useCountyFilterStore((state) => state.selectedState);
+  const { filteredData, stats, isFiltered } = useFilteredCounties(data);
+
+  // Get selected state name for display
+  const selectedStateName = useMemo(() => {
+    if (!selectedState) return undefined;
+    return getStateNameByFips(selectedState);
+  }, [selectedState]);
+
   // Tooltip state
   const { tooltip, onHover, clearTooltip, hoveredFips } = useTooltip();
 
   // Create layers with memoization
   const layers = useMemo(() => {
-    if (!data) return [];
+    if (!filteredData) return [];
     return [
       createCountyLayer({
-        data,
+        data: filteredData,
         highlightedFips: hoveredFips,
         onHover,
       }),
     ];
-  }, [data, hoveredFips, onHover]);
+  }, [filteredData, hoveredFips, onHover]);
 
   const handleViewStateChange = useCallback(
     (params: {
@@ -98,6 +112,17 @@ export function CountyVotingMap() {
         visible={tooltip !== null}
       />
       <ZoomControls />
+      {/* Filter controls - shown when data is loaded */}
+      {!loading && !error && data && (
+        <div className="absolute top-4 left-4 z-10 space-y-2 w-48">
+          <StateSelector />
+          <FilterStats
+            stats={stats}
+            isFiltered={isFiltered}
+            stateName={selectedStateName}
+          />
+        </div>
+      )}
       {!loading && !error && data && <VotingLegend />}
     </div>
   );
