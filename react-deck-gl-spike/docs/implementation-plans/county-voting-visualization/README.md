@@ -36,6 +36,12 @@ See [Feature Specification](../../features/county-voting-visualization.md) for u
 | --- | --------------- | ------------------------------------------------ |
 | 04  | Filter by State | [04-filter-by-state.md](./04-filter-by-state.md) |
 
+### Filter by Election Year
+
+| #   | User Story             | Plan                                                             |
+| --- | ---------------------- | ---------------------------------------------------------------- |
+| 05  | Filter by Election Year | [05-filter-by-election-year.md](./05-filter-by-election-year.md) |
+
 ## Technology Stack
 
 | Technology   | Version | Purpose                            |
@@ -68,11 +74,13 @@ src/
 │       │   ├── CountyTooltip.tsx
 │       │   └── TooltipContent.tsx
 │       ├── Filters/
-│       │   └── StateSelector.tsx
+│       │   ├── StateSelector.tsx
+│       │   └── YearSelector.tsx
 │       └── Legend/
 │           └── VotingLegend.tsx
 ├── types/
 │   ├── county.ts                    # County data types
+│   ├── election.ts                  # Election year types
 │   └── voting.ts                    # Voting result types
 ├── stores/
 │   └── countyVotingStore.ts         # Global state
@@ -80,7 +88,8 @@ src/
 │   ├── formatters.ts                # Display formatting
 │   └── votingCalculations.ts        # Vote margin calculations
 └── hooks/
-    └── useCountyVotingData.ts       # Data fetching
+    ├── useCountyVotingData.ts       # Data fetching
+    └── useElectionData.ts           # Election year data
 ```
 
 ## Data Sources
