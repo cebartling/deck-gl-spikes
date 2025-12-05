@@ -6,7 +6,10 @@ import type { MidtermYear, MidtermCountyVoting } from '../types/midterm';
 import { useElectionData } from './useElectionData';
 import { useMidtermData } from './useMidtermData';
 import { fetchCountyGeometry } from '../api/countyGeometry';
-import { geometryCache as sharedGeometryCache } from './useCountyVotingData';
+import {
+  getGeometryCache,
+  setGeometryCache,
+} from '../utils/geometryCache';
 
 type ElectionType = 'presidential' | 'midterm';
 
@@ -37,11 +40,12 @@ export function useVotingData({
   presidentialYear,
   midtermYear,
 }: UseVotingDataParams): UseVotingDataResult {
+  const cachedGeometry = getGeometryCache();
   const [geometry, setGeometry] = useState<FeatureCollection<
     Polygon | MultiPolygon,
     { name: string }
-  > | null>(sharedGeometryCache);
-  const [geometryLoading, setGeometryLoading] = useState(!sharedGeometryCache);
+  > | null>(cachedGeometry);
+  const [geometryLoading, setGeometryLoading] = useState(!cachedGeometry);
   const [geometryError, setGeometryError] = useState<Error | null>(null);
 
   // Conditionally fetch election data based on election type
@@ -74,6 +78,7 @@ export function useVotingData({
     fetchCountyGeometry()
       .then((geo) => {
         if (!cancelled) {
+          setGeometryCache(geo); // Update shared cache
           setGeometry(geo);
           setGeometryLoading(false);
         }
@@ -96,59 +101,37 @@ export function useVotingData({
   const data = useMemo(() => {
     if (!geometry) return null;
 
-    if (electionType === 'presidential') {
-      if (!presidentialElectionData) return null;
+    // Select the active election data based on election type
+    const electionData =
+      electionType === 'presidential'
+        ? presidentialElectionData
+        : midtermElectionData;
 
-      // Create lookup map for presidential election data
-      const electionMap = new Map<string, CountyVoting>();
-      presidentialElectionData.forEach((county) => {
-        electionMap.set(county.fips, county);
-      });
+    if (!electionData) return null;
 
-      // Merge geometry with presidential election data
-      const features = geometry.features
-        .map((feature) => {
-          const fips = feature.id?.toString().padStart(5, '0') || '';
-          const election = electionMap.get(fips);
+    // Create lookup map for election data (works for both types)
+    const dataMap = new Map<string, CountyVoting | MidtermCountyVoting>();
+    electionData.forEach((county) => {
+      dataMap.set(county.fips, county);
+    });
 
-          if (!election) return null;
+    // Merge geometry with election data
+    const features = geometry.features
+      .map((feature) => {
+        const fips = feature.id?.toString().padStart(5, '0') || '';
+        const countyData = dataMap.get(fips);
 
-          return {
-            type: 'Feature' as const,
-            properties: election,
-            geometry: feature.geometry,
-          };
-        })
-        .filter((f): f is NonNullable<typeof f> => f !== null);
+        if (!countyData) return null;
 
-      return { type: 'FeatureCollection' as const, features };
-    } else {
-      if (!midtermElectionData) return null;
+        return {
+          type: 'Feature' as const,
+          properties: countyData,
+          geometry: feature.geometry,
+        };
+      })
+      .filter((f): f is NonNullable<typeof f> => f !== null);
 
-      // Create lookup map for midterm election data
-      const midtermMap = new Map<string, MidtermCountyVoting>();
-      midtermElectionData.forEach((county) => {
-        midtermMap.set(county.fips, county);
-      });
-
-      // Merge geometry with midterm election data
-      const features = geometry.features
-        .map((feature) => {
-          const fips = feature.id?.toString().padStart(5, '0') || '';
-          const midterm = midtermMap.get(fips);
-
-          if (!midterm) return null;
-
-          return {
-            type: 'Feature' as const,
-            properties: midterm,
-            geometry: feature.geometry,
-          };
-        })
-        .filter((f): f is NonNullable<typeof f> => f !== null);
-
-      return { type: 'FeatureCollection' as const, features };
-    }
+    return { type: 'FeatureCollection' as const, features };
   }, [geometry, electionType, presidentialElectionData, midtermElectionData]);
 
   // Select active loading and error states based on election type
