@@ -1,11 +1,13 @@
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useCallback } from 'react';
 import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFlightRoutesLayer } from './layers/flightRoutesLayer';
 import { ArcLegend } from './Legend/ArcLegend';
 import { ZoomControls } from './ZoomControls';
+import { FlightTooltip } from './Tooltip/FlightTooltip';
 import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
+import { useFlightTooltip } from './hooks/useFlightTooltip';
 import { useFlightMapViewStore, type TransitionViewState } from '../../stores';
 import type { FlightRoute } from '../../types/flight';
 
@@ -28,24 +30,18 @@ export function FlightMap({ routes }: FlightMapProps) {
   // Enable keyboard navigation
   useKeyboardNavigation();
 
-  const [hoveredRoute, setHoveredRoute] = useState<FlightRoute | null>(null);
-
-  const handleHover = useCallback(
-    (info: { object?: FlightRoute; x: number; y: number }) => {
-      setHoveredRoute(info.object ?? null);
-    },
-    []
-  );
+  // Tooltip state management
+  const { tooltip, hoveredRouteId, handleHover } = useFlightTooltip();
 
   const layers = useMemo(
     () => [
       createFlightRoutesLayer({
         data: routes,
-        highlightedRouteId: hoveredRoute?.id ?? null,
+        highlightedRouteId: hoveredRouteId,
         onHover: handleHover,
       }),
     ],
-    [routes, hoveredRoute, handleHover]
+    [routes, hoveredRouteId, handleHover]
   );
 
   const handleViewStateChange = useCallback(
@@ -83,6 +79,12 @@ export function FlightMap({ routes }: FlightMapProps) {
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
+
+      {/* Flight Route Tooltip */}
+      {tooltip.route && (
+        <FlightTooltip route={tooltip.route} x={tooltip.x} y={tooltip.y} />
+      )}
+
       <ZoomControls />
       <ArcLegend />
     </div>
