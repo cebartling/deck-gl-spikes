@@ -21,9 +21,12 @@ interface AircraftLayerOptions {
 }
 
 export function createAircraftLayer({ data, onHover }: AircraftLayerOptions) {
+  // Sort data by flightId to ensure stable order between frames
+  const sortedData = [...data].sort((a, b) => a.flightId.localeCompare(b.flightId));
+
   return new IconLayer<FlightPosition>({
     id: 'aircraft-layer',
-    data,
+    data: sortedData,
     pickable: true,
 
     // Icon configuration
@@ -58,12 +61,11 @@ export function createAircraftLayer({ data, onHover }: AircraftLayerOptions) {
     // Billboard mode - icons always face camera
     billboard: true,
 
-    // Smooth transitions for position updates
-    transitions: {
-      getPosition: {
-        duration: 100,
-        easing: (t: number) => t,
-      },
+    // Update triggers to ensure proper re-renders
+    updateTriggers: {
+      getPosition: [sortedData.map((d) => d.flightId).join(',')],
+      getAngle: [sortedData.map((d) => d.flightId).join(',')],
+      getColor: [sortedData.map((d) => d.flightId).join(',')],
     },
   });
 }
