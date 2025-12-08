@@ -6,3 +6,4 @@ export {
   FLIGHT_MAP_INITIAL_VIEW_STATE,
   type TransitionViewState,
 } from './flightMapViewStore';
+export { useFlightFilterStore } from './flightFilterStore';

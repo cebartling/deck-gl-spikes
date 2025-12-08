@@ -3,12 +3,23 @@ import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFlightRoutesLayer } from './layers/flightRoutesLayer';
+import { createAirportMarkerLayer } from './layers/airportMarkerLayer';
 import { ArcLegend } from './Legend/ArcLegend';
 import { ZoomControls } from './ZoomControls';
 import { FlightTooltip } from './Tooltip/FlightTooltip';
+import {
+  AirportSelector,
+  FilterModeSelector,
+  FlightFilterStats,
+} from './Filters';
 import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
 import { useFlightTooltip } from './hooks/useFlightTooltip';
-import { useFlightMapViewStore, type TransitionViewState } from '../../stores';
+import { useFilteredRoutes } from './hooks/useFilteredRoutes';
+import {
+  useFlightMapViewStore,
+  useFlightRoutesStore,
+  type TransitionViewState,
+} from '../../stores';
 import type { FlightRoute } from '../../types/flight';
 
 // Dark theme for better arc visibility
@@ -26,6 +37,7 @@ interface FlightMapProps {
 export function FlightMap({ routes }: FlightMapProps) {
   const viewState = useFlightMapViewStore((state) => state.viewState);
   const setViewState = useFlightMapViewStore((state) => state.setViewState);
+  const airports = useFlightRoutesStore((state) => state.airports);
 
   // Enable keyboard navigation
   useKeyboardNavigation();
@@ -33,16 +45,35 @@ export function FlightMap({ routes }: FlightMapProps) {
   // Tooltip state management
   const { tooltip, hoveredRouteId, handleHover } = useFlightTooltip();
 
-  const layers = useMemo(
-    () => [
+  // Filter state management
+  const { filteredRoutes, stats, isFiltered, selectedAirportData } =
+    useFilteredRoutes(routes);
+
+  // Convert airports Map to array
+  const airportsArray = useMemo(
+    () => Array.from(airports.values()),
+    [airports]
+  );
+
+  const layers = useMemo(() => {
+    const layerList = [
       createFlightRoutesLayer({
-        data: routes,
+        data: filteredRoutes,
         highlightedRouteId: hoveredRouteId,
         onHover: handleHover,
       }),
-    ],
-    [routes, hoveredRouteId, handleHover]
-  );
+    ];
+
+    // Add airport marker if filtered
+    const markerLayer = createAirportMarkerLayer({
+      selectedAirport: selectedAirportData,
+    });
+    if (markerLayer) {
+      layerList.push(markerLayer as never);
+    }
+
+    return layerList;
+  }, [filteredRoutes, hoveredRouteId, handleHover, selectedAirportData]);
 
   const handleViewStateChange = useCallback(
     (params: { viewState: TransitionViewState }) => {
@@ -79,6 +110,17 @@ export function FlightMap({ routes }: FlightMapProps) {
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
+
+      {/* Filter Controls */}
+      <div className="absolute top-4 left-4 space-y-3">
+        <AirportSelector airports={airportsArray} />
+        <FilterModeSelector />
+        <FlightFilterStats
+          stats={stats}
+          selectedAirport={selectedAirportData}
+          isFiltered={isFiltered}
+        />
+      </div>
 
       {/* Flight Route Tooltip */}
       {tooltip.route && (
