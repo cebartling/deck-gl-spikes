@@ -101,7 +101,10 @@ export function TimelineScrubber() {
       const handlers = (
         window as unknown as Record<
           string,
-          { handleGlobalMouseMove: (e: MouseEvent) => void; handleGlobalMouseUp: () => void }
+          {
+            handleGlobalMouseMove: (e: MouseEvent) => void;
+            handleGlobalMouseUp: () => void;
+          }
         >
       ).__timelineScrubberHandlers;
       if (handlers) {

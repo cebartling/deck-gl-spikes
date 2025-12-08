@@ -79,8 +79,7 @@ export function useFlightAnimation() {
 
       // Convert delta time (ms) to simulation minutes
       // playbackSpeed of 60 means 1 hour of simulation per 1 minute of real time
-      const deltaMinutes =
-        (deltaTime / 1000) * (playbackSpeedRef.current / 60);
+      const deltaMinutes = (deltaTime / 1000) * (playbackSpeedRef.current / 60);
 
       const newTime = currentTimeRef.current + deltaMinutes;
 
