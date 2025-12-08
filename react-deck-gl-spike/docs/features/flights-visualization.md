@@ -57,6 +57,19 @@ Display flight routes as arcs on an interactive map using deck.gl's ArcLayer, al
 - [ ] Map updates to show only routes connected to selected airport
 - [ ] Option to view all routes simultaneously
 
+### Animate route flights over time
+
+**As a** user
+**I want to** see actual flight paths animated over time
+**So that I** can understand flight patterns throughout the day
+
+#### Acceptance Criteria
+
+- [ ] Provide timeline scrubber to control animation
+- [ ] Animate arcs to show flights taking off and landing over time
+- [ ] Option to pause and resume animation
+- [ ] Allow airport filtering during animation
+
 ## Visual Requirements
 
 - Arcs should use a gradient color scheme indicating direction

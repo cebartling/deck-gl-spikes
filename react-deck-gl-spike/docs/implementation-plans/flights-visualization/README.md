@@ -8,12 +8,13 @@ The flight routes visualization allows users to explore air travel connections b
 
 ## User Stories
 
-| #   | User Story             | Implementation Plan                                            |
-| --- | ---------------------- | -------------------------------------------------------------- |
-| 1   | View Flight Routes Map | [01-view-flight-routes-map.md](./01-view-flight-routes-map.md) |
-| 2   | Interact with Map      | [02-interact-with-map.md](./02-interact-with-map.md)           |
-| 3   | View Route Details     | [03-view-route-details.md](./03-view-route-details.md)         |
-| 4   | Filter by Airport      | [04-filter-by-airport.md](./04-filter-by-airport.md)           |
+| #   | User Story                      | Implementation Plan                                            |
+| --- | ------------------------------- | -------------------------------------------------------------- |
+| 1   | View Flight Routes Map          | [01-view-flight-routes-map.md](./01-view-flight-routes-map.md) |
+| 2   | Interact with Map               | [02-interact-with-map.md](./02-interact-with-map.md)           |
+| 3   | View Route Details              | [03-view-route-details.md](./03-view-route-details.md)         |
+| 4   | Filter by Airport               | [04-filter-by-airport.md](./04-filter-by-airport.md)           |
+| 5   | Animate Route Flights Over Time | [05-animate-route-flights.md](./05-animate-route-flights.md)   |
 
 ## Recommended Implementation Order
 
@@ -23,12 +24,14 @@ graph LR
     A --> C[3. View Route Details]
     B --> D[4. Filter by Airport]
     C --> D
+    D --> E[5. Animate Route Flights]
 ```
 
 1. **View Flight Routes Map** - Core functionality: data fetching, ArcLayer rendering, and base map setup
 2. **Interact with Map** - Pan/zoom controls and view state management
 3. **View Route Details** - Tooltip system and hover interactions
 4. **Filter by Airport** - Airport selector and route filtering
+5. **Animate Route Flights** - Time-based animation with playback controls and aircraft icons
 
 ## Technical Architecture
 
@@ -46,17 +49,22 @@ graph TB
         FM --> ZC[ZoomControls]
         FM --> AL[ArcLegend]
         FM --> AS[AirportSelector]
+        FM --> AP[AnimationPanel]
+        AP --> TS[TimelineScrubber]
+        AP --> PC[PlaybackControls]
     end
 
     subgraph "Layers"
         DGL --> ARC[ArcLayer]
         DGL --> MKR[AirportMarkerLayer]
+        DGL --> ACR[AircraftLayer]
     end
 
     subgraph "State"
         FRS[flightRoutesStore]
         FMS[flightMapViewStore]
         FFS[flightFilterStore]
+        FAS[flightAnimationStore]
     end
 
     subgraph "Hooks"
@@ -64,14 +72,17 @@ graph TB
         UFR[useFilteredRoutes]
         UFT[useFlightTooltip]
         UAS[useAirportSearch]
+        UFA[useFlightAnimation]
     end
 
     MC --> UFD
     FM --> FRS
     FM --> FMS
     FM --> FFS
+    FM --> FAS
     FM --> UFR
     FM --> UFT
+    FM --> UFA
     AS --> UAS
 ```
 
@@ -84,6 +95,11 @@ src/
 │       ├── FlightMap.tsx
 │       ├── MapContainer.tsx
 │       ├── ZoomControls.tsx
+│       ├── Animation/
+│       │   ├── AnimationPanel.tsx
+│       │   ├── TimelineScrubber.tsx
+│       │   ├── PlaybackControls.tsx
+│       │   └── AnimationToggle.tsx
 │       ├── Filters/
 │       │   ├── AirportSelector.tsx
 │       │   ├── FilterModeSelector.tsx
@@ -96,21 +112,29 @@ src/
 │       ├── layers/
 │       │   ├── flightRoutesLayer.ts
 │       │   ├── airportMarkerLayer.ts
+│       │   ├── aircraftLayer.ts
 │       │   ├── arcColorScale.ts
 │       │   └── arcWidthScale.ts
-│       └── hooks/
-│           ├── useFlightTooltip.ts
-│           ├── useFilteredRoutes.ts
-│           └── useAirportSearch.ts
+│       ├── hooks/
+│       │   ├── useFlightTooltip.ts
+│       │   ├── useFilteredRoutes.ts
+│       │   ├── useAirportSearch.ts
+│       │   └── useFlightAnimation.ts
+│       └── utils/
+│           └── flightPositionCalculator.ts
 ├── hooks/
 │   └── useFlightRoutesData.ts
 ├── stores/
 │   ├── flightRoutesStore.ts
 │   ├── flightMapViewStore.ts
-│   └── flightFilterStore.ts
+│   ├── flightFilterStore.ts
+│   └── flightAnimationStore.ts
 ├── types/
 │   ├── flight.ts
-│   └── flightFilter.ts
+│   ├── flightFilter.ts
+│   └── flightSchedule.ts
+├── utils/
+│   └── greatCircle.ts
 └── pages/
     └── FlightRoutes.tsx
 ```
