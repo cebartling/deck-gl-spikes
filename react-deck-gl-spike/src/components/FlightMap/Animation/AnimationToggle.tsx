@@ -31,7 +31,7 @@ export function AnimationToggle() {
           aria-label="Toggle flight animation"
         >
           <span
-            className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+            className={`absolute left-0 top-1 w-4 h-4 bg-white rounded-full transition-transform ${
               animationEnabled ? 'translate-x-7' : 'translate-x-1'
             }`}
           />
