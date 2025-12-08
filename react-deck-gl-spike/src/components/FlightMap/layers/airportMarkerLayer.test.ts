@@ -26,9 +26,10 @@ describe('createAirportMarkerLayer', () => {
 
   it('sets data to array containing selected airport', () => {
     const layer = createAirportMarkerLayer({ selectedAirport: mockAirport });
+    const data = layer?.props.data as Airport[];
 
-    expect(layer?.props.data).toHaveLength(1);
-    expect(layer?.props.data[0]).toBe(mockAirport);
+    expect(data).toHaveLength(1);
+    expect(data[0]).toBe(mockAirport);
   });
 
   it('layer is not pickable', () => {
@@ -40,7 +41,9 @@ describe('createAirportMarkerLayer', () => {
   it('has correct position accessor', () => {
     const layer = createAirportMarkerLayer({ selectedAirport: mockAirport });
 
-    const getPosition = layer?.props.getPosition as (d: Airport) => number[];
+    const getPosition = layer?.props.getPosition as unknown as (
+      d: Airport
+    ) => number[];
     const position = getPosition(mockAirport);
 
     expect(position).toEqual([-118.4085, 33.9425]);

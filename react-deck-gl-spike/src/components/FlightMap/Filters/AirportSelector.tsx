@@ -67,7 +67,11 @@ export function AirportSelector({ airports }: AirportSelectorProps) {
   }, []);
 
   return (
-    <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 shadow-lg w-72">
+    <div
+      className={`bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 shadow-lg w-72 relative ${
+        isOpen ? 'z-50' : ''
+      }`}
+    >
       <label className="block text-sm font-medium text-gray-300 mb-2">
         Filter by Airport
       </label>
