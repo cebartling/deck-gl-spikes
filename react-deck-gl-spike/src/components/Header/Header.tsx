@@ -4,6 +4,7 @@ import { NavDropdown } from './NavDropdown';
 const SPIKES_ITEMS = [
   { label: 'Earthquakes', to: '/earthquakes' },
   { label: 'County Voting', to: '/county-voting' },
+  { label: 'Flight Routes', to: '/flight-routes' },
 ];
 
 function Header() {

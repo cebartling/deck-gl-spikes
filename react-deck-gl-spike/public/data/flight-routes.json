@@ -1,0 +1,338 @@
+{
+  "routes": [
+    {
+      "id": "LAX-JFK",
+      "origin": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "frequency": 280,
+      "distance": 3983,
+      "passengerVolume": 4500000
+    },
+    {
+      "id": "ORD-ATL",
+      "origin": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "destination": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "frequency": 210,
+      "distance": 975,
+      "passengerVolume": 3200000
+    },
+    {
+      "id": "DFW-LAX",
+      "origin": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "frequency": 196,
+      "distance": 1938,
+      "passengerVolume": 2800000
+    },
+    {
+      "id": "SFO-SEA",
+      "origin": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "destination": {
+        "code": "SEA",
+        "name": "Seattle-Tacoma International Airport",
+        "city": "Seattle",
+        "country": "USA",
+        "longitude": -122.3088,
+        "latitude": 47.4502
+      },
+      "frequency": 168,
+      "distance": 1091,
+      "passengerVolume": 2100000
+    },
+    {
+      "id": "DEN-PHX",
+      "origin": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "destination": {
+        "code": "PHX",
+        "name": "Phoenix Sky Harbor International Airport",
+        "city": "Phoenix",
+        "country": "USA",
+        "longitude": -112.012,
+        "latitude": 33.4373
+      },
+      "frequency": 154,
+      "distance": 875,
+      "passengerVolume": 1900000
+    },
+    {
+      "id": "MIA-JFK",
+      "origin": {
+        "code": "MIA",
+        "name": "Miami International Airport",
+        "city": "Miami",
+        "country": "USA",
+        "longitude": -80.2906,
+        "latitude": 25.7959
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "frequency": 182,
+      "distance": 1756,
+      "passengerVolume": 2500000
+    },
+    {
+      "id": "BOS-ORD",
+      "origin": {
+        "code": "BOS",
+        "name": "Boston Logan International Airport",
+        "city": "Boston",
+        "country": "USA",
+        "longitude": -71.0096,
+        "latitude": 42.3656
+      },
+      "destination": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "frequency": 140,
+      "distance": 1367,
+      "passengerVolume": 1800000
+    },
+    {
+      "id": "LAS-LAX",
+      "origin": {
+        "code": "LAS",
+        "name": "Harry Reid International Airport",
+        "city": "Las Vegas",
+        "country": "USA",
+        "longitude": -115.1523,
+        "latitude": 36.084
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "frequency": 224,
+      "distance": 380,
+      "passengerVolume": 3000000
+    },
+    {
+      "id": "MSP-DEN",
+      "origin": {
+        "code": "MSP",
+        "name": "Minneapolis-Saint Paul International Airport",
+        "city": "Minneapolis",
+        "country": "USA",
+        "longitude": -93.2218,
+        "latitude": 44.8848
+      },
+      "destination": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "frequency": 126,
+      "distance": 1333,
+      "passengerVolume": 1600000
+    },
+    {
+      "id": "DTW-ATL",
+      "origin": {
+        "code": "DTW",
+        "name": "Detroit Metropolitan Wayne County Airport",
+        "city": "Detroit",
+        "country": "USA",
+        "longitude": -83.3534,
+        "latitude": 42.2124
+      },
+      "destination": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "frequency": 112,
+      "distance": 1029,
+      "passengerVolume": 1400000
+    },
+    {
+      "id": "SFO-LAX",
+      "origin": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "frequency": 252,
+      "distance": 543,
+      "passengerVolume": 3500000
+    },
+    {
+      "id": "JFK-MIA",
+      "origin": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "destination": {
+        "code": "MIA",
+        "name": "Miami International Airport",
+        "city": "Miami",
+        "country": "USA",
+        "longitude": -80.2906,
+        "latitude": 25.7959
+      },
+      "frequency": 175,
+      "distance": 1756,
+      "passengerVolume": 2400000
+    },
+    {
+      "id": "ORD-DFW",
+      "origin": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "destination": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "frequency": 189,
+      "distance": 1290,
+      "passengerVolume": 2600000
+    },
+    {
+      "id": "SEA-LAX",
+      "origin": {
+        "code": "SEA",
+        "name": "Seattle-Tacoma International Airport",
+        "city": "Seattle",
+        "country": "USA",
+        "longitude": -122.3088,
+        "latitude": 47.4502
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "frequency": 161,
+      "distance": 1544,
+      "passengerVolume": 2200000
+    },
+    {
+      "id": "PHX-DFW",
+      "origin": {
+        "code": "PHX",
+        "name": "Phoenix Sky Harbor International Airport",
+        "city": "Phoenix",
+        "country": "USA",
+        "longitude": -112.012,
+        "latitude": 33.4373
+      },
+      "destination": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "frequency": 147,
+      "distance": 1421,
+      "passengerVolume": 1950000
+    }
+  ],
+  "metadata": {
+    "totalRoutes": 15,
+    "lastUpdated": "2024-01-15T00:00:00Z"
+  }
+}

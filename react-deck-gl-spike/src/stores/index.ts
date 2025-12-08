@@ -1,2 +1,7 @@
 export { useEarthquakeStore, transformGeoJSONFeature } from './earthquakeStore';
 export { useMapViewStore, INITIAL_VIEW_STATE } from './mapViewStore';
+export { useFlightRoutesStore } from './flightRoutesStore';
+export {
+  useFlightMapViewStore,
+  FLIGHT_MAP_INITIAL_VIEW_STATE,
+} from './flightMapViewStore';
