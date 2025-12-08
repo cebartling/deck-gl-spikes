@@ -65,10 +65,18 @@ Display flight routes as arcs on an interactive map using deck.gl's ArcLayer, al
 
 #### Acceptance Criteria
 
-- [ ] Provide timeline scrubber to control animation
-- [ ] Animate arcs to show flights taking off and landing over time
-- [ ] Option to pause and resume animation
-- [ ] Allow airport filtering during animation
+- [x] Provide timeline scrubber to control animation
+- [x] Animate arcs to show flights taking off and landing over time
+- [x] Option to pause and resume animation
+- [x] Allow airport filtering during animation
+
+#### Implementation Notes
+
+- Aircraft icons animate along great circle paths between airports
+- Speed options: 120x, 300x, 1000x, 3000x (default: 120x)
+- Timeline scrubber allows seeking to any time of day
+- Animation uses stable object ordering to prevent visual jumping
+- Boundary handling at endpoints prevents floating-point precision issues
 
 ## Visual Requirements
 
