@@ -32,6 +32,10 @@ export function interpolateGreatCircle(
   lon2: number,
   fraction: number
 ): [number, number] {
+  // Handle boundary cases to avoid floating-point precision issues
+  if (fraction <= 0) return [lon1, lat1];
+  if (fraction >= 1) return [lon2, lat2];
+
   const φ1 = toRadians(lat1);
   const λ1 = toRadians(lon1);
   const φ2 = toRadians(lat2);
