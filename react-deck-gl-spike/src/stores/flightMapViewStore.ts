@@ -1,20 +1,33 @@
 import { create } from 'zustand';
-import type { MapViewState } from '@deck.gl/core';
+import { FlyToInterpolator } from '@deck.gl/core';
+
+// View state interface matching deck.gl's MapViewState but with numeric transitionDuration
+export interface TransitionViewState {
+  longitude: number;
+  latitude: number;
+  zoom: number;
+  pitch?: number;
+  bearing?: number;
+  transitionDuration?: number;
+  transitionInterpolator?: FlyToInterpolator;
+}
 
 interface FlightMapViewStore {
-  viewState: MapViewState;
+  viewState: TransitionViewState;
 
   // Actions
-  setViewState: (viewState: MapViewState) => void;
+  setViewState: (viewState: TransitionViewState) => void;
   setZoom: (zoom: number) => void;
   setCenter: (longitude: number, latitude: number) => void;
   setPitch: (pitch: number) => void;
   setBearing: (bearing: number) => void;
+  flyTo: (target: Partial<TransitionViewState>) => void;
+  resetView: () => void;
   reset: () => void;
 }
 
 // Initial view centered on US with tilt to show arc heights
-const INITIAL_VIEW_STATE: MapViewState = {
+const INITIAL_VIEW_STATE: TransitionViewState = {
   longitude: -98.5795,
   latitude: 39.8283,
   zoom: 4,
@@ -46,6 +59,25 @@ export const useFlightMapViewStore = create<FlightMapViewStore>((set) => ({
     set((state) => ({
       viewState: { ...state.viewState, bearing },
     })),
+
+  flyTo: (target) =>
+    set((state) => ({
+      viewState: {
+        ...state.viewState,
+        ...target,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+      },
+    })),
+
+  resetView: () =>
+    set({
+      viewState: {
+        ...INITIAL_VIEW_STATE,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+      },
+    }),
 
   reset: () => set({ viewState: INITIAL_VIEW_STATE }),
 }));

@@ -107,4 +107,71 @@ describe('flightMapViewStore', () => {
     expect(FLIGHT_MAP_INITIAL_VIEW_STATE.pitch).toBeDefined();
     expect(FLIGHT_MAP_INITIAL_VIEW_STATE.bearing).toBeDefined();
   });
+
+  describe('flyTo', () => {
+    it('updates view state with target coordinates', () => {
+      useFlightMapViewStore.getState().flyTo({
+        longitude: -122.4,
+        latitude: 37.8,
+      });
+
+      const { viewState } = useFlightMapViewStore.getState();
+      expect(viewState.longitude).toBe(-122.4);
+      expect(viewState.latitude).toBe(37.8);
+    });
+
+    it('adds transition properties', () => {
+      useFlightMapViewStore.getState().flyTo({
+        longitude: -122.4,
+        latitude: 37.8,
+      });
+
+      const { viewState } = useFlightMapViewStore.getState();
+      expect(viewState.transitionDuration).toBe(1000);
+      expect(viewState.transitionInterpolator).toBeDefined();
+    });
+
+    it('preserves existing view state properties not in target', () => {
+      const initialState = useFlightMapViewStore.getState().viewState;
+      useFlightMapViewStore.getState().flyTo({
+        zoom: 10,
+      });
+
+      const { viewState } = useFlightMapViewStore.getState();
+      expect(viewState.zoom).toBe(10);
+      expect(viewState.longitude).toBe(initialState.longitude);
+      expect(viewState.latitude).toBe(initialState.latitude);
+      expect(viewState.pitch).toBe(initialState.pitch);
+      expect(viewState.bearing).toBe(initialState.bearing);
+    });
+  });
+
+  describe('resetView', () => {
+    it('returns to initial state with transition', () => {
+      useFlightMapViewStore.getState().setViewState({
+        longitude: -122.4,
+        latitude: 37.8,
+        zoom: 10,
+        pitch: 60,
+        bearing: 90,
+      });
+
+      useFlightMapViewStore.getState().resetView();
+
+      const { viewState } = useFlightMapViewStore.getState();
+      expect(viewState.longitude).toBe(FLIGHT_MAP_INITIAL_VIEW_STATE.longitude);
+      expect(viewState.latitude).toBe(FLIGHT_MAP_INITIAL_VIEW_STATE.latitude);
+      expect(viewState.zoom).toBe(FLIGHT_MAP_INITIAL_VIEW_STATE.zoom);
+      expect(viewState.pitch).toBe(FLIGHT_MAP_INITIAL_VIEW_STATE.pitch);
+      expect(viewState.bearing).toBe(FLIGHT_MAP_INITIAL_VIEW_STATE.bearing);
+    });
+
+    it('adds transition properties', () => {
+      useFlightMapViewStore.getState().resetView();
+
+      const { viewState } = useFlightMapViewStore.getState();
+      expect(viewState.transitionDuration).toBe(1000);
+      expect(viewState.transitionInterpolator).toBeDefined();
+    });
+  });
 });
