@@ -1,11 +1,12 @@
 import { useMemo, useCallback, useState } from 'react';
 import Map from 'react-map-gl/maplibre';
 import DeckGL from '@deck.gl/react';
-import type { MapViewState } from '@deck.gl/core';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFlightRoutesLayer } from './layers/flightRoutesLayer';
 import { ArcLegend } from './Legend/ArcLegend';
-import { useFlightMapViewStore } from '../../stores';
+import { ZoomControls } from './ZoomControls';
+import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
+import { useFlightMapViewStore, type TransitionViewState } from '../../stores';
 import type { FlightRoute } from '../../types/flight';
 
 // Dark theme for better arc visibility
@@ -23,6 +24,9 @@ interface FlightMapProps {
 export function FlightMap({ routes }: FlightMapProps) {
   const viewState = useFlightMapViewStore((state) => state.viewState);
   const setViewState = useFlightMapViewStore((state) => state.setViewState);
+
+  // Enable keyboard navigation
+  useKeyboardNavigation();
 
   const [hoveredRoute, setHoveredRoute] = useState<FlightRoute | null>(null);
 
@@ -45,11 +49,12 @@ export function FlightMap({ routes }: FlightMapProps) {
   );
 
   const handleViewStateChange = useCallback(
-    (params: { viewState: MapViewState }) => {
-      // Apply zoom constraints
-      const constrainedViewState = {
+    (params: { viewState: TransitionViewState }) => {
+      // Apply zoom and pitch constraints
+      const constrainedViewState: TransitionViewState = {
         ...params.viewState,
         zoom: Math.min(Math.max(params.viewState.zoom, MIN_ZOOM), MAX_ZOOM),
+        pitch: Math.min(Math.max(params.viewState.pitch ?? 0, 0), 60),
       };
       setViewState(constrainedViewState);
     },
@@ -61,12 +66,24 @@ export function FlightMap({ routes }: FlightMapProps) {
       <DeckGL
         viewState={viewState}
         onViewStateChange={handleViewStateChange as never}
-        controller={true}
+        controller={{
+          // Enable all standard interactions
+          dragPan: true,
+          dragRotate: true, // Right-click or Ctrl+drag to rotate
+          scrollZoom: true,
+          doubleClickZoom: true,
+          touchZoom: true,
+          touchRotate: true,
+          keyboard: false, // We handle keyboard separately
+        }}
         layers={layers}
-        getCursor={({ isHovering }) => (isHovering ? 'pointer' : 'grab')}
+        getCursor={({ isDragging, isHovering }) =>
+          isDragging ? 'grabbing' : isHovering ? 'pointer' : 'grab'
+        }
       >
         <Map mapStyle={MAP_STYLE} />
       </DeckGL>
+      <ZoomControls />
       <ArcLegend />
     </div>
   );

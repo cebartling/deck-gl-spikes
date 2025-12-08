@@ -1,9 +1,13 @@
 import { create } from 'zustand';
 import { FlyToInterpolator } from '@deck.gl/core';
-import type { MapViewState } from '@deck.gl/core';
 
-// Extended view state that includes transition properties
-export interface TransitionViewState extends MapViewState {
+// View state interface matching deck.gl's MapViewState but with numeric transitionDuration
+export interface TransitionViewState {
+  longitude: number;
+  latitude: number;
+  zoom: number;
+  pitch?: number;
+  bearing?: number;
   transitionDuration?: number;
   transitionInterpolator?: FlyToInterpolator;
 }
@@ -17,13 +21,13 @@ interface FlightMapViewStore {
   setCenter: (longitude: number, latitude: number) => void;
   setPitch: (pitch: number) => void;
   setBearing: (bearing: number) => void;
-  flyTo: (target: Partial<MapViewState>) => void;
+  flyTo: (target: Partial<TransitionViewState>) => void;
   resetView: () => void;
   reset: () => void;
 }
 
 // Initial view centered on US with tilt to show arc heights
-const INITIAL_VIEW_STATE: MapViewState = {
+const INITIAL_VIEW_STATE: TransitionViewState = {
   longitude: -98.5795,
   latitude: 39.8283,
   zoom: 4,
