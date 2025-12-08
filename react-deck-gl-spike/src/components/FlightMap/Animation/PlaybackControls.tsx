@@ -6,6 +6,7 @@ const SPEED_OPTIONS = [
   { value: 60, label: '60x' },
   { value: 120, label: '120x' },
   { value: 300, label: '300x' },
+  { value: 1000, label: '1000x' },
 ];
 
 export function PlaybackControls() {
