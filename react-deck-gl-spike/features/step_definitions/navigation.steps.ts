@@ -14,6 +14,10 @@ Given('I am on the earthquakes page', async function (this: CustomWorld) {
   await this.page.goto(`${this.baseUrl}/earthquakes`);
 });
 
+Given('I am on the flight routes page', async function (this: CustomWorld) {
+  await this.page.goto(`${this.baseUrl}/flight-routes`);
+});
+
 When(
   'I click the {string} link',
   async function (this: CustomWorld, linkText: string) {
