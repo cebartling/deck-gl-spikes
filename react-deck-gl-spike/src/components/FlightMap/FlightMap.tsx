@@ -4,9 +4,11 @@ import DeckGL from '@deck.gl/react';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { createFlightRoutesLayer } from './layers/flightRoutesLayer';
 import { createAirportMarkerLayer } from './layers/airportMarkerLayer';
+import { createAircraftLayer } from './layers/aircraftLayer';
 import { ArcLegend } from './Legend/ArcLegend';
 import { ZoomControls } from './ZoomControls';
 import { FlightTooltip } from './Tooltip/FlightTooltip';
+import { AnimationPanel, AnimationToggle } from './Animation';
 import {
   AirportSelector,
   FilterModeSelector,
@@ -15,9 +17,13 @@ import {
 import { useKeyboardNavigation } from './hooks/useKeyboardNavigation';
 import { useFlightTooltip } from './hooks/useFlightTooltip';
 import { useFilteredRoutes } from './hooks/useFilteredRoutes';
+import { useFlightAnimation } from './hooks/useFlightAnimation';
+import { useFlightScheduleData } from '../../hooks/useFlightScheduleData';
+import { calculateActiveFlightPositions } from './utils/flightPositionCalculator';
 import {
   useFlightMapViewStore,
   useFlightRoutesStore,
+  useFlightAnimationStore,
   type TransitionViewState,
 } from '../../stores';
 import type { FlightRoute } from '../../types/flight';
@@ -39,6 +45,18 @@ export function FlightMap({ routes }: FlightMapProps) {
   const setViewState = useFlightMapViewStore((state) => state.setViewState);
   const airports = useFlightRoutesStore((state) => state.airports);
 
+  // Animation state
+  const scheduledFlights = useFlightAnimationStore(
+    (state) => state.scheduledFlights
+  );
+  const animationEnabled = useFlightAnimationStore(
+    (state) => state.animationEnabled
+  );
+  const { currentTime } = useFlightAnimation();
+
+  // Load flight schedule data for animation
+  useFlightScheduleData();
+
   // Enable keyboard navigation
   useKeyboardNavigation();
 
@@ -55,12 +73,29 @@ export function FlightMap({ routes }: FlightMapProps) {
     [airports]
   );
 
+  // Calculate active flight positions for animation
+  const activeFlightPositions = useMemo(() => {
+    if (!animationEnabled || scheduledFlights.length === 0) return [];
+    return calculateActiveFlightPositions(
+      scheduledFlights,
+      currentTime,
+      selectedAirportData?.code
+    );
+  }, [
+    animationEnabled,
+    scheduledFlights,
+    currentTime,
+    selectedAirportData?.code,
+  ]);
+
   const layers = useMemo(() => {
     const layerList = [
       createFlightRoutesLayer({
         data: filteredRoutes,
         highlightedRouteId: hoveredRouteId,
         onHover: handleHover,
+        // Dim routes when animation is active
+        opacity: animationEnabled ? 0.4 : undefined,
       }),
     ];
 
@@ -72,8 +107,22 @@ export function FlightMap({ routes }: FlightMapProps) {
       layerList.push(markerLayer as never);
     }
 
+    // Add aircraft layer when animation is enabled and has active flights
+    if (animationEnabled && activeFlightPositions.length > 0) {
+      layerList.push(
+        createAircraftLayer({ data: activeFlightPositions }) as never
+      );
+    }
+
     return layerList;
-  }, [filteredRoutes, hoveredRouteId, handleHover, selectedAirportData]);
+  }, [
+    filteredRoutes,
+    hoveredRouteId,
+    handleHover,
+    selectedAirportData,
+    animationEnabled,
+    activeFlightPositions,
+  ]);
 
   const handleViewStateChange = useCallback(
     (params: { viewState: TransitionViewState }) => {
@@ -120,6 +169,7 @@ export function FlightMap({ routes }: FlightMapProps) {
           selectedAirport={selectedAirportData}
           isFiltered={isFiltered}
         />
+        <AnimationToggle />
       </div>
 
       {/* Flight Route Tooltip */}
@@ -129,6 +179,11 @@ export function FlightMap({ routes }: FlightMapProps) {
 
       <ZoomControls />
       <ArcLegend />
+
+      {/* Animation Panel */}
+      {animationEnabled && (
+        <AnimationPanel activeFlightCount={activeFlightPositions.length} />
+      )}
     </div>
   );
 }
