@@ -47,11 +47,11 @@ graph TB
 
 ## Libraries
 
-| Library             | Purpose                     |
-| ------------------- | --------------------------- |
-| `@deck.gl/core`     | Picking engine              |
-| `@deck.gl/layers`   | ArcLayer pickable prop      |
-| `react`             | useState for tooltip state  |
+| Library           | Purpose                    |
+| ----------------- | -------------------------- |
+| `@deck.gl/core`   | Picking engine             |
+| `@deck.gl/layers` | ArcLayer pickable prop     |
+| `react`           | useState for tooltip state |
 
 ## Data Structures
 
@@ -541,15 +541,18 @@ On touch devices, show tooltip on tap instead of hover:
 export function useFlightTooltip() {
   const isTouchDevice = 'ontouchstart' in window;
 
-  const handleClick = useCallback((info: HoverInfo) => {
-    if (isTouchDevice && info.object) {
-      setTooltip({
-        route: info.object,
-        x: info.x,
-        y: info.y,
-      });
-    }
-  }, [isTouchDevice]);
+  const handleClick = useCallback(
+    (info: HoverInfo) => {
+      if (isTouchDevice && info.object) {
+        setTooltip({
+          route: info.object,
+          x: info.x,
+          y: info.y,
+        });
+      }
+    },
+    [isTouchDevice]
+  );
 
   // Return click handler for touch devices
   return {

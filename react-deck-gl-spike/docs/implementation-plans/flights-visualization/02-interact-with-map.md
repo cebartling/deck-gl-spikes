@@ -504,6 +504,7 @@ const layer = new ArcLayer({
 ### Touch Gesture Support
 
 deck.gl's MapController automatically supports:
+
 - Single finger pan
 - Pinch to zoom
 - Two-finger rotation (when enabled)

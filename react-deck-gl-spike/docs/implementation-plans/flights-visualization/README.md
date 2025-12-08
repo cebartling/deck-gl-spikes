@@ -8,12 +8,12 @@ The flight routes visualization allows users to explore air travel connections b
 
 ## User Stories
 
-| # | User Story | Implementation Plan |
-|---|------------|---------------------|
-| 1 | View Flight Routes Map | [01-view-flight-routes-map.md](./01-view-flight-routes-map.md) |
-| 2 | Interact with Map | [02-interact-with-map.md](./02-interact-with-map.md) |
-| 3 | View Route Details | [03-view-route-details.md](./03-view-route-details.md) |
-| 4 | Filter by Airport | [04-filter-by-airport.md](./04-filter-by-airport.md) |
+| #   | User Story             | Implementation Plan                                            |
+| --- | ---------------------- | -------------------------------------------------------------- |
+| 1   | View Flight Routes Map | [01-view-flight-routes-map.md](./01-view-flight-routes-map.md) |
+| 2   | Interact with Map      | [02-interact-with-map.md](./02-interact-with-map.md)           |
+| 3   | View Route Details     | [03-view-route-details.md](./03-view-route-details.md)         |
+| 4   | Filter by Airport      | [04-filter-by-airport.md](./04-filter-by-airport.md)           |
 
 ## Recommended Implementation Order
 
@@ -117,13 +117,13 @@ src/
 
 ## Key Technologies
 
-| Technology | Purpose |
-|------------|---------|
-| deck.gl ArcLayer | Render flight routes as 3D arcs |
-| MapLibre GL | Base map rendering |
-| Zustand | State management for routes, view state, and filters |
-| Zod | Runtime validation of flight route data |
-| Fuse.js | Fuzzy search for airport selector |
+| Technology       | Purpose                                              |
+| ---------------- | ---------------------------------------------------- |
+| deck.gl ArcLayer | Render flight routes as 3D arcs                      |
+| MapLibre GL      | Base map rendering                                   |
+| Zustand          | State management for routes, view state, and filters |
+| Zod              | Runtime validation of flight route data              |
+| Fuse.js          | Fuzzy search for airport selector                    |
 
 ## Visual Design
 

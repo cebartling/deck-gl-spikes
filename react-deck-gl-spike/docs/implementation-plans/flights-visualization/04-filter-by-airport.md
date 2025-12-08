@@ -48,12 +48,12 @@ graph TB
 
 ## Libraries
 
-| Library               | Purpose                           |
-| --------------------- | --------------------------------- |
-| `zustand`             | Filter state management           |
-| `@deck.gl/core`       | FlyToInterpolator for transitions |
-| `@deck.gl/layers`     | IconLayer for airport markers     |
-| `fuse.js`             | Fuzzy search for airport lookup   |
+| Library           | Purpose                           |
+| ----------------- | --------------------------------- |
+| `zustand`         | Filter state management           |
+| `@deck.gl/core`   | FlyToInterpolator for transitions |
+| `@deck.gl/layers` | IconLayer for airport markers     |
+| `fuse.js`         | Fuzzy search for airport lookup   |
 
 ## Data Structures
 
@@ -123,7 +123,10 @@ export const useFlightFilterStore = create<FlightFilterStore>((set) => ({
 // src/components/FlightMap/hooks/useFilteredRoutes.ts
 import { useMemo } from 'react';
 import type { FlightRoute, Airport } from '../../../types/flight';
-import type { FilterMode, FilteredRoutesStats } from '../../../types/flightFilter';
+import type {
+  FilterMode,
+  FilteredRoutesStats,
+} from '../../../types/flightFilter';
 import { useFlightFilterStore } from '../../../stores/flightFilterStore';
 
 interface UseFilteredRoutesResult {
@@ -133,8 +136,12 @@ interface UseFilteredRoutesResult {
   selectedAirportData: Airport | null;
 }
 
-export function useFilteredRoutes(routes: FlightRoute[]): UseFilteredRoutesResult {
-  const selectedAirport = useFlightFilterStore((state) => state.selectedAirport);
+export function useFilteredRoutes(
+  routes: FlightRoute[]
+): UseFilteredRoutesResult {
+  const selectedAirport = useFlightFilterStore(
+    (state) => state.selectedAirport
+  );
   const filterMode = useFlightFilterStore((state) => state.filterMode);
 
   const filteredRoutes = useMemo(() => {

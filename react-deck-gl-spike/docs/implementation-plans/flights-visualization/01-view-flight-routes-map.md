@@ -17,6 +17,7 @@
 ## Approach
 
 Use deck.gl's `ArcLayer` to render flight routes as 3D arcs connecting origin and destination airports. The ArcLayer is optimized for rendering large numbers of arcs with WebGL and provides built-in support for:
+
 - Source-to-target color gradients showing flight direction
 - Width variation based on data attributes
 - Great circle paths for accurate geographic representation
@@ -54,13 +55,13 @@ graph TB
 
 ## Libraries
 
-| Library                 | Purpose                              |
-| ----------------------- | ------------------------------------ |
-| `@deck.gl/layers`       | ArcLayer for arc rendering           |
-| `@deck.gl/react`        | React integration                    |
-| `react-map-gl/maplibre` | MapLibre base map                    |
-| `zod`                   | Runtime data validation              |
-| `zustand`               | State management                     |
+| Library                 | Purpose                    |
+| ----------------------- | -------------------------- |
+| `@deck.gl/layers`       | ArcLayer for arc rendering |
+| `@deck.gl/react`        | React integration          |
+| `react-map-gl/maplibre` | MapLibre base map          |
+| `zod`                   | Runtime data validation    |
+| `zustand`               | State management           |
 
 ## Data Structures
 
