@@ -1,12 +1,10 @@
 import { useFlightAnimationStore } from '../../../stores/flightAnimationStore';
 
 const SPEED_OPTIONS = [
-  { value: 1, label: '1x' },
-  { value: 30, label: '30x' },
-  { value: 60, label: '60x' },
   { value: 120, label: '120x' },
   { value: 300, label: '300x' },
   { value: 1000, label: '1000x' },
+  { value: 3000, label: '3000x' },
 ];
 
 export function PlaybackControls() {

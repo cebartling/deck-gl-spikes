@@ -11,7 +11,7 @@ describe('flightAnimationStore', () => {
     const state = useFlightAnimationStore.getState();
     expect(state.currentTime).toBe(0);
     expect(state.isPlaying).toBe(false);
-    expect(state.playbackSpeed).toBe(60);
+    expect(state.playbackSpeed).toBe(120);
     expect(state.loopEnabled).toBe(true);
     expect(state.scheduledFlights).toEqual([]);
     expect(state.animationEnabled).toBe(false);
@@ -151,7 +151,7 @@ describe('flightAnimationStore', () => {
       const state = useFlightAnimationStore.getState();
       expect(state.currentTime).toBe(0);
       expect(state.isPlaying).toBe(false);
-      expect(state.playbackSpeed).toBe(60);
+      expect(state.playbackSpeed).toBe(120);
       expect(state.loopEnabled).toBe(true);
       expect(state.animationEnabled).toBe(false);
       expect(state.scheduledFlights).toEqual([]);

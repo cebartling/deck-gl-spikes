@@ -22,7 +22,7 @@ const initialState: AnimationState & {
 } = {
   currentTime: 0, // Start at midnight
   isPlaying: false,
-  playbackSpeed: 60, // 1 hour per minute by default
+  playbackSpeed: 120, // 2 hours per minute by default
   loopEnabled: true,
   scheduledFlights: [],
   animationEnabled: false,
