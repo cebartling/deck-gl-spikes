@@ -1,15 +1,24 @@
 import { create } from 'zustand';
+import { FlyToInterpolator } from '@deck.gl/core';
 import type { MapViewState } from '@deck.gl/core';
 
+// Extended view state that includes transition properties
+export interface TransitionViewState extends MapViewState {
+  transitionDuration?: number;
+  transitionInterpolator?: FlyToInterpolator;
+}
+
 interface FlightMapViewStore {
-  viewState: MapViewState;
+  viewState: TransitionViewState;
 
   // Actions
-  setViewState: (viewState: MapViewState) => void;
+  setViewState: (viewState: TransitionViewState) => void;
   setZoom: (zoom: number) => void;
   setCenter: (longitude: number, latitude: number) => void;
   setPitch: (pitch: number) => void;
   setBearing: (bearing: number) => void;
+  flyTo: (target: Partial<MapViewState>) => void;
+  resetView: () => void;
   reset: () => void;
 }
 
@@ -46,6 +55,25 @@ export const useFlightMapViewStore = create<FlightMapViewStore>((set) => ({
     set((state) => ({
       viewState: { ...state.viewState, bearing },
     })),
+
+  flyTo: (target) =>
+    set((state) => ({
+      viewState: {
+        ...state.viewState,
+        ...target,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+      },
+    })),
+
+  resetView: () =>
+    set({
+      viewState: {
+        ...INITIAL_VIEW_STATE,
+        transitionDuration: 1000,
+        transitionInterpolator: new FlyToInterpolator(),
+      },
+    }),
 
   reset: () => set({ viewState: INITIAL_VIEW_STATE }),
 }));
