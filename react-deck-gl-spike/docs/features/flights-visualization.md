@@ -70,7 +70,6 @@ Display flight routes as arcs on an interactive map using deck.gl's ArcLayer, al
 - [ ] Option to pause and resume animation
 - [ ] Allow airport filtering during animation
 
-
 ## Visual Requirements
 
 - Arcs should use a gradient color scheme indicating direction
