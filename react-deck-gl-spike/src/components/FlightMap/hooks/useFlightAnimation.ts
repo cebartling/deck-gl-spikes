@@ -81,20 +81,25 @@ export function useFlightAnimation() {
       // playbackSpeed of 60 means 1 hour of simulation per 1 minute of real time
       const deltaMinutes = (deltaTime / 1000) * (playbackSpeedRef.current / 60);
 
-      const newTime = currentTimeRef.current + deltaMinutes;
+      let newTime = currentTimeRef.current + deltaMinutes;
 
       // Handle loop or stop at end of day
       if (newTime >= 1440) {
         if (loopEnabledRef.current) {
-          setCurrentTimeRef.current(newTime % 1440);
+          newTime = newTime % 1440;
         } else {
-          setCurrentTimeRef.current(1439.99); // Cap at end of day
+          newTime = 1439.99; // Cap at end of day
+          // Update ref immediately to prevent jumps
+          currentTimeRef.current = newTime;
+          setCurrentTimeRef.current(newTime);
           setIsPlayingRef.current(false);
           return;
         }
-      } else {
-        setCurrentTimeRef.current(newTime);
       }
+
+      // Update ref immediately to prevent race condition with React state updates
+      currentTimeRef.current = newTime;
+      setCurrentTimeRef.current(newTime);
 
       animationRef.current = requestAnimationFrame(animate);
     };
