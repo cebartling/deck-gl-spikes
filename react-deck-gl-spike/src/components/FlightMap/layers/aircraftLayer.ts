@@ -22,7 +22,9 @@ interface AircraftLayerOptions {
 
 export function createAircraftLayer({ data, onHover }: AircraftLayerOptions) {
   // Sort data by flightId to ensure stable order between frames
-  const sortedData = [...data].sort((a, b) => a.flightId.localeCompare(b.flightId));
+  const sortedData = [...data].sort((a, b) =>
+    a.flightId.localeCompare(b.flightId)
+  );
 
   return new IconLayer<FlightPosition>({
     id: 'aircraft-layer',
