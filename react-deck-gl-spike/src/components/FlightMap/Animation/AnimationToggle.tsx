@@ -10,7 +10,7 @@ export function AnimationToggle() {
 
   return (
     <div
-      className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 shadow-lg"
+      className="bg-gray-900/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/10"
       data-testid="animation-toggle"
     >
       <div className="flex items-center justify-between">

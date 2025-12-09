@@ -14,7 +14,7 @@ export function AnimationPanel({ activeFlightCount }: AnimationPanelProps) {
     >
       {/* Flight count indicator */}
       <div
-        className="bg-gray-800/90 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg
+        className="bg-gray-900/90 backdrop-blur-md rounded-lg px-4 py-2 shadow-lg border border-white/10
                     flex items-center justify-between"
       >
         <span className="text-gray-400 text-sm">Active Flights</span>
