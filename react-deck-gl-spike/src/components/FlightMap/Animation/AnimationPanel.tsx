@@ -30,9 +30,7 @@ export function AnimationPanel({ activeFlightCount }: AnimationPanelProps) {
       <TimelineScrubber />
 
       {/* Playback controls */}
-      <div className="flex justify-center">
-        <PlaybackControls />
-      </div>
+      <PlaybackControls />
     </div>
   );
 }

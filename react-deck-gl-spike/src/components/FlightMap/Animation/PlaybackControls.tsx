@@ -26,7 +26,7 @@ export function PlaybackControls() {
 
   return (
     <div
-      className="flex items-center gap-3 bg-gray-900/90 backdrop-blur-md rounded-lg px-4 py-2 shadow-lg border border-white/10"
+      className="flex items-center justify-center gap-3 bg-gray-900/90 backdrop-blur-md rounded-lg px-4 py-2 shadow-lg border border-white/10"
       data-testid="playback-controls"
     >
       {/* Reset button */}
