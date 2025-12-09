@@ -170,6 +170,7 @@ export function FlightMap({ routes }: FlightMapProps) {
           isFiltered={isFiltered}
         />
         <AnimationToggle />
+        <ArcLegend />
       </div>
 
       {/* Flight Route Tooltip */}
@@ -178,7 +179,6 @@ export function FlightMap({ routes }: FlightMapProps) {
       )}
 
       <ZoomControls />
-      <ArcLegend />
 
       {/* Animation Panel */}
       {animationEnabled && (
