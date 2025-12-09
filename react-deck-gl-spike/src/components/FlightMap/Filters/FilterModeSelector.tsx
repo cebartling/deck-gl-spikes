@@ -18,7 +18,7 @@ export function FilterModeSelector() {
   if (!selectedAirport) return null;
 
   return (
-    <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+    <div className="bg-gray-900/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/10">
       <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">
         Show Routes
       </div>

@@ -8,10 +8,10 @@
 
 ## Acceptance Criteria
 
-- [ ] Provide timeline scrubber to control animation
-- [ ] Animate arcs to show flights taking off and landing over time
-- [ ] Option to pause and resume animation
-- [ ] Allow airport filtering during animation
+- [x] Provide timeline scrubber to control animation
+- [x] Animate arcs to show flights taking off and landing over time
+- [x] Option to pause and resume animation
+- [x] Allow airport filtering during animation
 
 ## Approach
 
@@ -143,12 +143,16 @@ interface FlightAnimationState extends AnimationState {
   reset: () => void;
 }
 
-const initialState: AnimationState & { scheduledFlights: ScheduledFlight[] } = {
+const initialState: AnimationState & {
+  scheduledFlights: ScheduledFlight[];
+  animationEnabled: boolean;
+} = {
   currentTime: 0, // Start at midnight
   isPlaying: false,
-  playbackSpeed: 60, // 1 hour per minute by default
+  playbackSpeed: 120, // 2 hours per minute by default
   loopEnabled: true,
   scheduledFlights: [],
+  animationEnabled: false,
 };
 
 export const useFlightAnimationStore = create<FlightAnimationState>((set) => ({
@@ -248,6 +252,10 @@ export function interpolateGreatCircle(
   lon2: number,
   fraction: number
 ): [number, number] {
+  // Handle boundary cases to avoid floating-point precision issues
+  if (fraction <= 0) return [lon1, lat1];
+  if (fraction >= 1) return [lon2, lat2];
+
   const φ1 = toRadians(lat1);
   const λ1 = toRadians(lon1);
   const φ2 = toRadians(lat2);
@@ -532,9 +540,14 @@ interface AircraftLayerOptions {
 }
 
 export function createAircraftLayer({ data, onHover }: AircraftLayerOptions) {
+  // Sort data by flightId to ensure stable order between frames
+  const sortedData = [...data].sort((a, b) =>
+    a.flightId.localeCompare(b.flightId)
+  );
+
   return new IconLayer<FlightPosition>({
     id: 'aircraft-layer',
-    data,
+    data: sortedData,
     pickable: true,
 
     // Icon configuration
@@ -566,12 +579,14 @@ export function createAircraftLayer({ data, onHover }: AircraftLayerOptions) {
     // Interaction
     onHover,
 
-    // Smooth transitions
-    transitions: {
-      getPosition: {
-        duration: 100, // Short duration for smooth animation
-        easing: (t: number) => t, // Linear interpolation
-      },
+    // Billboard mode - icons always face camera
+    billboard: true,
+
+    // Update triggers to ensure proper re-renders
+    updateTriggers: {
+      getPosition: [sortedData.map((d) => d.flightId).join(',')],
+      getAngle: [sortedData.map((d) => d.flightId).join(',')],
+      getColor: [sortedData.map((d) => d.flightId).join(',')],
     },
   });
 }
@@ -701,11 +716,10 @@ export function TimelineScrubber() {
 import { useFlightAnimationStore } from '../../../stores/flightAnimationStore';
 
 const SPEED_OPTIONS = [
-  { value: 1, label: '1x' },
-  { value: 30, label: '30x' },
-  { value: 60, label: '60x' },
   { value: 120, label: '120x' },
   { value: 300, label: '300x' },
+  { value: 1000, label: '1000x' },
+  { value: 3000, label: '3000x' },
 ];
 
 export function PlaybackControls() {
@@ -984,7 +998,7 @@ export function AnimationToggle({ enabled, onToggle }: AnimationToggleProps) {
           aria-checked={enabled}
         >
           <span
-            className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+            className={`absolute left-0 top-1 w-4 h-4 bg-white rounded-full transition-transform ${
               enabled ? 'translate-x-7' : 'translate-x-1'
             }`}
           />

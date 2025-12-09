@@ -1,0 +1,585 @@
+{
+  "flights": [
+    {
+      "id": "AA100-0600",
+      "flightNumber": "AA100",
+      "origin": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "departureTime": 360,
+      "arrivalTime": 660,
+      "airline": "American Airlines",
+      "aircraftType": "Boeing 777"
+    },
+    {
+      "id": "AA102-1000",
+      "flightNumber": "AA102",
+      "origin": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "departureTime": 600,
+      "arrivalTime": 900,
+      "airline": "American Airlines",
+      "aircraftType": "Airbus A321"
+    },
+    {
+      "id": "DL200-0730",
+      "flightNumber": "DL200",
+      "origin": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "destination": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "departureTime": 450,
+      "arrivalTime": 570,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "DL202-1200",
+      "flightNumber": "DL202",
+      "origin": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "destination": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "departureTime": 720,
+      "arrivalTime": 840,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "UA300-0800",
+      "flightNumber": "UA300",
+      "origin": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 480,
+      "arrivalTime": 660,
+      "airline": "United Airlines",
+      "aircraftType": "Airbus A320"
+    },
+    {
+      "id": "AS400-0900",
+      "flightNumber": "AS400",
+      "origin": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "destination": {
+        "code": "SEA",
+        "name": "Seattle-Tacoma International Airport",
+        "city": "Seattle",
+        "country": "USA",
+        "longitude": -122.3088,
+        "latitude": 47.4502
+      },
+      "departureTime": 540,
+      "arrivalTime": 660,
+      "airline": "Alaska Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "WN500-0700",
+      "flightNumber": "WN500",
+      "origin": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "destination": {
+        "code": "PHX",
+        "name": "Phoenix Sky Harbor International Airport",
+        "city": "Phoenix",
+        "country": "USA",
+        "longitude": -112.012,
+        "latitude": 33.4373
+      },
+      "departureTime": 420,
+      "arrivalTime": 540,
+      "airline": "Southwest Airlines",
+      "aircraftType": "Boeing 737 MAX"
+    },
+    {
+      "id": "AA600-1100",
+      "flightNumber": "AA600",
+      "origin": {
+        "code": "MIA",
+        "name": "Miami International Airport",
+        "city": "Miami",
+        "country": "USA",
+        "longitude": -80.2906,
+        "latitude": 25.7959
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "departureTime": 660,
+      "arrivalTime": 840,
+      "airline": "American Airlines",
+      "aircraftType": "Airbus A321"
+    },
+    {
+      "id": "DL700-0630",
+      "flightNumber": "DL700",
+      "origin": {
+        "code": "BOS",
+        "name": "Boston Logan International Airport",
+        "city": "Boston",
+        "country": "USA",
+        "longitude": -71.0096,
+        "latitude": 42.3656
+      },
+      "destination": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "departureTime": 390,
+      "arrivalTime": 540,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Boeing 757"
+    },
+    {
+      "id": "WN800-1400",
+      "flightNumber": "WN800",
+      "origin": {
+        "code": "LAS",
+        "name": "Harry Reid International Airport",
+        "city": "Las Vegas",
+        "country": "USA",
+        "longitude": -115.1523,
+        "latitude": 36.084
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 840,
+      "arrivalTime": 900,
+      "airline": "Southwest Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "DL900-0830",
+      "flightNumber": "DL900",
+      "origin": {
+        "code": "MSP",
+        "name": "Minneapolis-Saint Paul International Airport",
+        "city": "Minneapolis",
+        "country": "USA",
+        "longitude": -93.2218,
+        "latitude": 44.8848
+      },
+      "destination": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "departureTime": 510,
+      "arrivalTime": 660,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Airbus A320"
+    },
+    {
+      "id": "DL1000-1030",
+      "flightNumber": "DL1000",
+      "origin": {
+        "code": "DTW",
+        "name": "Detroit Metropolitan Wayne County Airport",
+        "city": "Detroit",
+        "country": "USA",
+        "longitude": -83.3534,
+        "latitude": 42.2124
+      },
+      "destination": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "departureTime": 630,
+      "arrivalTime": 750,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Boeing 717"
+    },
+    {
+      "id": "UA1100-1300",
+      "flightNumber": "UA1100",
+      "origin": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 780,
+      "arrivalTime": 855,
+      "airline": "United Airlines",
+      "aircraftType": "Airbus A319"
+    },
+    {
+      "id": "AA1200-0500",
+      "flightNumber": "AA1200",
+      "origin": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "destination": {
+        "code": "MIA",
+        "name": "Miami International Airport",
+        "city": "Miami",
+        "country": "USA",
+        "longitude": -80.2906,
+        "latitude": 25.7959
+      },
+      "departureTime": 300,
+      "arrivalTime": 480,
+      "airline": "American Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "UA1300-1500",
+      "flightNumber": "UA1300",
+      "origin": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "destination": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "departureTime": 900,
+      "arrivalTime": 1050,
+      "airline": "United Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "AS1400-1600",
+      "flightNumber": "AS1400",
+      "origin": {
+        "code": "SEA",
+        "name": "Seattle-Tacoma International Airport",
+        "city": "Seattle",
+        "country": "USA",
+        "longitude": -122.3088,
+        "latitude": 47.4502
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 960,
+      "arrivalTime": 1110,
+      "airline": "Alaska Airlines",
+      "aircraftType": "Airbus A320"
+    },
+    {
+      "id": "WN1500-1700",
+      "flightNumber": "WN1500",
+      "origin": {
+        "code": "PHX",
+        "name": "Phoenix Sky Harbor International Airport",
+        "city": "Phoenix",
+        "country": "USA",
+        "longitude": -112.012,
+        "latitude": 33.4373
+      },
+      "destination": {
+        "code": "DFW",
+        "name": "Dallas/Fort Worth International Airport",
+        "city": "Dallas",
+        "country": "USA",
+        "longitude": -97.0403,
+        "latitude": 32.8998
+      },
+      "departureTime": 1020,
+      "arrivalTime": 1170,
+      "airline": "Southwest Airlines",
+      "aircraftType": "Boeing 737 MAX"
+    },
+    {
+      "id": "AA1600-1800",
+      "flightNumber": "AA1600",
+      "origin": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "destination": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "departureTime": 1080,
+      "arrivalTime": 1380,
+      "airline": "American Airlines",
+      "aircraftType": "Boeing 787"
+    },
+    {
+      "id": "DL1700-1900",
+      "flightNumber": "DL1700",
+      "origin": {
+        "code": "ATL",
+        "name": "Hartsfield-Jackson Atlanta International Airport",
+        "city": "Atlanta",
+        "country": "USA",
+        "longitude": -84.4281,
+        "latitude": 33.6407
+      },
+      "destination": {
+        "code": "ORD",
+        "name": "O'Hare International Airport",
+        "city": "Chicago",
+        "country": "USA",
+        "longitude": -87.9048,
+        "latitude": 41.9742
+      },
+      "departureTime": 1140,
+      "arrivalTime": 1260,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Airbus A321"
+    },
+    {
+      "id": "UA1800-2000",
+      "flightNumber": "UA1800",
+      "origin": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "destination": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "departureTime": 1200,
+      "arrivalTime": 1350,
+      "airline": "United Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "AA1900-2100",
+      "flightNumber": "AA1900",
+      "origin": {
+        "code": "MIA",
+        "name": "Miami International Airport",
+        "city": "Miami",
+        "country": "USA",
+        "longitude": -80.2906,
+        "latitude": 25.7959
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 1260,
+      "arrivalTime": 1410,
+      "airline": "American Airlines",
+      "aircraftType": "Boeing 777"
+    },
+    {
+      "id": "DL2000-2200",
+      "flightNumber": "DL2000",
+      "origin": {
+        "code": "JFK",
+        "name": "John F. Kennedy International Airport",
+        "city": "New York",
+        "country": "USA",
+        "longitude": -73.7781,
+        "latitude": 40.6413
+      },
+      "destination": {
+        "code": "LAX",
+        "name": "Los Angeles International Airport",
+        "city": "Los Angeles",
+        "country": "USA",
+        "longitude": -118.4085,
+        "latitude": 33.9425
+      },
+      "departureTime": 1320,
+      "arrivalTime": 120,
+      "airline": "Delta Air Lines",
+      "aircraftType": "Airbus A330"
+    },
+    {
+      "id": "WN2100-0545",
+      "flightNumber": "WN2100",
+      "origin": {
+        "code": "LAS",
+        "name": "Harry Reid International Airport",
+        "city": "Las Vegas",
+        "country": "USA",
+        "longitude": -115.1523,
+        "latitude": 36.084
+      },
+      "destination": {
+        "code": "DEN",
+        "name": "Denver International Airport",
+        "city": "Denver",
+        "country": "USA",
+        "longitude": -104.6737,
+        "latitude": 39.8561
+      },
+      "departureTime": 345,
+      "arrivalTime": 465,
+      "airline": "Southwest Airlines",
+      "aircraftType": "Boeing 737"
+    },
+    {
+      "id": "AS2200-1130",
+      "flightNumber": "AS2200",
+      "origin": {
+        "code": "SEA",
+        "name": "Seattle-Tacoma International Airport",
+        "city": "Seattle",
+        "country": "USA",
+        "longitude": -122.3088,
+        "latitude": 47.4502
+      },
+      "destination": {
+        "code": "SFO",
+        "name": "San Francisco International Airport",
+        "city": "San Francisco",
+        "country": "USA",
+        "longitude": -122.3789,
+        "latitude": 37.6213
+      },
+      "departureTime": 690,
+      "arrivalTime": 810,
+      "airline": "Alaska Airlines",
+      "aircraftType": "Embraer E175"
+    }
+  ],
+  "metadata": {
+    "totalFlights": 24,
+    "generatedAt": "2024-01-15T00:00:00Z",
+    "description": "Sample flight schedules for animation demonstration"
+  }
+}

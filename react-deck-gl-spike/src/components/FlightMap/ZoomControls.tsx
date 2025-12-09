@@ -29,8 +29,8 @@ export function ZoomControls() {
     <div className="absolute top-4 right-4 flex flex-col gap-2">
       <button
         onClick={handleZoomIn}
-        className="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg
-                   flex items-center justify-center shadow-lg backdrop-blur-sm
+        className="w-10 h-10 bg-gray-900/90 hover:bg-gray-700 text-white rounded-lg
+                   flex items-center justify-center shadow-lg backdrop-blur-md border border-white/10
                    transition-colors"
         aria-label="Zoom in"
       >
@@ -39,8 +39,8 @@ export function ZoomControls() {
 
       <button
         onClick={handleZoomOut}
-        className="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg
-                   flex items-center justify-center shadow-lg backdrop-blur-sm
+        className="w-10 h-10 bg-gray-900/90 hover:bg-gray-700 text-white rounded-lg
+                   flex items-center justify-center shadow-lg backdrop-blur-md border border-white/10
                    transition-colors"
         aria-label="Zoom out"
       >
@@ -49,8 +49,8 @@ export function ZoomControls() {
 
       <button
         onClick={resetView}
-        className="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg
-                   flex items-center justify-center shadow-lg backdrop-blur-sm
+        className="w-10 h-10 bg-gray-900/90 hover:bg-gray-700 text-white rounded-lg
+                   flex items-center justify-center shadow-lg backdrop-blur-md border border-white/10
                    transition-colors mt-2"
         aria-label="Reset view"
         title="Reset to initial view"

@@ -7,3 +7,4 @@ export {
   type TransitionViewState,
 } from './flightMapViewStore';
 export { useFlightFilterStore } from './flightFilterStore';
+export { useFlightAnimationStore } from './flightAnimationStore';

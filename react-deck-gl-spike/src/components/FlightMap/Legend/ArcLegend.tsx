@@ -1,6 +1,6 @@
 export function ArcLegend() {
   return (
-    <div className="absolute bottom-4 left-4 z-10 bg-gray-900/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/10">
+    <div className="bg-gray-900/90 backdrop-blur-md rounded-lg p-4 shadow-lg border border-white/10 w-72">
       <h3 className="text-white text-sm font-medium mb-3">Flight Routes</h3>
 
       {/* Direction indicator */}
